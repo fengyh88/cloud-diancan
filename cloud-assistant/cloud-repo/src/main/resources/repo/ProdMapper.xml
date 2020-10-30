@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fish.cloud.repo.ProdMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.fish.cloud.bean.model.Prod">
+		<id column="prod_id" property="prodId" />
+		<result column="prod_code" property="prodCode" />
+		<result column="prod_name" property="prodName" />
+		<result column="pinyin" property="pinyin" />
+		<result column="shop_id" property="shopId" />
+		<result column="cate_id" property="cateId" />
+		<result column="brand_id" property="brandId" />
+		<result column="ori_price" property="oriPrice" />
+		<result column="price" property="price" />
+		<result column="mem_price" property="memPrice" />
+		<result column="unit" property="unit" />
+		<result column="brief" property="brief" />
+		<result column="content" property="content" />
+		<result column="sold" property="sold" />
+		<result column="stock" property="stock" />
+		<result column="status" property="status" />
+		<result column="img" property="img" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+		<result column="puton_time" property="putonTime" />
+		<result column="version" property="version" />
+	</resultMap>
+
+</mapper>

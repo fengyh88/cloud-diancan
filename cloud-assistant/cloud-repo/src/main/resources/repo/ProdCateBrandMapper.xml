@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fish.cloud.repo.ProdCateBrandMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.fish.cloud.bean.model.ProdCateBrand">
+		<id column="id" property="id" />
+		<result column="cate_id" property="cateId" />
+		<result column="brand_id" property="brandId" />
+	</resultMap>
+
+</mapper>

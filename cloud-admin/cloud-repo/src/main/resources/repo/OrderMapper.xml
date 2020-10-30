@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fish.cloud.repo.OrderMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.fish.cloud.bean.model.Order">
+		<id column="order_id" property="orderId" />
+		<result column="shop_id" property="shopId" />
+		<result column="prod_name" property="prodName" />
+		<result column="user_id" property="userId" />
+		<result column="order_number" property="orderNumber" />
+		<result column="order_type" property="orderType" />
+		<result column="total_amount" property="totalAmount" />
+		<result column="actual_amount" property="actualAmount" />
+		<result column="user_coupon_id" property="userCouponId" />
+		<result column="reduce_amount" property="reduceAmount" />
+		<result column="pay_type" property="payType" />
+		<result column="is_payed" property="isPayed" />
+		<result column="remark" property="remark" />
+		<result column="status" property="status" />
+		<result column="dvy_type" property="dvyType" />
+		<result column="dvy_id" property="dvyId" />
+		<result column="dvy_number" property="dvyNumber" />
+		<result column="dvy_amount" property="dvyAmount" />
+		<result column="prod_num" property="prodNum" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+		<result column="pay_time" property="payTime" />
+		<result column="dvy_time" property="dvyTime" />
+		<result column="finish_time" property="finishTime" />
+		<result column="cancel_time" property="cancelTime" />
+		<result column="refund_status" property="refundStatus" />
+		<result column="close_type" property="closeType" />
+	</resultMap>
+
+	<resultMap id="orderDtoMap" type="com.fish.cloud.bean.dto.OrderDto">
+		<result column="order_id" property="orderId" />
+		<result column="shop_id" property="shopId" />
+		<result column="user_id" property="userId" />
+		<result column="order_number" property="orderNumber" />
+		<result column="order_type" property="orderType" />
+		<result column="total_amount" property="totalAmount" />
+		<result column="actual_amount" property="actualAmount" />
+		<result column="user_coupon_id" property="userCouponId" />
+		<result column="reduce_amount" property="reduceAmount" />
+		<result column="pay_type" property="payType" />
+		<result column="is_payed" property="isPayed" />
+		<result column="remark" property="remark" />
+		<result column="status" property="status" />
+		<result column="dvy_amount" property="dvyAmount" />
+		<result column="prod_num" property="prodNum" />
+		<result column="create_time" property="createTime" />
+		<result column="pay_time" property="payTime" />
+		<result column="dvy_time" property="dvyTime" />
+		<result column="finish_time" property="finishTime" />
+		<result column="cancel_time" property="cancelTime" />
+		<result column="refund_status" property="refundStatus" />
+		<result column="close_type" property="closeType" />
+		<!--店铺-->
+		<result column="shop_name" property="shopName" />
+		<!--字典，关闭原因-->
+		<result column="close_type_name" property="closeTypeName" />
+	</resultMap>
+
+	<resultMap id="orderDetailDtoMap" type="com.fish.cloud.bean.dto.OrderDetailDto">
+		<result column="order_id" property="orderId" />
+		<result column="shop_id" property="shopId" />
+		<result column="user_id" property="userId" />
+		<result column="order_number" property="orderNumber" />
+		<result column="order_type" property="orderType" />
+		<result column="total_amount" property="totalAmount" />
+		<result column="actual_amount" property="actualAmount" />
+		<result column="user_coupon_id" property="userCouponId" />
+		<result column="reduce_amount" property="reduceAmount" />
+		<result column="pay_type" property="payType" />
+		<result column="is_payed" property="isPayed" />
+		<result column="remark" property="remark" />
+		<result column="status" property="status" />
+		<result column="dvy_type" property="dvyType" />
+		<result column="dvy_id" property="dvyId" />
+		<result column="dvy_number" property="dvyNumber" />
+		<result column="dvy_amount" property="dvyAmount" />
+		<result column="prod_num" property="prodNum" />
+		<result column="create_time" property="createTime" />
+		<result column="pay_time" property="payTime" />
+		<result column="dvy_time" property="dvyTime" />
+		<result column="finish_time" property="finishTime" />
+		<result column="cancel_time" property="cancelTime" />
+		<result column="refund_status" property="refundStatus" />
+		<result column="close_type" property="closeType" />
+		<!--店铺-->
+		<result column="shop_name" property="shopName" />
+		<!--字典，关闭原因-->
+		<result column="close_type_name" property="closeTypeName" />
+	</resultMap>
+
+	<sql id="orderDto_SQL">
+ 		o.`order_id`,
+        o.`shop_id`,
+        o.`user_id`,
+        o.`order_number`,
+        o.`order_type`,
+        o.`total_amount`,
+        o.`actual_amount`,
+        o.`user_coupon_id`,
+        o.`reduce_amount`,
+        o.`pay_type`,
+        o.`is_payed`,
+        o.`remark`,
+        o.`status`,
+        o.`dvy_amount`,
+        o.`prod_num`,
+        o.`create_time`,
+        o.`pay_time`,
+        o.`dvy_time`,
+        o.`finish_time`,
+        o.`cancel_time`,
+        o.`refund_status`,
+        o.`close_type`,
+        s.`shop_name`,
+        kv.`value` as `close_type_name`
+    </sql>
+
+	<sql id="orderDetailDto_SQL">
+ 		o.`order_id`,
+        o.`shop_id`,
+        o.`user_id`,
+        o.`order_number`,
+        o.`order_type`,
+        o.`total_amount`,
+        o.`actual_amount`,
+        o.`user_coupon_id`,
+        o.`reduce_amount`,
+        o.`pay_type`,
+        o.`is_payed`,
+        o.`remark`,
+        o.`status`,
+        o.`dvy_type`,
+        o.`dvy_id`,
+        o.`dvy_number`,
+        o.`dvy_amount`,
+        o.`prod_num`,
+        o.`create_time`,
+        o.`pay_time`,
+        o.`dvy_time`,
+        o.`finish_time`,
+        o.`cancel_time`,
+        o.`refund_status`,
+        o.`close_type`,
+        s.`shop_name`,
+        kv.`value` as `close_type_name`
+    </sql>
+
+	<!--根据状态查询列表	-->
+	<select id="listByStatus" resultMap="orderDtoMap">
+		SELECT
+		<include refid="orderDto_SQL"/>
+		FROM cloud_order o
+		LEFT JOIN  cloud_shop s ON o.`shop_id` = s.`shop_id`
+		LEFT JOIN cloud_dic_kv kv ON o.`close_type` = kv.`key` AND kv.`dic_code` = 'D0002'
+		WHERE  o.`shop_id` = #{shopId}
+		<if test="orderBySatusParam.status != 0">
+			AND o.`status` = #{orderBySatusParam.status}
+		</if>
+			AND o.`refund_status` != 0
+	</select>
+
+	<!--详情	-->
+	<select id="detail" resultMap="orderDetailDtoMap">
+		SELECT
+		<include refid="orderDetailDto_SQL"/>
+		FROM cloud_order o
+		LEFT JOIN  cloud_shop s ON o.`shop_id` = s.`shop_id`
+		LEFT JOIN cloud_dic_kv kv ON o.`close_type` = kv.`key` AND kv.`dic_code` = 'D0002'
+		WHERE  o.`order_id` = #{orderId}
+	</select>
+	<!--订单各个状态数量	-->
+	<select id="countOrderStatus" resultType="com.fish.cloud.bean.dto.OrderCountStatusDto">
+        SELECT
+        COUNT(o.order_id) `all`,
+        COUNT( CASE WHEN o.status = 1 THEN o.order_id ELSE NULL END ) AS notPay,
+        COUNT( CASE WHEN o.status = 2 THEN o.order_id ELSE NULL END ) AS notSend,
+        COUNT( CASE WHEN o.status = 3 THEN o.order_id ELSE NULL END ) AS send,
+        COUNT( CASE WHEN o.status = 4 OR o.status = 5 THEN o.order_id ELSE NULL END ) AS confirm,
+        COUNT( CASE WHEN o.status = 6 THEN o.order_id ELSE NULL END ) AS cancel,
+        COUNT( CASE WHEN o.status = 7 OR o.status = 8 THEN o.order_id ELSE NULL END ) AS `close`,
+        COUNT( CASE WHEN o.status = 11 THEN o.order_id ELSE NULL END ) AS cancelAudit
+        FROM cloud_order o
+        WHERE o.shop_id = #{shopId}
+    </select>
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fish.cloud.repo.OrderAddrMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.fish.cloud.bean.model.OrderAddr">
+		<id column="id" property="id" />
+		<result column="order_id" property="orderId" />
+		<result column="addr_id" property="addrId" />
+		<result column="receiver" property="receiver" />
+		<result column="mobile" property="mobile" />
+		<result column="province_id" property="provinceId" />
+		<result column="province" property="province" />
+		<result column="city_id" property="cityId" />
+		<result column="city" property="city" />
+		<result column="area_id" property="areaId" />
+		<result column="area" property="area" />
+		<result column="addr" property="addr" />
+		<result column="post_code" property="postCode" />
+		<result column="create_time" property="createTime" />
+		<result column="version" property="version" />
+	</resultMap>
+
+</mapper>
