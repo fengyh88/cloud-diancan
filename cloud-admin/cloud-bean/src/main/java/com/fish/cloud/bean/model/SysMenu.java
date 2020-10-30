@@ -10,11 +10,11 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 菜单管理
+ * 系统菜单
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 @TableName("cloud_sys_menu")
 public class SysMenu extends Model<SysMenu> {

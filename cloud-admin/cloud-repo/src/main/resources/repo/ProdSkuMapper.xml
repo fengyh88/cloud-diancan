@@ -8,7 +8,7 @@
 		<result column="prod_id" property="prodId" />
 		<result column="shop_id" property="shopId" />
 		<result column="barcode" property="barcode" />
-		<result column="properties" property="properties" />
+		<result column="sku_prop" property="skuProp" />
 		<result column="sku_name" property="skuName" />
 		<result column="prod_name" property="prodName" />
 		<result column="ori_price" property="oriPrice" />
@@ -16,7 +16,6 @@
 		<result column="unit" property="unit" />
 		<result column="v_stock" property="vStock" />
 		<result column="stock" property="stock" />
-		<result column="img" property="img" />
 		<result column="status" property="status" />
 		<result column="create_time" property="createTime" />
 		<result column="update_time" property="updateTime" />

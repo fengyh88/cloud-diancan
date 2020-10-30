@@ -1,7 +1,6 @@
 package com.fish.cloud.bean.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import java.math.BigDecimal;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -15,7 +14,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 @TableName("cloud_shop")
 public class Shop extends Model<Shop> {
@@ -25,8 +24,8 @@ public class Shop extends Model<Shop> {
     /**
      * 店铺Id
      */
-	@TableId(value="shop_id")
-	private String shopId;
+	@TableId(value="shop_id", type= IdType.AUTO)
+	private Long shopId;
     /**
      * 店铺名称(数字、中文，英文(可混合，不可有特殊字符)，可修改)、不唯一
      */
@@ -49,15 +48,10 @@ public class Shop extends Model<Shop> {
      * 店铺公告(可修改)
      */
 	private String notice;
-	/**
-	 * 主图
-	 */
-	private String img;
     /**
      * 店长
      */
-	@TableField("owner_id")
-	private String ownerId;
+	private String owner;
     /**
      * 店铺绑定的手机(登录账号：唯一)
      */
@@ -99,33 +93,6 @@ public class Shop extends Model<Shop> {
 	@TableField("close_time")
 	private String closeTime;
     /**
-     * 满X包邮
-     */
-	@TableField("free_dvy")
-	private BigDecimal freeDvy;
-    /**
-     * 满X起送
-     */
-	@TableField("free_go")
-	private BigDecimal freeGo;
-	/**
-	 * 微信公众号id
-	 */
-	@TableField("wechat_platform_id")
-	private long wechatPlatformId;
-
-	/**
-	 * 微信小程序id
-	 */
-	@TableField("wechat_app_id")
-	private String wechatAppId;
-
-	/**
-	 *微信小程序secretkey
-	 */
-	@TableField("wechat_secret_key")
-	private String wechatSecretKey;
-    /**
      * 店铺状态(-1:未开通 0: 停业中 1:营业中)，可修改
      */
 	private Integer status;
@@ -141,11 +108,11 @@ public class Shop extends Model<Shop> {
 	private Date updateTime;
 
 
-	public String getShopId() {
+	public Long getShopId() {
 		return shopId;
 	}
 
-	public Shop setShopId(String shopId) {
+	public Shop setShopId(Long shopId) {
 		this.shopId = shopId;
 		return this;
 	}
@@ -195,12 +162,12 @@ public class Shop extends Model<Shop> {
 		return this;
 	}
 
-	public String getOwnerId() {
-		return ownerId;
+	public String getOwner() {
+		return owner;
 	}
 
-	public Shop setOwnerId(String ownerId) {
-		this.ownerId = ownerId;
+	public Shop setOwner(String owner) {
+		this.owner = owner;
 		return this;
 	}
 
@@ -285,50 +252,8 @@ public class Shop extends Model<Shop> {
 		return this;
 	}
 
-	public BigDecimal getFreeDvy() {
-		return freeDvy;
-	}
-
-	public Shop setFreeDvy(BigDecimal freeDvy) {
-		this.freeDvy = freeDvy;
-		return this;
-	}
-
-	public BigDecimal getFreeGo() {
-		return freeGo;
-	}
-
-	public Shop setFreeGo(BigDecimal freeGo) {
-		this.freeGo = freeGo;
-		return this;
-	}
-
 	public Integer getStatus() {
 		return status;
-	}
-
-	public long getWechatPlatformId() {
-		return wechatPlatformId;
-	}
-
-	public void setWechatPlatformId(long wechatPlatformId) {
-		this.wechatPlatformId = wechatPlatformId;
-	}
-
-	public String getWechatAppId() {
-		return wechatAppId;
-	}
-
-	public void setWechatAppId(String wechatAppId) {
-		this.wechatAppId = wechatAppId;
-	}
-
-	public String getWechatSecretKey() {
-		return wechatSecretKey;
-	}
-
-	public void setWechatSecretKey(String wechatSecretKey) {
-		this.wechatSecretKey = wechatSecretKey;
 	}
 
 	public Shop setStatus(Integer status) {

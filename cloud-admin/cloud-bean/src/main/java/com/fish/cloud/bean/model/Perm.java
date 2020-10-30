@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-
 import java.io.Serializable;
 
 /**
@@ -15,9 +13,8 @@ import java.io.Serializable;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
-@Data
 @TableName("cloud_perm")
 public class Perm extends Model<Perm> {
 
@@ -39,7 +36,7 @@ public class Perm extends Model<Perm> {
 	@TableField("shop_id")
 	private Long shopId;
     /**
-     * 状态  0：禁用   1：启用
+     * 状态  0 禁用  1 启用 -1 删除
      */
 	private Integer status;
     /**
@@ -52,6 +49,61 @@ public class Perm extends Model<Perm> {
      */
 	@TableField("update_time")
 	private Date updateTime;
+
+
+	public String getPermCode() {
+		return permCode;
+	}
+
+	public Perm setPermCode(String permCode) {
+		this.permCode = permCode;
+		return this;
+	}
+
+	public String getPermName() {
+		return permName;
+	}
+
+	public Perm setPermName(String permName) {
+		this.permName = permName;
+		return this;
+	}
+
+	public Long getShopId() {
+		return shopId;
+	}
+
+	public Perm setShopId(Long shopId) {
+		this.shopId = shopId;
+		return this;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public Perm setStatus(Integer status) {
+		this.status = status;
+		return this;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public Perm setCreateTime(Date createTime) {
+		this.createTime = createTime;
+		return this;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public Perm setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+		return this;
+	}
 
 	@Override
 	protected Serializable pkVal() {

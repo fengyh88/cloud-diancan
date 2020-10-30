@@ -1,7 +1,6 @@
 package com.fish.cloud.bean.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fish.cloud.bean.model.OrderAddr;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -102,7 +101,4 @@ public class OrderDetailDto {
 
     @ApiModelProperty(value = "订单明细")
     private List<OrderItemDto> orderItems;
-
-    @ApiModelProperty(value = "订单收货地址")
-    private OrderAddr orderAddr;
 }

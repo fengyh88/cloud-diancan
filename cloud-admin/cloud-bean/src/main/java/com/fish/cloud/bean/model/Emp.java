@@ -6,8 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-
 import java.io.Serializable;
 
 /**
@@ -16,9 +14,8 @@ import java.io.Serializable;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
-@Data
 @TableName("cloud_emp")
 public class Emp extends Model<Emp> {
 
@@ -65,22 +62,17 @@ public class Emp extends Model<Emp> {
      * 用户所在的商城Id
      */
 	@TableField("shop_id")
-	private String shopId;
+	private Long shopId;
     /**
      * 所属部门Id
      */
 	@TableField("dept_id")
 	private Long deptId;
     /**
-	 * 岗位Id
-	 */
+     * 岗位Id
+     */
 	@TableField("duty_id")
 	private Long dutyId;
-	/**
-	 * 角色Id
-	 */
-	@TableField("role_id")
-	private Long roleId;
     /**
      * 状态  0：禁用   1：正常
      */
@@ -95,6 +87,142 @@ public class Emp extends Model<Emp> {
      */
 	@TableField("update_time")
 	private Date updateTime;
+
+
+	public Long getEmpId() {
+		return empId;
+	}
+
+	public Emp setEmpId(Long empId) {
+		this.empId = empId;
+		return this;
+	}
+
+	public String getEmpNumber() {
+		return empNumber;
+	}
+
+	public Emp setEmpNumber(String empNumber) {
+		this.empNumber = empNumber;
+		return this;
+	}
+
+	public String getEmpName() {
+		return empName;
+	}
+
+	public Emp setEmpName(String empName) {
+		this.empName = empName;
+		return this;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public Emp setPassword(String password) {
+		this.password = password;
+		return this;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public Emp setEmail(String email) {
+		this.email = email;
+		return this;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public Emp setMobile(String mobile) {
+		this.mobile = mobile;
+		return this;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public Emp setGender(String gender) {
+		this.gender = gender;
+		return this;
+	}
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public Emp setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+		return this;
+	}
+
+	public String getPic() {
+		return pic;
+	}
+
+	public Emp setPic(String pic) {
+		this.pic = pic;
+		return this;
+	}
+
+	public Long getShopId() {
+		return shopId;
+	}
+
+	public Emp setShopId(Long shopId) {
+		this.shopId = shopId;
+		return this;
+	}
+
+	public Long getDeptId() {
+		return deptId;
+	}
+
+	public Emp setDeptId(Long deptId) {
+		this.deptId = deptId;
+		return this;
+	}
+
+	public Long getDutyId() {
+		return dutyId;
+	}
+
+	public Emp setDutyId(Long dutyId) {
+		this.dutyId = dutyId;
+		return this;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public Emp setStatus(Integer status) {
+		this.status = status;
+		return this;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public Emp setCreateTime(Date createTime) {
+		this.createTime = createTime;
+		return this;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public Emp setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+		return this;
+	}
 
 	@Override
 	protected Serializable pkVal() {

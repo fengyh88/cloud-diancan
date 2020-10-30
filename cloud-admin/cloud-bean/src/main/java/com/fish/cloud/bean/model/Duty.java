@@ -6,8 +6,6 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-
 import java.io.Serializable;
 
 /**
@@ -16,9 +14,8 @@ import java.io.Serializable;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
-@Data
 @TableName("cloud_duty")
 public class Duty extends Model<Duty> {
 
@@ -38,11 +35,7 @@ public class Duty extends Model<Duty> {
      * 店铺Id
      */
 	@TableField("shop_id")
-	private String shopId;
-	/**
-	 * 状态 0：禁用 1：正常
-	 */
-	private Integer status;
+	private Long shopId;
     /**
      * 建立时间
      */
@@ -53,6 +46,52 @@ public class Duty extends Model<Duty> {
      */
 	@TableField("update_time")
 	private Date updateTime;
+
+
+	public Long getDutyId() {
+		return dutyId;
+	}
+
+	public Duty setDutyId(Long dutyId) {
+		this.dutyId = dutyId;
+		return this;
+	}
+
+	public String getDutyName() {
+		return dutyName;
+	}
+
+	public Duty setDutyName(String dutyName) {
+		this.dutyName = dutyName;
+		return this;
+	}
+
+	public Long getShopId() {
+		return shopId;
+	}
+
+	public Duty setShopId(Long shopId) {
+		this.shopId = shopId;
+		return this;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public Duty setCreateTime(Date createTime) {
+		this.createTime = createTime;
+		return this;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public Duty setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+		return this;
+	}
 
 	@Override
 	protected Serializable pkVal() {

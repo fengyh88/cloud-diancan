@@ -15,7 +15,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 @TableName("cloud_order")
 public class Order extends Model<Order> {
@@ -31,14 +31,14 @@ public class Order extends Model<Order> {
      * 店铺Id
      */
 	@TableField("shop_id")
-	private String shopId;
+	private Long shopId;
     /**
      * 商品名称,多个商品将会以逗号隔开
      */
 	@TableField("prod_name")
 	private String prodName;
     /**
-     * 订购用户Id
+     * 用户Id
      */
 	@TableField("user_id")
 	private String userId;
@@ -58,11 +58,6 @@ public class Order extends Model<Order> {
 	@TableField("total_amount")
 	private BigDecimal totalAmount;
     /**
-     * 实际总值
-     */
-	@TableField("actual_amount")
-	private BigDecimal actualAmount;
-    /**
      * 用户优惠券Id
      */
 	@TableField("user_coupon_id")
@@ -73,7 +68,12 @@ public class Order extends Model<Order> {
 	@TableField("reduce_amount")
 	private BigDecimal reduceAmount;
     /**
-     * 支付方式 0 手动代付 1 微信支付 2 支付宝
+     * 实际总值
+     */
+	@TableField("actual_amount")
+	private BigDecimal actualAmount;
+    /**
+     * 支付方式 1 微信支付 2 支付宝 3 现金支付
      */
 	@TableField("pay_type")
 	private Integer payType;
@@ -87,29 +87,9 @@ public class Order extends Model<Order> {
      */
 	private String remark;
     /**
-     * 订单状态 1:待付款 2:待发货 3:待收货 4:待评价 5:成功 6:关闭，回收站，7:关闭 永久删除 11 取消订单审核中
+     * 订单状态 1：已提交 5：未支付 9:已支付 13:关闭，失败，17:完成，成功
      */
 	private Integer status;
-    /**
-     * 配送类型
-     */
-	@TableField("dvy_type")
-	private String dvyType;
-    /**
-     * 配送方式Id
-     */
-	@TableField("dvy_id")
-	private Long dvyId;
-    /**
-     * 物流单号
-     */
-	@TableField("dvy_number")
-	private String dvyNumber;
-    /**
-     * 订单运费
-     */
-	@TableField("dvy_amount")
-	private BigDecimal dvyAmount;
     /**
      * 订单商品总数
      */
@@ -131,30 +111,10 @@ public class Order extends Model<Order> {
 	@TableField("pay_time")
 	private Date payTime;
     /**
-     * 发货时间
-     */
-	@TableField("dvy_time")
-	private Date dvyTime;
-    /**
      * 完成时间
      */
 	@TableField("finish_time")
 	private Date finishTime;
-    /**
-     * 取消时间
-     */
-	@TableField("cancel_time")
-	private Date cancelTime;
-    /**
-     * 0:默认,1:在处理,2:处理完成
-     */
-	@TableField("refund_status")
-	private Integer refundStatus;
-    /**
-     * 订单关闭原因 1-超时未支付 2-退款关闭 4-买家取消 15-已通过货到付款交易
-     */
-	@TableField("close_type")
-	private Integer closeType;
 
 
 	public Long getOrderId() {
@@ -166,11 +126,11 @@ public class Order extends Model<Order> {
 		return this;
 	}
 
-	public String getShopId() {
+	public Long getShopId() {
 		return shopId;
 	}
 
-	public Order setShopId(String shopId) {
+	public Order setShopId(Long shopId) {
 		this.shopId = shopId;
 		return this;
 	}
@@ -220,15 +180,6 @@ public class Order extends Model<Order> {
 		return this;
 	}
 
-	public BigDecimal getActualAmount() {
-		return actualAmount;
-	}
-
-	public Order setActualAmount(BigDecimal actualAmount) {
-		this.actualAmount = actualAmount;
-		return this;
-	}
-
 	public Long getUserCouponId() {
 		return userCouponId;
 	}
@@ -244,6 +195,15 @@ public class Order extends Model<Order> {
 
 	public Order setReduceAmount(BigDecimal reduceAmount) {
 		this.reduceAmount = reduceAmount;
+		return this;
+	}
+
+	public BigDecimal getActualAmount() {
+		return actualAmount;
+	}
+
+	public Order setActualAmount(BigDecimal actualAmount) {
+		this.actualAmount = actualAmount;
 		return this;
 	}
 
@@ -283,42 +243,6 @@ public class Order extends Model<Order> {
 		return this;
 	}
 
-	public String getDvyType() {
-		return dvyType;
-	}
-
-	public Order setDvyType(String dvyType) {
-		this.dvyType = dvyType;
-		return this;
-	}
-
-	public Long getDvyId() {
-		return dvyId;
-	}
-
-	public Order setDvyId(Long dvyId) {
-		this.dvyId = dvyId;
-		return this;
-	}
-
-	public String getDvyNumber() {
-		return dvyNumber;
-	}
-
-	public Order setDvyNumber(String dvyNumber) {
-		this.dvyNumber = dvyNumber;
-		return this;
-	}
-
-	public BigDecimal getDvyAmount() {
-		return dvyAmount;
-	}
-
-	public Order setDvyAmount(BigDecimal dvyAmount) {
-		this.dvyAmount = dvyAmount;
-		return this;
-	}
-
 	public Integer getProdNum() {
 		return prodNum;
 	}
@@ -355,48 +279,12 @@ public class Order extends Model<Order> {
 		return this;
 	}
 
-	public Date getDvyTime() {
-		return dvyTime;
-	}
-
-	public Order setDvyTime(Date dvyTime) {
-		this.dvyTime = dvyTime;
-		return this;
-	}
-
 	public Date getFinishTime() {
 		return finishTime;
 	}
 
 	public Order setFinishTime(Date finishTime) {
 		this.finishTime = finishTime;
-		return this;
-	}
-
-	public Date getCancelTime() {
-		return cancelTime;
-	}
-
-	public Order setCancelTime(Date cancelTime) {
-		this.cancelTime = cancelTime;
-		return this;
-	}
-
-	public Integer getRefundStatus() {
-		return refundStatus;
-	}
-
-	public Order setRefundStatus(Integer refundStatus) {
-		this.refundStatus = refundStatus;
-		return this;
-	}
-
-	public Integer getCloseType() {
-		return closeType;
-	}
-
-	public Order setCloseType(Integer closeType) {
-		this.closeType = closeType;
 		return this;
 	}
 

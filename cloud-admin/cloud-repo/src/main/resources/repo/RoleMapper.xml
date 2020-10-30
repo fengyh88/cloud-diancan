@@ -8,8 +8,7 @@
 		<result column="role_name" property="roleName" />
 		<result column="shop_id" property="shopId" />
 		<result column="remark" property="remark" />
-		<result column="status" property="status" />
-		<result column="created_by" property="createdBy" />
+		<result column="create_by" property="createBy" />
 		<result column="create_time" property="createTime" />
 	</resultMap>
 

@@ -6,7 +6,7 @@
 	<resultMap id="BaseResultMap" type="com.fish.cloud.bean.model.User">
 		<id column="user_id" property="userId" />
 		<result column="user_name" property="userName" />
-		<result column="login_password" property="loginPassword" />
+		<result column="password" property="password" />
 		<result column="nick_name" property="nickName" />
 		<result column="real_name" property="realName" />
 		<result column="mobile" property="mobile" />

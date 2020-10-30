@@ -14,7 +14,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 @TableName("cloud_user_coupon")
 public class UserCoupon extends Model<UserCoupon> {
@@ -22,12 +22,12 @@ public class UserCoupon extends Model<UserCoupon> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * id
+     * Id
      */
 	@TableId(value="id", type= IdType.AUTO)
 	private Long id;
     /**
-     * userId
+     * 用户Id
      */
 	@TableField("user_id")
 	private String userId;
