@@ -2,6 +2,10 @@ package com.fish.cloud.service;
 
 import com.fish.cloud.bean.model.Dept;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fish.cloud.bean.param.DeptAddParam;
+import com.fish.cloud.common.ret.TupleRet;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +16,32 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-10-30
  */
 public interface IDeptService extends IService<Dept> {
-	
+    /**
+     * 所有列表
+     *
+     * @return
+     */
+    List<Dept> all();
+    /**
+     * 更新状态，正常禁用删除
+     *
+     * @param id
+     * @return
+     */
+    TupleRet updateStatus(Long id, Integer status);
+
+    /**
+     * 添加
+     *
+     * @param deptAddParam
+     * @return
+     */
+    TupleRet add(DeptAddParam deptAddParam);
+    /**
+     * 编辑
+     *
+     * @param deptAddParam
+     * @return
+     */
+    TupleRet edit(DeptAddParam deptAddParam);
 }

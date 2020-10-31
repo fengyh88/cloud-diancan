@@ -10,6 +10,7 @@
 		<result column="value" property="value" />
 		<result column="remark" property="remark" />
 		<result column="shop_id" property="shopId" />
+		<result column="status" property="status" />
 		<result column="create_time" property="createTime" />
 		<result column="update_time" property="updateTime" />
 	</resultMap>

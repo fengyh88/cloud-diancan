@@ -6,6 +6,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 
 /**
@@ -16,6 +19,8 @@ import java.io.Serializable;
  * @author fengyh
  * @since 2020-10-30
  */
+@NoArgsConstructor
+@Data
 @TableName("cloud_role")
 public class Role extends Model<Role> {
 
@@ -23,6 +28,11 @@ public class Role extends Model<Role> {
 
 	@TableId(value="role_id", type= IdType.AUTO)
 	private Long roleId;
+	/**
+	 * 编码
+	 */
+	@TableField("role_code")
+	private String roleCode;
     /**
      * 角色名称
      */
@@ -37,6 +47,10 @@ public class Role extends Model<Role> {
      * 备注
      */
 	private String remark;
+	/**
+	 * 状态  0：禁用   1：启用
+	 */
+	private Integer status;
     /**
      * 创建者Id
      */
@@ -47,61 +61,6 @@ public class Role extends Model<Role> {
      */
 	@TableField("create_time")
 	private Date createTime;
-
-
-	public Long getRoleId() {
-		return roleId;
-	}
-
-	public Role setRoleId(Long roleId) {
-		this.roleId = roleId;
-		return this;
-	}
-
-	public String getRoleName() {
-		return roleName;
-	}
-
-	public Role setRoleName(String roleName) {
-		this.roleName = roleName;
-		return this;
-	}
-
-	public Long getShopId() {
-		return shopId;
-	}
-
-	public Role setShopId(Long shopId) {
-		this.shopId = shopId;
-		return this;
-	}
-
-	public String getRemark() {
-		return remark;
-	}
-
-	public Role setRemark(String remark) {
-		this.remark = remark;
-		return this;
-	}
-
-	public Long getCreateBy() {
-		return createBy;
-	}
-
-	public Role setCreateBy(Long createBy) {
-		this.createBy = createBy;
-		return this;
-	}
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public Role setCreateTime(Date createTime) {
-		this.createTime = createTime;
-		return this;
-	}
 
 	@Override
 	protected Serializable pkVal() {

@@ -5,8 +5,10 @@
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="com.fish.cloud.bean.model.Duty">
 		<id column="duty_id" property="dutyId" />
+		<result column="duty_code" property="dutyCode" />
 		<result column="duty_name" property="dutyName" />
 		<result column="shop_id" property="shopId" />
+		<result column="status" property="status" />
 		<result column="create_time" property="createTime" />
 		<result column="update_time" property="updateTime" />
 	</resultMap>

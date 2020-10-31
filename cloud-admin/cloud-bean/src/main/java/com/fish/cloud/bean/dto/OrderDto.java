@@ -19,6 +19,9 @@ public class OrderDto {
     @ApiModelProperty(value = "店铺Id")
     private Long shopId;
 
+    @ApiModelProperty(value = "台桌Id")
+    private Long tableId;
+
     @ApiModelProperty(value = "商品名称,多个商品将会以逗号隔开")
     private String prodName;
 

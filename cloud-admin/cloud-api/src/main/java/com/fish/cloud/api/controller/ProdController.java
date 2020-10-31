@@ -30,7 +30,7 @@ import java.util.List;
  */
 @Api(tags = "商品")
 @Controller
-@RequestMapping("/cloud/prod")
+@RequestMapping("/api/prod")
 public class ProdController {
     @Autowired
     private IProdService prodService;

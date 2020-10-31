@@ -6,6 +6,7 @@
 	<resultMap id="BaseResultMap" type="com.fish.cloud.bean.model.Order">
 		<id column="order_id" property="orderId" />
 		<result column="shop_id" property="shopId" />
+		<result column="table_id" property="tableId" />
 		<result column="prod_name" property="prodName" />
 		<result column="user_id" property="userId" />
 		<result column="order_number" property="orderNumber" />
@@ -22,7 +23,18 @@
 		<result column="create_time" property="createTime" />
 		<result column="update_time" property="updateTime" />
 		<result column="pay_time" property="payTime" />
-		<result column="finish_time" property="finishTime" />
+		<result column="complete_time" property="completeTime" />
 	</resultMap>
 
+	<!--订单各个状态数量	-->
+	<select id="countOrderStatus" resultType="com.fish.cloud.bean.dto.OrderCountStatusDto">
+        SELECT
+        COUNT(o.order_id) `all`,
+        COUNT( CASE WHEN o.status = 1 THEN o.order_id ELSE NULL END ) AS submitted,
+        COUNT( CASE WHEN o.status = 9 THEN o.order_id ELSE NULL END ) AS payed,
+        COUNT( CASE WHEN o.status = 13 THEN o.order_id ELSE NULL END ) AS closed,
+        COUNT( CASE WHEN o.status = 17 THEN o.order_id ELSE NULL END ) AS completed
+        FROM cloud_order o
+        WHERE o.shop_id = #{shopId}
+    </select>
 </mapper>

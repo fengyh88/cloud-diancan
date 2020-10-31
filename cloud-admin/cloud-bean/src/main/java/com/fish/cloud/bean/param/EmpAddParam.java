@@ -33,7 +33,7 @@ public class EmpAddParam {
     private Date birthDate;
 
     @ApiModelProperty(value = "头像图片路径")
-    private String pic;
+    private String img;
 
     @ApiModelProperty(value = "所属部门Id")
     private Long deptId;
@@ -43,5 +43,4 @@ public class EmpAddParam {
 
     @ApiModelProperty(value = "角色Id")
     private Long roleId;
-
 }

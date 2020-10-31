@@ -25,6 +25,9 @@ public class ProdImgAddParam {
     @ApiModelProperty(value = "上传时间")
     private Date uploadTime;
 
+    @ApiModelProperty(value = "1 商品表 2 商品规格表")
+    private Integer linkType;
+
     @ApiModelProperty(value = "图片关联的表主键Id")
     private Long linkId;
 

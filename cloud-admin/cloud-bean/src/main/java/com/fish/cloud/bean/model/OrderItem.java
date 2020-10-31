@@ -7,6 +7,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 
 /**
@@ -17,6 +20,8 @@ import java.io.Serializable;
  * @author fengyh
  * @since 2020-10-30
  */
+@NoArgsConstructor
+@Data
 @TableName("cloud_order_item")
 public class OrderItem extends Model<OrderItem> {
 
@@ -104,160 +109,6 @@ public class OrderItem extends Model<OrderItem> {
      */
 	@TableField("create_time")
 	private Date createTime;
-
-
-	public Long getOrderItemId() {
-		return orderItemId;
-	}
-
-	public OrderItem setOrderItemId(Long orderItemId) {
-		this.orderItemId = orderItemId;
-		return this;
-	}
-
-	public Long getOrderId() {
-		return orderId;
-	}
-
-	public OrderItem setOrderId(Long orderId) {
-		this.orderId = orderId;
-		return this;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public OrderItem setUserId(String userId) {
-		this.userId = userId;
-		return this;
-	}
-
-	public Long getTableId() {
-		return tableId;
-	}
-
-	public OrderItem setTableId(Long tableId) {
-		this.tableId = tableId;
-		return this;
-	}
-
-	public Long getProdId() {
-		return prodId;
-	}
-
-	public OrderItem setProdId(Long prodId) {
-		this.prodId = prodId;
-		return this;
-	}
-
-	public String getProdName() {
-		return prodName;
-	}
-
-	public OrderItem setProdName(String prodName) {
-		this.prodName = prodName;
-		return this;
-	}
-
-	public String getProdImg() {
-		return prodImg;
-	}
-
-	public OrderItem setProdImg(String prodImg) {
-		this.prodImg = prodImg;
-		return this;
-	}
-
-	public String getProdProp() {
-		return prodProp;
-	}
-
-	public OrderItem setProdProp(String prodProp) {
-		this.prodProp = prodProp;
-		return this;
-	}
-
-	public Long getSkuId() {
-		return skuId;
-	}
-
-	public OrderItem setSkuId(Long skuId) {
-		this.skuId = skuId;
-		return this;
-	}
-
-	public String getSkuName() {
-		return skuName;
-	}
-
-	public OrderItem setSkuName(String skuName) {
-		this.skuName = skuName;
-		return this;
-	}
-
-	public String getSkuImg() {
-		return skuImg;
-	}
-
-	public OrderItem setSkuImg(String skuImg) {
-		this.skuImg = skuImg;
-		return this;
-	}
-
-	public String getSkuProp() {
-		return skuProp;
-	}
-
-	public OrderItem setSkuProp(String skuProp) {
-		this.skuProp = skuProp;
-		return this;
-	}
-
-	public Integer getNum() {
-		return num;
-	}
-
-	public OrderItem setNum(Integer num) {
-		this.num = num;
-		return this;
-	}
-
-	public BigDecimal getPrice() {
-		return price;
-	}
-
-	public OrderItem setPrice(BigDecimal price) {
-		this.price = price;
-		return this;
-	}
-
-	public BigDecimal getTotalAmount() {
-		return totalAmount;
-	}
-
-	public OrderItem setTotalAmount(BigDecimal totalAmount) {
-		this.totalAmount = totalAmount;
-		return this;
-	}
-
-	public String getRemark() {
-		return remark;
-	}
-
-	public OrderItem setRemark(String remark) {
-		this.remark = remark;
-		return this;
-	}
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public OrderItem setCreateTime(Date createTime) {
-		this.createTime = createTime;
-		return this;
-	}
 
 	@Override
 	protected Serializable pkVal() {

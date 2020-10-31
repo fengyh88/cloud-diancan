@@ -12,5 +12,4 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2020-10-30
  */
 public interface OrderItemMapper extends BaseMapper<OrderItem> {
-
 }

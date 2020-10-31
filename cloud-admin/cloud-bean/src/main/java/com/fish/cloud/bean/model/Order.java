@@ -7,6 +7,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 
 /**
@@ -17,6 +20,8 @@ import java.io.Serializable;
  * @author fengyh
  * @since 2020-10-30
  */
+@NoArgsConstructor
+@Data
 @TableName("cloud_order")
 public class Order extends Model<Order> {
 
@@ -32,6 +37,11 @@ public class Order extends Model<Order> {
      */
 	@TableField("shop_id")
 	private Long shopId;
+	/**
+	 * 台桌Id
+	 */
+	@TableField("table_id")
+	private Long tableId;
     /**
      * 商品名称,多个商品将会以逗号隔开
      */
@@ -113,180 +123,8 @@ public class Order extends Model<Order> {
     /**
      * 完成时间
      */
-	@TableField("finish_time")
-	private Date finishTime;
-
-
-	public Long getOrderId() {
-		return orderId;
-	}
-
-	public Order setOrderId(Long orderId) {
-		this.orderId = orderId;
-		return this;
-	}
-
-	public Long getShopId() {
-		return shopId;
-	}
-
-	public Order setShopId(Long shopId) {
-		this.shopId = shopId;
-		return this;
-	}
-
-	public String getProdName() {
-		return prodName;
-	}
-
-	public Order setProdName(String prodName) {
-		this.prodName = prodName;
-		return this;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public Order setUserId(String userId) {
-		this.userId = userId;
-		return this;
-	}
-
-	public String getOrderNumber() {
-		return orderNumber;
-	}
-
-	public Order setOrderNumber(String orderNumber) {
-		this.orderNumber = orderNumber;
-		return this;
-	}
-
-	public Integer getOrderType() {
-		return orderType;
-	}
-
-	public Order setOrderType(Integer orderType) {
-		this.orderType = orderType;
-		return this;
-	}
-
-	public BigDecimal getTotalAmount() {
-		return totalAmount;
-	}
-
-	public Order setTotalAmount(BigDecimal totalAmount) {
-		this.totalAmount = totalAmount;
-		return this;
-	}
-
-	public Long getUserCouponId() {
-		return userCouponId;
-	}
-
-	public Order setUserCouponId(Long userCouponId) {
-		this.userCouponId = userCouponId;
-		return this;
-	}
-
-	public BigDecimal getReduceAmount() {
-		return reduceAmount;
-	}
-
-	public Order setReduceAmount(BigDecimal reduceAmount) {
-		this.reduceAmount = reduceAmount;
-		return this;
-	}
-
-	public BigDecimal getActualAmount() {
-		return actualAmount;
-	}
-
-	public Order setActualAmount(BigDecimal actualAmount) {
-		this.actualAmount = actualAmount;
-		return this;
-	}
-
-	public Integer getPayType() {
-		return payType;
-	}
-
-	public Order setPayType(Integer payType) {
-		this.payType = payType;
-		return this;
-	}
-
-	public Integer getIsPayed() {
-		return isPayed;
-	}
-
-	public Order setIsPayed(Integer isPayed) {
-		this.isPayed = isPayed;
-		return this;
-	}
-
-	public String getRemark() {
-		return remark;
-	}
-
-	public Order setRemark(String remark) {
-		this.remark = remark;
-		return this;
-	}
-
-	public Integer getStatus() {
-		return status;
-	}
-
-	public Order setStatus(Integer status) {
-		this.status = status;
-		return this;
-	}
-
-	public Integer getProdNum() {
-		return prodNum;
-	}
-
-	public Order setProdNum(Integer prodNum) {
-		this.prodNum = prodNum;
-		return this;
-	}
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public Order setCreateTime(Date createTime) {
-		this.createTime = createTime;
-		return this;
-	}
-
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-
-	public Order setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-		return this;
-	}
-
-	public Date getPayTime() {
-		return payTime;
-	}
-
-	public Order setPayTime(Date payTime) {
-		this.payTime = payTime;
-		return this;
-	}
-
-	public Date getFinishTime() {
-		return finishTime;
-	}
-
-	public Order setFinishTime(Date finishTime) {
-		this.finishTime = finishTime;
-		return this;
-	}
+	@TableField("complete_time")
+	private Date completeTime;
 
 	@Override
 	protected Serializable pkVal() {
