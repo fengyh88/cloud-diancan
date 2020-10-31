@@ -7,8 +7,8 @@ import lombok.Data;
 @ApiModel
 @Data
 public class ProdCateAddParam {
-    @ApiModelProperty(value = "Id")
-    private Long id;
+    @ApiModelProperty(value = "类目Id")
+    private Long cateId;
     @ApiModelProperty(value = "类目名称")
     private String cateName;
     @ApiModelProperty(value = "类目图标")
