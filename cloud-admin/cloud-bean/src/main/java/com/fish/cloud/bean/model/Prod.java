@@ -7,6 +7,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 
 /**
@@ -17,6 +20,8 @@ import java.io.Serializable;
  * @author fengyh
  * @since 2020-10-30
  */
+@NoArgsConstructor
+@Data
 @TableName("cloud_prod")
 public class Prod extends Model<Prod> {
 
@@ -73,7 +78,8 @@ public class Prod extends Model<Prod> {
     /**
      * 单位
      */
-	private String unit;
+	@TableField("unit_id")
+	private String unitId;
     /**
      * 简要描述,卖点等
      */
@@ -113,187 +119,6 @@ public class Prod extends Model<Prod> {
      * 版本 乐观锁
      */
 	private Integer version;
-
-
-	public Long getProdId() {
-		return prodId;
-	}
-
-	public Prod setProdId(Long prodId) {
-		this.prodId = prodId;
-		return this;
-	}
-
-	public String getProdCode() {
-		return prodCode;
-	}
-
-	public Prod setProdCode(String prodCode) {
-		this.prodCode = prodCode;
-		return this;
-	}
-
-	public String getProdName() {
-		return prodName;
-	}
-
-	public Prod setProdName(String prodName) {
-		this.prodName = prodName;
-		return this;
-	}
-
-	public String getPinyin() {
-		return pinyin;
-	}
-
-	public Prod setPinyin(String pinyin) {
-		this.pinyin = pinyin;
-		return this;
-	}
-
-	public Long getShopId() {
-		return shopId;
-	}
-
-	public Prod setShopId(Long shopId) {
-		this.shopId = shopId;
-		return this;
-	}
-
-	public Long getCateId() {
-		return cateId;
-	}
-
-	public Prod setCateId(Long cateId) {
-		this.cateId = cateId;
-		return this;
-	}
-
-	public Long getBrandId() {
-		return brandId;
-	}
-
-	public Prod setBrandId(Long brandId) {
-		this.brandId = brandId;
-		return this;
-	}
-
-	public BigDecimal getOriPrice() {
-		return oriPrice;
-	}
-
-	public Prod setOriPrice(BigDecimal oriPrice) {
-		this.oriPrice = oriPrice;
-		return this;
-	}
-
-	public BigDecimal getPrice() {
-		return price;
-	}
-
-	public Prod setPrice(BigDecimal price) {
-		this.price = price;
-		return this;
-	}
-
-	public BigDecimal getMemPrice() {
-		return memPrice;
-	}
-
-	public Prod setMemPrice(BigDecimal memPrice) {
-		this.memPrice = memPrice;
-		return this;
-	}
-
-	public String getUnit() {
-		return unit;
-	}
-
-	public Prod setUnit(String unit) {
-		this.unit = unit;
-		return this;
-	}
-
-	public String getBrief() {
-		return brief;
-	}
-
-	public Prod setBrief(String brief) {
-		this.brief = brief;
-		return this;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public Prod setContent(String content) {
-		this.content = content;
-		return this;
-	}
-
-	public Integer getSold() {
-		return sold;
-	}
-
-	public Prod setSold(Integer sold) {
-		this.sold = sold;
-		return this;
-	}
-
-	public Integer getStock() {
-		return stock;
-	}
-
-	public Prod setStock(Integer stock) {
-		this.stock = stock;
-		return this;
-	}
-
-	public Integer getStatus() {
-		return status;
-	}
-
-	public Prod setStatus(Integer status) {
-		this.status = status;
-		return this;
-	}
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public Prod setCreateTime(Date createTime) {
-		this.createTime = createTime;
-		return this;
-	}
-
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-
-	public Prod setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-		return this;
-	}
-
-	public Date getPutonTime() {
-		return putonTime;
-	}
-
-	public Prod setPutonTime(Date putonTime) {
-		this.putonTime = putonTime;
-		return this;
-	}
-
-	public Integer getVersion() {
-		return version;
-	}
-
-	public Prod setVersion(Integer version) {
-		this.version = version;
-		return this;
-	}
 
 	@Override
 	protected Serializable pkVal() {

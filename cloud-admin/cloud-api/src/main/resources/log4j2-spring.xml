@@ -7,7 +7,7 @@
     <Properties>
         <!-- 缺省配置（用于开发环境），配置日志文件输出目录和动态参数。其他环境需要在VM参数中指定；
        “sys:”表示：如果VM参数中没指定这个变量值，则使用本文件中定义的缺省全局变量值 -->
-        <Property name="instance">cloud-user-log</Property>
+        <Property name="instance">cloud-admin-log</Property>
         <Property name="log.dir">C:\Prjs\log</Property>
     </Properties>
 

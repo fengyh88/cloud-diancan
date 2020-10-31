@@ -4,7 +4,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.fish.cloud.api.config.ConfigBeanValue;
-import com.fish.cloud.api.context.ApiContextHolder;
+import com.fish.cloud.common.context.ApiContextHolder;
 import com.fish.cloud.api.context.ApiResponseUtil;
 import com.fish.cloud.common.token.AuthDto;
 import com.fish.cloud.common.token.JwtUtil;

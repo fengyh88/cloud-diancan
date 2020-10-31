@@ -59,9 +59,6 @@ public class ProdDto {
     @ApiModelProperty(value = "默认是1，表示正常状态, -1表示删除, 0下架")
     private Integer status;
 
-    @ApiModelProperty(value = "主图")
-    private String img;
-
     @ApiModelProperty(value = "上架时间")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -69,9 +66,6 @@ public class ProdDto {
 
     @ApiModelProperty(value = "商品类目名称")
     private String cateName;
-
-    @ApiModelProperty(value = "品牌名称")
-    private String brandName;
 
     @ApiModelProperty(value = "单位")
     private String unitName;
