@@ -2,13 +2,14 @@ package com.fish.cloud.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fish.cloud.bean.model.Emp;
-import com.fish.cloud.bean.param.EmpMyParam;
-import com.fish.cloud.bean.param.EmpPwdParam;
+import com.fish.cloud.bean.param.UserMyParam;
+import com.fish.cloud.bean.param.UserPwdParam;
 import com.fish.cloud.bean.param.LoginParam;
 import com.fish.cloud.common.context.ApiContextHolder;
 import com.fish.cloud.common.ret.TupleRet;
 import com.fish.cloud.common.util.MD5Util;
 import com.fish.cloud.service.IMyService;
+import com.fish.cloud.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ import org.springframework.util.ObjectUtils;
 public class MyServiceImpl implements IMyService {
 
     @Autowired
-    private IEmpService empService;
+    private IUserService userService;
 
     /**
      * 更新密码
@@ -36,8 +37,8 @@ public class MyServiceImpl implements IMyService {
      * @return
      */
     @Override
-    public TupleRet updatePassword(EmpPwdParam empPwdParam) {
-        var model = empService.getById(ApiContextHolder.getAuthDto().getEmpId());
+    public TupleRet updatePassword(UserPwdParam empPwdParam) {
+        var model = userService.getById(ApiContextHolder.getAuthDto().getEmpId());
         if (ObjectUtils.isEmpty(model)) {
             return TupleRet.failed("用户不存在");
         }
@@ -50,7 +51,7 @@ public class MyServiceImpl implements IMyService {
         model.setPassword(MD5Util.md5(empPwdParam.getNewPwd()));
 
         try {
-            empService.updateById(model);
+            userService.updateById(model);
         } catch (Exception e) {
             log.error(e.getMessage());
             return TupleRet.failed("更新密码失败");
@@ -66,14 +67,14 @@ public class MyServiceImpl implements IMyService {
      */
     @Override
     public TupleRet updateAvatarUrl(String avatarUrl) {
-        var model = empService.getById(ApiContextHolder.getAuthDto().getEmpId());
+        var model = userService.getById(ApiContextHolder.getAuthDto().getEmpId());
         if (ObjectUtils.isEmpty(model)) {
             return TupleRet.failed("用户不存在");
         }
 
         try {
             model.setImg(avatarUrl);
-            empService.updateById(model);
+            userService.updateById(model);
         } catch (Exception e) {
             log.error(e.getMessage());
             return TupleRet.failed("更新失败");
@@ -89,7 +90,7 @@ public class MyServiceImpl implements IMyService {
      */
     @Override
     public Boolean existMobile(String mobile) {
-        Emp emp = empService.getOne(new LambdaQueryWrapper<Emp>()
+        Emp emp = userService.getOne(new LambdaQueryWrapper<Emp>()
                 .eq(Emp::getShopId, ApiContextHolder.getShopId())
                 .ne(Emp::getEmpId, ApiContextHolder.getAuthDto().getEmpId())
                 .eq(Emp::getMobile, mobile));
@@ -108,14 +109,14 @@ public class MyServiceImpl implements IMyService {
      */
     @Override
     public TupleRet updateMobile(String mobile) {
-        var model = empService.getById(ApiContextHolder.getAuthDto().getEmpId());
+        var model = userService.getById(ApiContextHolder.getAuthDto().getEmpId());
         if (ObjectUtils.isEmpty(model)) {
             return TupleRet.failed("用户不存在");
         }
 
         try {
             model.setMobile(mobile);
-            empService.updateById(model);
+            userService.updateById(model);
         } catch (Exception e) {
             log.error(e.getMessage());
             return TupleRet.failed("更新失败");
@@ -131,8 +132,8 @@ public class MyServiceImpl implements IMyService {
      * @return
      */
     @Override
-    public TupleRet editMy(EmpMyParam empMyParam) {
-        var model = empService.getById(ApiContextHolder.getAuthDto().getEmpId());
+    public TupleRet editMy(UserMyParam empMyParam) {
+        var model = userService.getById(ApiContextHolder.getAuthDto().getEmpId());
         if (ObjectUtils.isEmpty(model)){
             return TupleRet.failed("用户不存在");
         }
@@ -142,7 +143,7 @@ public class MyServiceImpl implements IMyService {
             model.setGender(empMyParam.getGender());
             model.setBirthDate(empMyParam.getBirthDate());
 
-            empService.updateById(model);
+            userService.updateById(model);
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return TupleRet.failed(ex.getMessage());

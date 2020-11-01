@@ -19,6 +19,9 @@ public class OrderDto {
     @ApiModelProperty(value = "店铺Id")
     private Long shopId;
 
+    @ApiModelProperty(value = "台桌Id")
+    private Long tableId;
+
     @ApiModelProperty(value = "商品名称,多个商品将会以逗号隔开")
     private String prodName;
 
@@ -38,12 +41,6 @@ public class OrderDto {
 
     @ApiModelProperty(value = "优惠总额")
     private BigDecimal reduceAmount;
-
-    @ApiModelProperty(value = "支付类型")
-    private Long payType;
-
-    @ApiModelProperty(value = "是否支付")
-    private Long isPayed;
 
     @ApiModelProperty(value = "订单备注")
     private String remark;

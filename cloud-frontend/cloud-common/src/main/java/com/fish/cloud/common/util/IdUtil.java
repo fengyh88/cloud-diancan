@@ -21,7 +21,7 @@ public class IdUtil {
         return String.format("%01d", hashCodeV);
     }
 
-    public static String getOrderNumberByTime(String shopId) {
+    public static String getOrderNumberByTime(Long shopId) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String newDate = sdf.format(new Date());
         String ret = "O" + newDate; //+ completeZore(shopId, 2);

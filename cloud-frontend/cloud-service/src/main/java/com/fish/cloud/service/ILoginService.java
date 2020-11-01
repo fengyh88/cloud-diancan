@@ -1,7 +1,5 @@
 package com.fish.cloud.service;
 
-import com.fish.cloud.bean.param.EmpMyParam;
-import com.fish.cloud.bean.param.EmpPwdParam;
 import com.fish.cloud.bean.param.LoginParam;
 import com.fish.cloud.common.ret.TupleRet;
 

@@ -12,5 +12,5 @@ public class CartAddParam {
     @ApiModelProperty(name = "商品数量")
     private Integer num;
     @ApiModelProperty(name = "skuId")
-    private String skuId;
+    private Long skuId;
 }

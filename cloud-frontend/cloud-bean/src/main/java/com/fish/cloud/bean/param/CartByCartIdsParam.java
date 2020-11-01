@@ -10,5 +10,5 @@ import java.util.List;
 @Data
 public class CartByCartIdsParam {
     @ApiModelProperty(name = "cartIds")
-    private List<String> cartIds;
+    private List<Long> cartIds;
 }

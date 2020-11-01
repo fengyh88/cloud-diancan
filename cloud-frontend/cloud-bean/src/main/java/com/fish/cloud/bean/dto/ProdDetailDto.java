@@ -1,6 +1,7 @@
 package com.fish.cloud.bean.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fish.cloud.bean.model.ProdImg;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -44,15 +45,6 @@ public class ProdDetailDto {
     @ApiModelProperty(value = "会员价")
     private BigDecimal memPrice;
 
-    @ApiModelProperty(value = "单位Id")
-    private String unitId;
-
-    @ApiModelProperty(value = "单位")
-    private String unitName;
-
-    @ApiModelProperty(value = "销售属性组合字符串 格式是p1:v1:s1;p2:v2,s1")
-    private String attr;
-
     @ApiModelProperty(value = "简要描述,卖点等")
     private String brief;
 
@@ -62,17 +54,8 @@ public class ProdDetailDto {
     @ApiModelProperty(value = "销量")
     private Integer sold;
 
-    @ApiModelProperty(value = "库存")
-    private Integer stock;
-
     @ApiModelProperty(value = "默认是1，表示正常状态, -1表示删除, 0下架")
     private Integer status;
-
-    @ApiModelProperty(value = "主图")
-    private String img;
-
-    @ApiModelProperty(value = "是否启用sku")
-    private Integer skuEnabled;
 
     @ApiModelProperty(value = "上架时间")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
@@ -80,11 +63,9 @@ public class ProdDetailDto {
     private Date putonTime;
 
     @ApiModelProperty(value = "图片列表")
-    private List<ProdImgDto> imgList;
+    private List<ProdImg> imgList;
 
-    @ApiModelProperty(value = "attr列表")
-    private List<ProdAttrDto> attrList;
+    @ApiModelProperty(value = "商品类目名称")
+    private String cateName;
 
-    @ApiModelProperty(value = "sku列表")
-    private List<ProdSkuDto> skuList;
 }
