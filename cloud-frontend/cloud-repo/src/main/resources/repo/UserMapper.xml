@@ -7,22 +7,17 @@
 		<id column="user_id" property="userId" />
 		<result column="user_name" property="userName" />
 		<result column="password" property="password" />
-		<result column="mobile" property="mobile" />
-		<result column="mail" property="mail" />
 		<result column="nick_name" property="nickName" />
 		<result column="real_name" property="realName" />
-		<result column="img" property="img" />
+		<result column="mobile" property="mobile" />
+		<result column="mail" property="mail" />
 		<result column="gender" property="gender" />
 		<result column="birth_date" property="birthDate" />
-		<result column="country" property="country" />
-		<result column="province" property="province" />
-		<result column="city" property="city" />
 		<result column="reg_time" property="regTime" />
 		<result column="reg_ip" property="regIp" />
 		<result column="last_login_time" property="lastLoginTime" />
 		<result column="last_login_ip" property="lastLoginIp" />
-		<result column="wechat_open_id" property="wechatOpenId" />
-		<result column="wechat_union_id" property="wechatUnionId" />
+		<result column="img" property="img" />
 		<result column="grade_id" property="gradeId" />
 		<result column="current_integral" property="currentIntegral" />
 		<result column="remark" property="remark" />
@@ -31,39 +26,4 @@
 		<result column="update_time" property="updateTime" />
 	</resultMap>
 
-	<resultMap id="userDtoMap" type="com.fish.cloud.bean.dto.UserDto">
-		<id column="user_id" property="userId" />
-		<result column="mobile" property="mobile" />
-		<result column="nick_name" property="nickName" />
-		<result column="img" property="img" />
-		<result column="gender" property="gender" />
-		<result column="country" property="country" />
-		<result column="province" property="province" />
-		<result column="city" property="city" />
-		<result column="wechat_open_id" property="wechatOpenId" />
-		<result column="grade_id" property="gradeId" />
-		<result column="current_integral" property="currentIntegral" />
-	</resultMap>
-
-	<sql id="userDtoMap_SQL">
-        u.`user_id`,
-        u.`mobile`,
-        u.`nick_name`,
-        u.`img`,
-        u.`gender`,
-        u.`country`,
-        u.`province`,
-        u.`city`,
-        u.`wechat_open_id`,
-        u.`grade_id`,
-        u.`current_integral`
-    </sql>
-
-
-	<!--详情	-->
-	<select id="detail" resultMap="userDtoMap">
-		SELECT <include refid="userDtoMap_SQL"/>
-		FROM cloud_user u
-		WHERE u.`user_id` = #{id} AND u.status = 1
-	</select>
 </mapper>

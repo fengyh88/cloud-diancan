@@ -15,14 +15,11 @@
 		<result column="price" property="price" />
 		<result column="mem_price" property="memPrice" />
 		<result column="unit_id" property="unitId" />
-		<result column="attr" property="attr" />
 		<result column="brief" property="brief" />
 		<result column="content" property="content" />
 		<result column="sold" property="sold" />
 		<result column="stock" property="stock" />
 		<result column="status" property="status" />
-		<result column="img" property="img" />
-		<result column="sku_enabled" property="skuEnabled"></result>
 		<result column="create_time" property="createTime" />
 		<result column="update_time" property="updateTime" />
 		<result column="puton_time" property="putonTime" />
@@ -41,16 +38,13 @@
 		<result column="price" property="price" />
 		<result column="mem_price" property="memPrice" />
 		<result column="unit_id" property="unitId" />
-		<result column="unit_name" property="unitName" />
-		<result column="attr" property="attr" />
 		<result column="brief" property="brief" />
 		<result column="sold" property="sold" />
 		<result column="stock" property="stock" />
 		<result column="status" property="status" />
 		<result column="img" property="img" />
-		<result column="sku_enabled" property="skuEnabled"></result>
-		<result column="create_time" property="createTime" />
-		<result column="update_time" property="updateTime" />
+		<result column="cate_name" property="cateName" />
+		<result column="unit_name" property="unitName" />
 		<result column="puton_time" property="putonTime" />
 	</resultMap>
 
@@ -66,17 +60,16 @@
 		<result column="price" property="price" />
 		<result column="mem_price" property="memPrice" />
 		<result column="unit_id" property="unitId" />
-		<result column="unit_name" property="unitName" />
-		<result column="attr" property="attr" />
 		<result column="brief" property="brief" />
 		<result column="sold" property="sold" />
 		<result column="stock" property="stock" />
 		<result column="status" property="status" />
 		<result column="img" property="img" />
-		<result column="sku_enabled" property="skuEnabled"></result>
 		<result column="create_time" property="createTime" />
 		<result column="update_time" property="updateTime" />
 		<result column="puton_time" property="putonTime" />
+		<result column="cate_name" property="cateName" />
+		<result column="unit_name" property="unitName" />
 		<collection property="imgs" javaType="list" ofType="com.fish.cloud.bean.dto.ProdImgDto">
 			<result column="img_id" property="imgId" />
 			<result column="img_url" property="imgUrl" />
@@ -98,14 +91,12 @@
         p.`price`,
         p.`mem_price`,
         p.`unit_id`,
-        p.`attr`,
         p.`brief`,
         p.`sold`,
         p.`stock`,
-        p.`img`,
-        p.`sku_enabled`,
         p.`status`,
         p.`puton_time`,
+        cate.`cate_name`,
         kv.`value` as `unit_name`
     </sql>
 
@@ -121,14 +112,12 @@
         p.`price`,
         p.`mem_price`,
         p.`unit_id`,
-        p.`attr`,
         p.`brief`,
         p.`sold`,
         p.`stock`,
-        p.`img`,
-        p.`sku_enabled`,
         p.`status`,
         p.`puton_time`,
+        cate.`cate_name`,
         kv.`value` as `unit_name`,
         img.`img_id`,
         img.`img_url`,
@@ -138,29 +127,31 @@
     </sql>
 
 	<!--全部	-->
-	<select id="all" resultMap="prodDtoMap">
+	<select id="listByCate" resultMap="prodDtoMap">
 		SELECT
 		<include refid="prodDto_SQL"/>
 		FROM cloud_prod p
+		LEFT JOIN cloud_prod_cate cate ON  p.`cate_id` = cate.`cate_id`
 		LEFT JOIN cloud_sys_dic_kv kv ON p.`unit_id` = kv.`key` AND kv.`dic_code` = 'D0001'
-		WHERE p.`shop_id` = #{shopId} AND p.`status`= 1
-		<if test="prodParam.cateId != null and prodParam.cateId != ''">
-			AND p.`cate_id`=#{prodParam.cateId}
+		WHERE p.`shop_id` = #{shopId} AND p.`status` != -1
+		<if test="prodByCateParam.cateId != null and prodByCateParam.cateId != ''">
+			AND p.`cate_id`=#{prodByCateParam.cateId}
 		</if>
-		<if test="prodParam.keyword != null and prodParam.keyword != ''">
-			AND (p.`prod_code` LIKE CONCAT('%',#{prodParam.keyword},'%')
-				 OR p.`prod_name` LIKE CONCAT('%',#{prodParam.keyword},'%')
-				 OR p.`pinyin` LIKE CONCAT('%',#{prodParam.keyword},'%'))
+		<if test="prodByCateParam.keyword != null and prodByCateParam.keyword != ''">
+			AND (p.`prod_code` LIKE CONCAT('%',#{prodByCateParam.keyword},'%')
+			OR p.`prod_name` LIKE CONCAT('%',#{prodByCateParam.keyword},'%')
+			OR p.`pinyin` LIKE CONCAT('%',#{prodByCateParam.keyword},'%'))
 		</if>
 		ORDER BY p.`puton_time`
 	</select>
-	
+
 	<!--详情	-->
 	<select id="detail" resultMap="prodDetailDtoMap">
 		SELECT <include refid="prodDetailDto_SQL"/>
-        FROM cloud_prod p
+		FROM cloud_prod p
+		LEFT JOIN cloud_prod_cate cate ON  p.`cate_id` = cate.`cate_id`
 		LEFT JOIN cloud_sys_dic_kv kv ON p.`unit_id` = kv.`key` AND kv.`dic_code` = 'D0001'
-		LEFT JOIN cloud_prod_img img ON  p.`prod_id` = img.`link_id` AND img.`link_type` = 1
-		WHERE p.`prod_id` = #{id} AND p.`status`= 1
-  	</select>
+		LEFT JOIN cloud_prod_img img ON  p.`prod_id` = img.`link_id` AND img.link_type = 1
+		WHERE p.`prod_id` = #{id} AND p.`status` != -1
+	</select>
 </mapper>

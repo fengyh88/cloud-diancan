@@ -6,60 +6,21 @@
 	<resultMap id="BaseResultMap" type="com.fish.cloud.bean.model.OrderItem">
 		<id column="order_item_id" property="orderItemId" />
 		<result column="order_id" property="orderId" />
-		<result column="prod_id" property="prodId" />
-		<result column="sku_id" property="skuId" />
-		<result column="prod_name" property="prodName" />
-		<result column="sku_name" property="skuName" />
-		<result column="prod_img" property="prodImg" />
-		<result column="sku_img" property="skuImg" />
-		<result column="num" property="num" />
-		<result column="price" property="price" />
-		<result column="total_amount" property="totalAmount" />
-		<result column="create_time" property="createTime" />
-		<result column="comment_status" property="commentStatus" />
 		<result column="user_id" property="userId" />
-	</resultMap>
-
-	<resultMap id="orderItemDtoMap" type="com.fish.cloud.bean.dto.OrderItemDto">
-		<result column="order_item_id" property="orderItemId" />
-		<result column="order_id" property="orderId" />
+		<result column="table_id" property="tableId" />
 		<result column="prod_id" property="prodId" />
-		<result column="sku_id" property="skuId" />
 		<result column="prod_name" property="prodName" />
-		<result column="sku_name" property="skuName" />
 		<result column="prod_img" property="prodImg" />
+		<result column="prod_prop" property="prodProp" />
+		<result column="sku_id" property="skuId" />
+		<result column="sku_name" property="skuName" />
 		<result column="sku_img" property="skuImg" />
+		<result column="sku_prop" property="skuProp" />
 		<result column="num" property="num" />
 		<result column="price" property="price" />
 		<result column="total_amount" property="totalAmount" />
+		<result column="remark" property="remark" />
 		<result column="create_time" property="createTime" />
-		<result column="comment_status" property="commentStatus" />
 	</resultMap>
-
-	<sql id="orderItemDto_SQL">
-        oi.`order_item_id`,
-        oi.`order_id`,
-        oi.`prod_name`,
-        oi.`prod_id`,
-        oi.`sku_id`,
-        oi.`prod_name`,
-        oi.`sku_name`,
-        oi.`prod_img`,
-        oi.`sku_img`,
-        oi.`num`,
-        oi.`price`,
-        oi.`total_amount`,
-        oi.`create_time`,
-        oi.`comment_status`
-    </sql>
-
-	<!--根据OrderId获取列表	-->
-	<select id="listByOrderId" resultMap="orderItemDtoMap">
-		SELECT
-		<include refid="orderItemDto_SQL"/>
-		FROM cloud_order_item oi
-		WHERE oi.`order_id` = #{orderId}
-		ORDER BY oi.`create_time`
-	</select>
 
 </mapper>

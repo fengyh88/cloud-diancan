@@ -11,13 +11,14 @@ import java.util.List;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 public interface IProdCateService extends IService<ProdCate> {
+
     /**
-     * 全部
-     * @param shopId
+     * 所有列表
+     *
      * @return
      */
-    public List<ProdCate> all(String shopId);
+    List<ProdCate> all();
 }

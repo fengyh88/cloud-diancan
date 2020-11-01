@@ -13,7 +13,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 @TableName("cloud_perm")
 public class Perm extends Model<Perm> {
@@ -31,12 +31,12 @@ public class Perm extends Model<Perm> {
 	@TableField("perm_name")
 	private String permName;
     /**
-     * 商家Id
+     * 店铺Id
      */
 	@TableField("shop_id")
 	private Long shopId;
     /**
-     * 状态  0：禁用   1：启用
+     * 状态  0 禁用  1 启用 -1 删除
      */
 	private Integer status;
     /**

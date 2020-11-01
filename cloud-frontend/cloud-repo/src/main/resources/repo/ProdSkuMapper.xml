@@ -8,54 +8,18 @@
 		<result column="prod_id" property="prodId" />
 		<result column="shop_id" property="shopId" />
 		<result column="barcode" property="barcode" />
+		<result column="sku_prop" property="skuProp" />
 		<result column="sku_name" property="skuName" />
+		<result column="prod_name" property="prodName" />
 		<result column="ori_price" property="oriPrice" />
 		<result column="price" property="price" />
+		<result column="unit" property="unit" />
 		<result column="v_stock" property="vStock" />
 		<result column="stock" property="stock" />
-		<result column="img" property="img" />
 		<result column="status" property="status" />
 		<result column="create_time" property="createTime" />
 		<result column="update_time" property="updateTime" />
 		<result column="version" property="version" />
 	</resultMap>
-
-	<resultMap id="prodSkuDtoMap" type="com.fish.cloud.bean.dto.ProdSkuDto">
-		<result column="sku_id" property="skuId" />
-		<result column="prod_id" property="prodId" />
-		<result column="shop_id" property="shopId" />
-		<result column="barcode" property="barcode" />
-		<result column="sku_name" property="skuName" />
-		<result column="ori_price" property="oriPrice" />
-		<result column="price" property="price" />
-		<result column="v_stock" property="vStock" />
-		<result column="stock" property="stock" />
-		<result column="img" property="img" />
-		<result column="status" property="status" />
-		<result column="create_time" property="createTime" />
-	</resultMap>
-
-	<sql id="prodSkuDto_SQL">
- 		sku.`sku_id`,
- 		sku.`prod_id`,
- 		sku.`shop_id`,
- 		sku.`barcode`,
- 		sku.`sku_name`,
- 		sku.`ori_price`,
- 		sku.`price`,
- 		sku.`v_stock`,
- 		sku.`stock`,
- 		sku.`img`,
- 		sku.`status`,
- 		sku.`create_time`
-    </sql>
-
-	<!--全部	-->
-	<select id="listByProdId" resultMap="prodSkuDtoMap">
-		SELECT
-		<include refid="prodSkuDto_SQL"/>
-		FROM cloud_prod_sku sku
-		WHERE  sku.`prod_id` = #{prodId} AND sku.`status` = 1
-	</select>
 
 </mapper>

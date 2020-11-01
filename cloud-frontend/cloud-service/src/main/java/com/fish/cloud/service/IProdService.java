@@ -4,7 +4,7 @@ import com.fish.cloud.bean.dto.ProdDetailDto;
 import com.fish.cloud.bean.dto.ProdDto;
 import com.fish.cloud.bean.model.Prod;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.fish.cloud.bean.param.ProdParam;
+import com.fish.cloud.bean.param.ProdByCateParam;
 
 import java.util.List;
 
@@ -14,22 +14,20 @@ import java.util.List;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 public interface IProdService extends IService<Prod> {
     /**
-     * 全部
-     * @param shopId
-     * @param prodParam
+     * 根据商品类目查询列表
+     * @param prodByCateParam
      * @return
      */
-    List<ProdDto> all(String shopId, ProdParam prodParam);
-
+    List<ProdDto> listByCate(ProdByCateParam prodByCateParam);
     /**
      * 详情
      *
      * @param id
      * @return
      */
-    ProdDetailDto detail(String id);
+    ProdDetailDto detail(Long id);
 }

@@ -13,7 +13,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 @TableName("cloud_role_perm")
 public class RolePerm extends Model<RolePerm> {

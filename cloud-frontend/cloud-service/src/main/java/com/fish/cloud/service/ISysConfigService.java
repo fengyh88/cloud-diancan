@@ -11,7 +11,7 @@ import java.util.List;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 public interface ISysConfigService extends IService<SysConfig> {
 
@@ -20,12 +20,13 @@ public interface ISysConfigService extends IService<SysConfig> {
      *
      * @return
      */
-    SysConfig getByKey(String shopId, String key);
+    SysConfig getByKey(String key);
 
     /**
      * 所有列表
      *
      * @return
      */
-    List<SysConfig> all(String shopId);
+    List<SysConfig> all();
+
 }

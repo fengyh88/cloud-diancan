@@ -11,13 +11,14 @@ import java.util.List;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 public interface ISysDicService extends IService<SysDic> {
+
     /**
      * 所有列表
      *
      * @return
      */
-    List<SysDic> all(String shopId);
+    List<SysDic> all();
 }

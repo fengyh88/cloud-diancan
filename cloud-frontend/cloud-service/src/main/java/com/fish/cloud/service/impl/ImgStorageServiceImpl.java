@@ -5,6 +5,7 @@ import com.fish.cloud.common.util.DateTimeUtil;
 import com.fish.cloud.common.util.IdUtil;
 import com.fish.cloud.common.util.QiniuUtil;
 import com.fish.cloud.service.IImgStorageService;
+import lombok.extern.slf4j.Slf4j;
 import lombok.var;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +16,7 @@ import java.io.IOException;
 /**
  * 图片存储
  */
+@Slf4j
 @Service
 public class ImgStorageServiceImpl implements IImgStorageService {
     @Override

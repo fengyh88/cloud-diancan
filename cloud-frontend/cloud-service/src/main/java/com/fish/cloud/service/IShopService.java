@@ -11,14 +11,13 @@ import com.fish.cloud.common.ret.TupleRet;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 public interface IShopService extends IService<Shop> {
     /**
      * 详情
      *
-     * @param id
      * @return
      */
-    TupleRet<ShopDto> detail(String id);
+    TupleRet<ShopDto> detail();
 }

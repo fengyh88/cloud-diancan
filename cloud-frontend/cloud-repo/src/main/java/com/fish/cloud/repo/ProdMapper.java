@@ -4,7 +4,7 @@ import com.fish.cloud.bean.dto.ProdDetailDto;
 import com.fish.cloud.bean.dto.ProdDto;
 import com.fish.cloud.bean.model.Prod;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.fish.cloud.bean.param.ProdParam;
+import com.fish.cloud.bean.param.ProdByCateParam;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -15,21 +15,21 @@ import java.util.List;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 public interface ProdMapper extends BaseMapper<Prod> {
     /**
-     * 全部
+     * 根据商品类目查询列表
      * @param shopId
-     * @param prodParam
+     * @param prodByCateParam
      * @return
      */
-    List<ProdDto> all(@Param("shopId") String shopId,@Param("prodParam") ProdParam prodParam);
+    List<ProdDto> listByCate(@Param("shopId") Long shopId, @Param("prodByCateParam") ProdByCateParam prodByCateParam);
 
     /**
      * 详情
      * @param id
      * @return
      */
-    ProdDetailDto detail(@Param("id") String id);
+    ProdDetailDto detail(@Param("id") Long id);
 }

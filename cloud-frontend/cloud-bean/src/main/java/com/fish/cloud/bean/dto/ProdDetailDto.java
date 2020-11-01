@@ -80,7 +80,7 @@ public class ProdDetailDto {
     private Date putonTime;
 
     @ApiModelProperty(value = "图片列表")
-    private List<ProdImgDto> imgs;
+    private List<ProdImgDto> imgList;
 
     @ApiModelProperty(value = "attr列表")
     private List<ProdAttrDto> attrList;

@@ -16,31 +16,14 @@ import java.util.List;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 public interface OrderMapper extends BaseMapper<Order> {
+
     /**
-     * 根据状态查询列表
+     * 统计店铺订单数量
      * @param shopId
-     * @param userId
-     * @param orderBySatusParam
      * @return
      */
-    List<OrderDto> listByStatus(@Param("shopId") String shopId, @Param("userId") String userId, @Param("orderBySatusParam") OrderBySatusParam orderBySatusParam);
-
-    /**
-     * 详情
-     * @param orderId
-     * @return
-     */
-    OrderDetailDto detail(@Param("orderId") Long orderId);
-
-    /**
-     * 统计我的订单数量
-     * @param shopId
-     * @param userId
-     * @return
-     */
-    OrderCountStatusDto countOrderStatus(@Param("shopId") String shopId, @Param("userId") String userId);
-
+    OrderCountStatusDto countOrderStatus(@Param("shopId") Long shopId);
 }

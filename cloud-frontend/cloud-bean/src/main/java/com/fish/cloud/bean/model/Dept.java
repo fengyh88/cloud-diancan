@@ -6,6 +6,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 
 /**
@@ -14,8 +17,10 @@ import java.io.Serializable;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
+@NoArgsConstructor
+@Data
 @TableName("cloud_dept")
 public class Dept extends Model<Dept> {
 
@@ -37,10 +42,14 @@ public class Dept extends Model<Dept> {
 	@TableField("p_id")
 	private String pId;
     /**
-     * 商家Id
+     * 店铺Id
      */
 	@TableField("shop_id")
 	private Long shopId;
+	/**
+	 * 状态  0：禁用   1：启用
+	 */
+	private Integer status;
     /**
      * 建立时间
      */
@@ -51,61 +60,6 @@ public class Dept extends Model<Dept> {
      */
 	@TableField("update_time")
 	private Date updateTime;
-
-
-	public Long getDeptId() {
-		return deptId;
-	}
-
-	public Dept setDeptId(Long deptId) {
-		this.deptId = deptId;
-		return this;
-	}
-
-	public String getDeptName() {
-		return deptName;
-	}
-
-	public Dept setDeptName(String deptName) {
-		this.deptName = deptName;
-		return this;
-	}
-
-	public String getPId() {
-		return pId;
-	}
-
-	public Dept setPId(String pId) {
-		this.pId = pId;
-		return this;
-	}
-
-	public Long getShopId() {
-		return shopId;
-	}
-
-	public Dept setShopId(Long shopId) {
-		this.shopId = shopId;
-		return this;
-	}
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public Dept setCreateTime(Date createTime) {
-		this.createTime = createTime;
-		return this;
-	}
-
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-
-	public Dept setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-		return this;
-	}
 
 	@Override
 	protected Serializable pkVal() {

@@ -75,5 +75,5 @@ public class ShopDto {
     private Date createTime;
 
     @ApiModelProperty(value = "店铺图片")
-    private List<ShopImg> imgs;
+    private List<ShopImg> imgList;
 }

@@ -5,12 +5,12 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
- *
+ * 结算
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 public interface IOrderSettlementService extends IService<OrderSettlement> {
-	OrderSettlement getByOrderNumber(String orderNumber);
+	
 }

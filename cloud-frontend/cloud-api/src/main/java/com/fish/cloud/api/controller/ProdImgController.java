@@ -1,7 +1,8 @@
 package com.fish.cloud.api.controller;
 
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
+import io.swagger.annotations.Api;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -9,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
-@RestController
-@RequestMapping("/prodImg")
+@Api(tags = "商品图")
+@Controller
+@RequestMapping("/api/prodImg")
 public class ProdImgController {
-	
 }

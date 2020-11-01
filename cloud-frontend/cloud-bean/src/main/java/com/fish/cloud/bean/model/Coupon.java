@@ -15,7 +15,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 @TableName("cloud_coupon")
 public class Coupon extends Model<Coupon> {
@@ -28,7 +28,7 @@ public class Coupon extends Model<Coupon> {
 	@TableId(value="coupon_id", type= IdType.AUTO)
 	private Long couponId;
     /**
-     * 店铺id 0表示全局
+     * 店铺Id
      */
 	@TableField("shop_id")
 	private Long shopId;
@@ -44,7 +44,7 @@ public class Coupon extends Model<Coupon> {
     /**
      * 图片
      */
-	private String pic;
+	private String img;
     /**
      * 优惠券类型：1=折扣，2=满减
      */
@@ -92,41 +92,17 @@ public class Coupon extends Model<Coupon> {
     /**
      * 适用商品分类列
      */
-	@TableField("cate_id_list")
-	private String cateIdList;
+	@TableField("prod_cate_list")
+	private String prodCateList;
     /**
      * 适用商品列
      */
-	@TableField("prod_id_list")
-	private String prodIdList;
+	@TableField("prod_list")
+	private String prodList;
     /**
      * 售价
      */
 	private BigDecimal price;
-    /**
-     * 是否加入领券中心 0--不加入领券中心 1--加入领券中心
-     */
-	@TableField("join_coupon")
-	private Integer joinCoupon;
-    /**
-     * 是否加入积分商城 0--不加入 1--加入
-     */
-	@TableField("join_integral")
-	private Integer joinIntegral;
-    /**
-     * 兑换需要积分数量
-     */
-	private Integer integral;
-    /**
-     * 积分商城发放总数
-     */
-	@TableField("integral_total_num")
-	private Integer integralTotalNum;
-    /**
-     * 积分商城每人限制兑换数量
-     */
-	@TableField("integral_user_num")
-	private Integer integralUserNum;
     /**
      * 排序
      */
@@ -183,12 +159,12 @@ public class Coupon extends Model<Coupon> {
 		return this;
 	}
 
-	public String getPic() {
-		return pic;
+	public String getImg() {
+		return img;
 	}
 
-	public Coupon setPic(String pic) {
-		this.pic = pic;
+	public Coupon setImg(String img) {
+		this.img = img;
 		return this;
 	}
 
@@ -273,21 +249,21 @@ public class Coupon extends Model<Coupon> {
 		return this;
 	}
 
-	public String getCateIdList() {
-		return cateIdList;
+	public String getProdCateList() {
+		return prodCateList;
 	}
 
-	public Coupon setCateIdList(String cateIdList) {
-		this.cateIdList = cateIdList;
+	public Coupon setProdCateList(String prodCateList) {
+		this.prodCateList = prodCateList;
 		return this;
 	}
 
-	public String getProdIdList() {
-		return prodIdList;
+	public String getProdList() {
+		return prodList;
 	}
 
-	public Coupon setProdIdList(String prodIdList) {
-		this.prodIdList = prodIdList;
+	public Coupon setProdList(String prodList) {
+		this.prodList = prodList;
 		return this;
 	}
 
@@ -297,51 +273,6 @@ public class Coupon extends Model<Coupon> {
 
 	public Coupon setPrice(BigDecimal price) {
 		this.price = price;
-		return this;
-	}
-
-	public Integer getJoinCoupon() {
-		return joinCoupon;
-	}
-
-	public Coupon setJoinCoupon(Integer joinCoupon) {
-		this.joinCoupon = joinCoupon;
-		return this;
-	}
-
-	public Integer getJoinIntegral() {
-		return joinIntegral;
-	}
-
-	public Coupon setJoinIntegral(Integer joinIntegral) {
-		this.joinIntegral = joinIntegral;
-		return this;
-	}
-
-	public Integer getIntegral() {
-		return integral;
-	}
-
-	public Coupon setIntegral(Integer integral) {
-		this.integral = integral;
-		return this;
-	}
-
-	public Integer getIntegralTotalNum() {
-		return integralTotalNum;
-	}
-
-	public Coupon setIntegralTotalNum(Integer integralTotalNum) {
-		this.integralTotalNum = integralTotalNum;
-		return this;
-	}
-
-	public Integer getIntegralUserNum() {
-		return integralUserNum;
-	}
-
-	public Coupon setIntegralUserNum(Integer integralUserNum) {
-		this.integralUserNum = integralUserNum;
 		return this;
 	}
 

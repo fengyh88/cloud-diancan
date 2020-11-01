@@ -7,9 +7,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -19,8 +18,9 @@ import java.io.Serializable;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
+@NoArgsConstructor
 @Data
 @TableName("cloud_prod")
 public class Prod extends Model<Prod> {
@@ -80,10 +80,6 @@ public class Prod extends Model<Prod> {
      */
 	@TableField("unit_id")
 	private String unitId;
-	/**
-	 * 销售属性组合字符串 格式是p1:v1;p2:v2
-	 */
-	private String attr;
     /**
      * 简要描述,卖点等
      */
@@ -101,36 +97,22 @@ public class Prod extends Model<Prod> {
      */
 	private Integer stock;
     /**
-     * 默认是1，表示正常状态, -1表示删除, 0下架
+     * 默认是1 上架, -1表示删除, 0下架
      */
 	private Integer status;
     /**
-     * 主图
-     */
-	private String img;
-	/**
-	 * 是否启用sku
-	 */
-	private Integer skuEnabled;
-    /**
      * 创建时间
      */
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@TableField("create_time")
 	private Date createTime;
     /**
      * 更新时间
      */
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@TableField("update_time")
 	private Date updateTime;
     /**
      * 上架时间
      */
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@TableField("puton_time")
 	private Date putonTime;
     /**
