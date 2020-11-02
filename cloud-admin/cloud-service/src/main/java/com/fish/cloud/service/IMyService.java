@@ -14,7 +14,6 @@ import com.fish.cloud.common.ret.TupleRet;
  * @since 2020-03-07
  */
 public interface IMyService {
-
     /**
      * 更新密码
      *
@@ -22,7 +21,6 @@ public interface IMyService {
      * @return
      */
     TupleRet updatePassword(EmpPwdParam empPwdParam);
-
     /**
      * 更新头像地址
      *
@@ -30,14 +28,12 @@ public interface IMyService {
      * @return
      */
     TupleRet updateAvatarUrl(String avatarUrl);
-
     /**
      * 某员工的手机号在当前店铺是否已存在
      * @param mobile
      * @return
      */
     Boolean existMobile(String mobile);
-
     /**
      * 更新手机号
      *
@@ -45,7 +41,6 @@ public interface IMyService {
      * @return
      */
     TupleRet updateMobile(String mobile);
-
     /**
      * 修改个人资料
      * @param empMyParam

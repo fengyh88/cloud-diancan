@@ -23,13 +23,6 @@ import java.util.List;
 public interface IOrderService extends IService<Order> {
 
     /**
-     * 根据状态查询列表
-     * @param orderBySatusParam
-     * @return
-     */
-    List<OrderDto> listByStatus(OrderBySatusParam orderBySatusParam);
-
-    /**
      * 详情
      * @param id
      * @return
@@ -37,7 +30,7 @@ public interface IOrderService extends IService<Order> {
     OrderDetailDto detail(Long id);
 
     /**
-     * 统计我的订单数量
+     * 统计订单数量
      * @return
      */
     OrderCountStatusDto countOrderStatus();

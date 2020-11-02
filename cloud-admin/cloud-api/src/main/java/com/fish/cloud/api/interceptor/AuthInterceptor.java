@@ -31,14 +31,14 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-//        if (configBeanValue.isDev){
-//            // 存入CONTEXT信息入缓存
-//            ApiContextHolder.setAuthDto(new AuthDto("123","1"));
-//            return true;
-//        }
+        if (configBeanValue.isDev) {
+            // 存入CONTEXT信息入缓存
+            ApiContextHolder.setAuthDto(new AuthDto(123L, 1L));
+            return true;
+        }
         String token = request.getHeader("token");// 从 http 请求头中取出 token
         // 如果为空，则返回未登录
-        if (StrUtil.isEmpty(token)){
+        if (StrUtil.isEmpty(token)) {
             ApiContextHolder.clearAuthDto();
             ApiResponseUtil.sendJsonMessage(response, ApiResult.unauthorized("token为空"));
             return false;
@@ -48,41 +48,38 @@ public class AuthInterceptor implements HandlerInterceptor {
         AuthDto authDto = null;
         try {
             authDto = JwtUtil.getToken(token);
-        }
-        catch (JWTDecodeException ex){
+        } catch (JWTDecodeException ex) {
             ApiContextHolder.clearAuthDto();
             ApiResponseUtil.sendJsonMessage(response, ApiResult.unauthorized("JWT解析错误"));
             return false;
         }
 
-        if (ObjectUtil.isNull(authDto)){
+        if (ObjectUtil.isNull(authDto)) {
             ApiContextHolder.clearAuthDto();
             ApiResponseUtil.sendJsonMessage(response, ApiResult.unauthorized("JWT解析为空"));
             return false;
         }
 
         var emp = empService.getById(authDto.getEmpId());
-        if (ObjectUtil.isNull(emp)){
+        if (ObjectUtil.isNull(emp)) {
             ApiContextHolder.clearAuthDto();
             ApiResponseUtil.sendJsonMessage(response, ApiResult.unauthorized("员工不存在"));
             return false;
         }
 
         var shop = shopService.getById(authDto.getShopId());
-        if (ObjectUtil.isNull(shop)){
+        if (ObjectUtil.isNull(shop)) {
             ApiContextHolder.clearAuthDto();
             ApiResponseUtil.sendJsonMessage(response, ApiResult.unauthorized("店铺不存在"));
             return false;
         }
 
-        if(!JwtUtil.verifierToken(token)){
+        if (!JwtUtil.verifierToken(token)) {
             ApiContextHolder.clearAuthDto();
             ApiResponseUtil.sendJsonMessage(response, ApiResult.unauthorized("验证失败"));
             return false;
         }
 
-        // 存入CONTEXT信息入缓存
-        ApiContextHolder.setAuthDto(authDto);
         return true;
     }
 }

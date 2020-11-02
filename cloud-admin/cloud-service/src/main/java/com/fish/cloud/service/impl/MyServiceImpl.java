@@ -94,15 +94,13 @@ public class MyServiceImpl implements IMyService {
      */
     @Override
     public Boolean existMobile(String mobile) {
-        Emp emp = empService.getOne(new LambdaQueryWrapper<Emp>()
+         var model = empService.getOne(new LambdaQueryWrapper<Emp>()
                 .eq(Emp::getShopId, ApiContextHolder.getAuthDto().getShopId())
                 .ne(Emp::getEmpId, ApiContextHolder.getAuthDto().getEmpId())
                 .eq(Emp::getMobile, mobile));
-        if (ObjectUtils.isEmpty(emp)){
-            // 不存在
+        if (ObjectUtils.isEmpty(model)){
             return false;
         }
-        // 已存在
         return true;
     }
 
@@ -129,7 +127,6 @@ public class MyServiceImpl implements IMyService {
         return TupleRet.success();
     }
 
-
     /**
      * 修改个人资料
      * @param empMyParam
@@ -154,5 +151,4 @@ public class MyServiceImpl implements IMyService {
         }
         return TupleRet.success();
     }
-
 }

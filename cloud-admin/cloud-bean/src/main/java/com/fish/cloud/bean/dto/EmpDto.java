@@ -30,8 +30,6 @@ public class EmpDto extends DtoDic{
     @ApiModelProperty(value = "M(男) or F(女)")
     private String gender;
 
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-    @JsonFormat(pattern="yyyy-MM-dd", timezone = "GMT+8")
     @ApiModelProperty(value = "出生日期 例如：2009-11-27")
     private Date birthDate;
 

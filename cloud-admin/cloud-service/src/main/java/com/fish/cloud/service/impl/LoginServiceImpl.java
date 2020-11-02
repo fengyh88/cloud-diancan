@@ -3,6 +3,7 @@ package com.fish.cloud.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fish.cloud.bean.model.Emp;
 import com.fish.cloud.bean.param.LoginParam;
+import com.fish.cloud.common.context.ApiContextHolder;
 import com.fish.cloud.common.ret.TupleRet;
 import com.fish.cloud.common.token.AuthDto;
 import com.fish.cloud.common.token.JwtUtil;
@@ -65,9 +66,11 @@ public class LoginServiceImpl implements ILoginService {
             return TupleRet.failed("密码不正确");
         }
 
-        // 生成token并返回
+        // 生成token
         AuthDto authDto = new AuthDto(emp.getEmpId(), shop.getShopId());
         String token = JwtUtil.toToken(authDto);
+        // 缓存CONTEXT
+        ApiContextHolder.setAuthDto(authDto);
         return TupleRet.success(token);
     }
 }
