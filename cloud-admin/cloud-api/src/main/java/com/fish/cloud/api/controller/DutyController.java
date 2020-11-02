@@ -1,7 +1,11 @@
 package com.fish.cloud.api.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fish.cloud.bean.model.Duty;
 import com.fish.cloud.bean.param.DutyAddParam;
+import com.fish.cloud.common.context.ApiContextHolder;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.IDutyService;
 import io.swagger.annotations.Api;
@@ -31,11 +35,33 @@ public class DutyController {
     @Autowired
     private IDutyService dutyService;
 
-    @ApiOperation("所有列表")
-    @GetMapping(value = "/all")
-    public ApiResult<List<Duty>> all() {
-        var dtos = dutyService.all();
-        return ApiResult.success(dtos);
+    /**
+     * 分页
+     *
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @ApiOperation(value = "分页", notes = "分页")
+    @GetMapping("/page")
+    @ResponseBody
+    public ApiResult<IPage<Duty>> page(@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+                                       @RequestParam(name = "pageSize", defaultValue = "15") Integer pageSize) {
+        // 分页
+        var models = dutyService.page(new Page<Duty>(pageNo, pageSize), new LambdaQueryWrapper<Duty>()
+                .eq(Duty::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(Duty::getStatus, 1));
+        return ApiResult.success(models);
+    }
+
+    @ApiOperation(value = "列表", notes = "列表")
+    @GetMapping(value = "/list")
+    public ApiResult<List<Duty>> list() {
+        // 列表
+        var models = dutyService.list(new LambdaQueryWrapper<Duty>()
+                .eq(Duty::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(Duty::getStatus, 1));
+        return ApiResult.success(models);
     }
 
     @ApiOperation("更改状态，正常禁用删除")

@@ -17,19 +17,12 @@ import java.util.List;
  */
 public interface IDeptService extends IService<Dept> {
     /**
-     * 所有列表
-     *
-     * @return
-     */
-    List<Dept> all();
-    /**
-     * 更新状态，正常禁用删除
+     * 更新状态，1正常 0禁用 -1删除
      *
      * @param id
      * @return
      */
     TupleRet updateStatus(Long id, Integer status);
-
     /**
      * 添加
      *

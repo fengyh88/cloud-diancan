@@ -14,8 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.var;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 /**
  * <p>
  * 岗位
@@ -27,14 +25,6 @@ import java.util.List;
 @Slf4j
 @Service
 public class DutyServiceImpl extends ServiceImpl<DutyMapper, Duty> implements IDutyService {
-
-    @Override
-    public List<Duty> all() {
-        var models = baseMapper.selectList(new LambdaQueryWrapper<Duty>()
-                .eq(Duty::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .ne(Duty::getStatus, -1));
-        return models;
-    }
     /**
      * 更新状态，正常禁用删除
      * @param id

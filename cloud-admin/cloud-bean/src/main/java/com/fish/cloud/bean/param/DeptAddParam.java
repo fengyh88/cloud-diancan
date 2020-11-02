@@ -14,5 +14,5 @@ public class DeptAddParam {
     private String deptName;
 
     @ApiModelProperty(value = "父级部门")
-    private String pId;
+    private Long pId;
 }

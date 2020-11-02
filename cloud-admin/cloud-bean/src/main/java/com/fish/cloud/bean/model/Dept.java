@@ -40,7 +40,7 @@ public class Dept extends Model<Dept> {
      * 父级部门
      */
 	@TableField("p_id")
-	private String pId;
+	private Long pId;
     /**
      * 店铺Id
      */
