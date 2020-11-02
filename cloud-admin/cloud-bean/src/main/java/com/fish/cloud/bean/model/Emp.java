@@ -73,6 +73,11 @@ public class Emp extends Model<Emp> {
      */
 	@TableField("duty_id")
 	private Long dutyId;
+	/**
+	 * 角色Id
+	 */
+	@TableField("role_id")
+	private Long roleId;
     /**
      * 状态  0：禁用   1：正常
      */

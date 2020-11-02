@@ -1,13 +1,14 @@
 package com.fish.cloud.api.controller;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fish.cloud.bean.dto.CallDto;
 import com.fish.cloud.bean.dto.EmpDto;
 import com.fish.cloud.bean.model.Emp;
 import com.fish.cloud.bean.param.EmpAddParam;
+import com.fish.cloud.bean.param.EmpParam;
 import com.fish.cloud.common.context.ApiContextHolder;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.IEmpService;
@@ -51,10 +52,21 @@ public class EmpController {
     @GetMapping("/page")
     @ResponseBody
     public ApiResult<IPage<EmpDto>> page(@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
-                                       @RequestParam(name = "pageSize", defaultValue = "15") Integer pageSize) {
+                                         @RequestParam(name = "pageSize", defaultValue = "15") Integer pageSize,
+                                         EmpParam empParam) {
         // 分页
         var models = empService.page(new Page<Emp>(pageNo, pageSize), new LambdaQueryWrapper<Emp>()
                 .eq(Emp::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(0L != empParam.getDeptId(), Emp::getDeptId, empParam.getDeptId())
+                .eq(0L != empParam.getDutyId(), Emp::getDutyId, empParam.getDutyId())
+                .and(StrUtil.isNotEmpty(empParam.getKeywords()), empLambdaQueryWrapper -> empLambdaQueryWrapper
+                        .like(Emp::getEmpNumber, empParam.getKeywords())
+                        .or()
+                        .like(Emp::getEmpName, empParam.getKeywords())
+                        .or()
+                        .like(Emp::getEmail, empParam.getKeywords())
+                        .or()
+                        .like(Emp::getMobile, empParam.getKeywords()))
                 .eq(Emp::getStatus, 1));
         // dto
         IPage<EmpDto> dtoList = models.convert(model -> Convert.convert(EmpDto.class, model));
@@ -62,11 +74,20 @@ public class EmpController {
     }
 
     @ApiOperation(value = "列表", notes = "列表")
+    @ApiImplicitParam(name = "empParam", value = "员工入参", required = true)
     @GetMapping(value = "/list")
-    public ApiResult<List<EmpDto>> list() {
+    public ApiResult<List<EmpDto>> list(EmpParam empParam) {
         // 列表
         var models = empService.list(new LambdaQueryWrapper<Emp>()
                 .eq(Emp::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .and(StrUtil.isNotEmpty(empParam.getKeywords()), empLambdaQueryWrapper -> empLambdaQueryWrapper
+                        .like(Emp::getEmpNumber, empParam.getKeywords())
+                        .or()
+                        .like(Emp::getEmpName, empParam.getKeywords())
+                        .or()
+                        .like(Emp::getEmail, empParam.getKeywords())
+                        .or()
+                        .like(Emp::getMobile, empParam.getKeywords()))
                 .eq(Emp::getStatus, 1));
         // dto
         List<EmpDto> dtoList = models.stream().map(model -> {
@@ -78,12 +99,15 @@ public class EmpController {
     }
 
     @ApiOperation("详情")
-    @ApiImplicitParam(name = "id", value = "员工Id", required = true)
+    @ApiImplicitParam(name = "id", value = "id", required = true)
     @GetMapping(value = "/detail")
     public ApiResult<EmpDto> detail(@RequestParam(value = "id") long id) {
-        var dto = empService.detail(id);
+        var model = empService.getById(id);
+        var dto = new EmpDto();
+        BeanUtils.copyProperties(model, dto);
         return ApiResult.success(dto);
     }
+
     @ApiOperation("更改状态，正常禁用删除")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "员工Id", required = true),

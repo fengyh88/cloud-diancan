@@ -17,21 +17,6 @@ import java.util.List;
  * @since 2020-10-30
  */
 public interface IEmpService extends IService<Emp> {
-
-    /**
-     * 详情
-     *
-     * @param id
-     * @return
-     */
-    EmpDto detail(Long id);
-
-    /**
-     * 所有列表
-     *
-     * @return
-     */
-    List<EmpDto> all();
     /**
      * 更新状态，正常禁用删除
      *

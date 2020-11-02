@@ -115,4 +115,13 @@ public class SysDicKvServiceImpl extends ServiceImpl<SysDicKvMapper, SysDicKv> i
         return false;
     }
 
+    @Override
+    public String getTextTextByDicCodeAndKey(String table, String text, String code, String key) {
+        return baseMapper.getTextByTableAndCodeAndKey(table,text,code,key);
+    }
+
+    @Override
+    public String getTextByTableAndCodeAndKey(String code, String key) {
+        return baseMapper.getTextTextByDicCodeAndKey(code, key);
+    }
 }

@@ -29,15 +29,6 @@ import java.util.List;
 @Slf4j
 @Service
 public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp> implements IEmpService {
-    @Override
-    public EmpDto detail(Long id) {
-        return baseMapper.detail(id);
-    }
-
-    @Override
-    public List<EmpDto> all() {
-        return baseMapper.all(ApiContextHolder.getAuthDto().getShopId());
-    }
     /**
      * 更新状态，正常禁用删除
      * @param id

@@ -16,70 +16,10 @@
 		<result column="shop_id" property="shopId" />
 		<result column="dept_id" property="deptId" />
 		<result column="duty_id" property="dutyId" />
+		<result column="role_id" property="roleId" />
 		<result column="status" property="status" />
 		<result column="create_time" property="createTime" />
 		<result column="update_time" property="updateTime" />
 	</resultMap>
-
-	<resultMap id="empDtoMap" type="com.fish.cloud.bean.dto.EmpDto">
-		<result column="emp_id" property="empId" />
-		<result column="emp_number" property="empNumber" />
-		<result column="emp_name" property="empName" />
-		<result column="email" property="email" />
-		<result column="mobile" property="mobile" />
-		<result column="gender" property="gender" />
-		<result column="birth_date" property="birthDate" />
-		<result column="img" property="img" />
-		<result column="shop_id" property="shopId" />
-		<result column="dept_id" property="deptId" />
-		<result column="duty_id" property="dutyId" />
-		<result column="role_id" property="roleId" />
-		<result column="status" property="status" />
-		<result column="create_time" property="createTime" />
-		<result column="dept_name" property="deptName" />
-		<result column="duty_name" property="dutyName" />
-		<result column="role_name" property="roleName" />
-	</resultMap>
-
-	<sql id="empDto_SQL">
-        e.`emp_id`,
-        e.`emp_number`,
-        e.`emp_name`,
-        e.`email`,
-        e.`mobile`,
-        e.`gender`,
-        e.`birth_date`,
-        e.`img`,
-        e.`shop_id`,
-        e.`dept_id`,
-        e.`duty_id`,
-        e.`role_id`,
-        e.`status`,
-        e.`create_time`,
-        dept.`dept_name`,
-        duty.`duty_name`,
-        role.`role_name`
-    </sql>
-
-	<!--全部	-->
-	<select id="all" resultMap="empDtoMap">
-		SELECT
-		<include refid="empDto_SQL"/>
-		FROM cloud_emp e
-		LEFT JOIN cloud_dept dept ON e.`dept_id` = dept.`dept_id`
-		LEFT JOIN cloud_duty duty ON  e.`duty_id` = duty.`duty_id`
-		LEFT JOIN cloud_role role ON e.`role_id` = duty.`role_id`
-		WHERE e.`shop_id` = #{shopId}
-	</select>
-
-	<!--详情	-->
-	<select id="detail" resultMap="empDtoMap">
-		SELECT <include refid="empDto_SQL"/>
-		FROM cloud_emp e
-		LEFT JOIN cloud_dept dept ON e.`dept_id` = dept.`dept_id`
-		LEFT JOIN cloud_duty duty ON  e.`duty_id` = duty.`duty_id`
-		LEFT JOIN cloud_role role ON e.`role_id` = duty.`role_id`
-		WHERE e.`emp_id` = #{id}
-	</select>
 
 </mapper>

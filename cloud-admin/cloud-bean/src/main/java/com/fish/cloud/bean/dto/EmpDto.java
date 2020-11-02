@@ -1,6 +1,7 @@
 package com.fish.cloud.bean.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fish.cloud.bean.annotation.Dic;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -10,7 +11,7 @@ import java.util.Date;
 
 @ApiModel
 @Data
-public class EmpDto {
+public class EmpDto extends DtoDic{
     @ApiModelProperty(value = "empId")
     private Long empId;
 
@@ -41,28 +42,20 @@ public class EmpDto {
     private Long shopId;
 
     @ApiModelProperty(value = "所属部门Id")
+    @Dic(dicCode = "dept_id",dicTable = "cloud_dept",dicText = "dept_name")
     private Long deptId;
 
     @ApiModelProperty(value = "岗位Id")
+    @Dic(dicCode = "duty_id",dicTable = "cloud_duty",dicText = "duty_name")
     private Long dutyId;
 
     @ApiModelProperty(value = "角色Id")
+    @Dic(dicCode = "role_id",dicTable = "cloud_role",dicText = "role_name")
     private Long roleId;
 
     @ApiModelProperty(value = "状态  -1删除 0禁用 1启用")
     private Integer status;
 
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
-
-    @ApiModelProperty(value = "部门名称")
-    private String deptName;
-
-    @ApiModelProperty(value = "岗位名称")
-    private String dutyName;
-
-    @ApiModelProperty(value = "角色名称")
-    private String roleName;
 }

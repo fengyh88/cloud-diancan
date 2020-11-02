@@ -16,17 +16,4 @@ import java.util.List;
  * @since 2020-10-30
  */
 public interface EmpMapper extends BaseMapper<Emp> {
-    /**
-     * 全部
-     * @param shopId
-     * @return
-     */
-    List<EmpDto> all(@Param("shopId") Long shopId);
-
-    /**
-     * 详情
-     * @param id
-     * @return
-     */
-    EmpDto detail(@Param("id") Long id);
 }

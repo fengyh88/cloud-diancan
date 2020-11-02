@@ -47,4 +47,7 @@ public interface ISysDicKvService extends IService<SysDicKv> {
      */
     TupleRet edit(SysDicKvAddParam sysDicKvAddParam);
 
+    String getTextTextByDicCodeAndKey(String table, String text, String code, String key);
+
+    String getTextByTableAndCodeAndKey(String code, String key);
 }
