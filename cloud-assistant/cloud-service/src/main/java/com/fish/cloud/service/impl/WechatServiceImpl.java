@@ -31,13 +31,14 @@ public class WechatServiceImpl  implements IWechatService {
         }
 
         // 获取token
-        String appid = model.getWechatAppId();
-        String appsecret = model.getWechatSecretKey();
-        TupleRet tokenMethodResult = WxUtil.getAccessToken(appid, appsecret);
-        if (!tokenMethodResult.getIsSuccess()) {
-            return TupleRet.failed(tokenMethodResult.getMessage());
-        }
-        String accessToken = tokenMethodResult.getMessage();
+        String appid = "";//model.getWechatAppId();
+        String appsecret = "";//model.getWechatSecretKey();
+//        TupleRet tokenMethodResult = WxUtil.getAccessToken(appid, appsecret);
+//        if (!tokenMethodResult.getIsSuccess()) {
+//            return TupleRet.failed(tokenMethodResult.getMessage());
+//        }
+//        String accessToken = tokenMethodResult.getMessage();
+        String accessToken = "";
         // 二维码中信息
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("path", "pages/index/index");// 你二维码中跳向的页面

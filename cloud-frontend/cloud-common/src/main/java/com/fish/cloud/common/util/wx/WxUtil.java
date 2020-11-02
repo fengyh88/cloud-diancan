@@ -19,8 +19,7 @@ public class WxUtil {
      * @param wechatSecretKey 小程序的session-key
      * @return
      */
-    public static TupleRet getOpenid(String code, String wechatAppId, String wechatSecretKey) {
-        Map map = new HashMap();
+    public static TupleRet getOpenidAndSessionKeyByCode(String code, String wechatAppId, String wechatSecretKey) {
         // login code can not be null
         if (StringUtils.isEmpty(code)) {
             return TupleRet.failed("code 不能为空");
@@ -54,12 +53,12 @@ public class WxUtil {
      * @param sessionKey
      * @return
      */
-    public static TupleRet getUserInfo(String iv, String encryptedData,String sessionKey){
+    public static TupleRet getUserInfoBySessionKey(String iv, String encryptedData, String sessionKey){
         try {
             // decoding encrypted info with AES
             String result = AesCbcUtil.decrypt(encryptedData, sessionKey, iv, "UTF-8");
             if (StringUtils.isEmpty(result)){
-                return TupleRet.failed("解密失败");
+                return TupleRet.failed("解密用户信息失败");
             }
 
             JSONObject userInfoJSON = JSON.parseObject(result);
@@ -76,7 +75,7 @@ public class WxUtil {
             return TupleRet.success(wxUserInfoModel);
         } catch (Exception e) {
             e.printStackTrace();
-            return TupleRet.failed("解密失败");
+            return TupleRet.failed("解密用户信息失败");
         }
     }
 }

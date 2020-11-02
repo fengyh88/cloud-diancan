@@ -2,13 +2,13 @@ package com.fish.cloud.common.util.wx;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.fish.cloud.common.ret.TupleRet;
 import com.fish.cloud.common.util.AesCbcUtil;
 import com.fish.cloud.common.util.HttpRequestUtil;
-import com.fish.cloud.common.ret.TupleRet;
+import com.fish.cloud.common.util.StorageUtil;
 import org.springframework.util.StringUtils;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.InputStream;
 
 public class WxUtil {
 
@@ -19,8 +19,7 @@ public class WxUtil {
      * @param wechatSecretKey 小程序的session-key
      * @return
      */
-    public static TupleRet getOpenid(String code, String wechatAppId, String wechatSecretKey) {
-        Map map = new HashMap();
+    public static TupleRet getOpenidAndSessionKeyByCode(String code, String wechatAppId, String wechatSecretKey) {
         // login code can not be null
         if (StringUtils.isEmpty(code)) {
             return TupleRet.failed("code 不能为空");
@@ -54,12 +53,12 @@ public class WxUtil {
      * @param sessionKey
      * @return
      */
-    public static TupleRet getUserInfo(String iv, String encryptedData,String sessionKey){
+    public static TupleRet getUserInfoBySessionKey(String iv, String encryptedData, String sessionKey){
         try {
             // decoding encrypted info with AES
             String result = AesCbcUtil.decrypt(encryptedData, sessionKey, iv, "UTF-8");
             if (StringUtils.isEmpty(result)){
-                return TupleRet.failed("解密失败");
+                return TupleRet.failed("解密用户信息失败");
             }
 
             JSONObject userInfoJSON = JSON.parseObject(result);
@@ -76,7 +75,21 @@ public class WxUtil {
             return TupleRet.success(wxUserInfoModel);
         } catch (Exception e) {
             e.printStackTrace();
-            return TupleRet.failed("解密失败");
+            return TupleRet.failed("解密用户信息失败");
         }
+    }
+
+    // 生成小程序码接口url
+    private final static String genetate_barcode_url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=";
+
+    public static String getBarCodeWithInterB(String accessToken, String params, String imgName,String savePath) {
+        try {
+            InputStream inputStream = HttpRequestUtil.sendPostWithBody(genetate_barcode_url + accessToken, params);
+            StorageUtil.saveImgByInputStream(inputStream, savePath, imgName);
+        } catch (Exception ex) {
+            //logger.error(ex.getStackTrace());
+            return ex.getMessage();
+        }
+        return "";
     }
 }

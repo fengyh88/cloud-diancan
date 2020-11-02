@@ -33,6 +33,9 @@ public class ShopDto {
     @ApiModelProperty(value = "店铺公告(可修改)")
     private String notice;
 
+    @ApiModelProperty(value = "主图")
+    private String img;
+
     @ApiModelProperty(value = "店铺联系电话")
     private String tel;
 
@@ -71,6 +74,6 @@ public class ShopDto {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
-    @ApiModelProperty(value = "图片列表")
+    @ApiModelProperty(value = "店铺图片")
     private List<ShopImg> imgList;
 }

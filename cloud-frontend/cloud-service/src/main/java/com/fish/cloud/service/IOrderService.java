@@ -1,13 +1,11 @@
 package com.fish.cloud.service;
 
-import com.fish.cloud.bean.dto.OrderCountStatusDto;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.fish.cloud.bean.dto.OrderDetailDto;
 import com.fish.cloud.bean.dto.OrderDto;
 import com.fish.cloud.bean.model.Order;
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.fish.cloud.bean.param.OrderAddParam;
 import com.fish.cloud.bean.param.OrderBySatusParam;
-import com.fish.cloud.bean.param.OrderCompleteParam;
-import com.fish.cloud.bean.param.OrderSendParam;
 import com.fish.cloud.common.ret.TupleRet;
 
 import java.util.List;
@@ -37,15 +35,9 @@ public interface IOrderService extends IService<Order> {
     OrderDetailDto detail(Long id);
 
     /**
-     * 统计我的订单数量
+     * 提交订单
+     * @param orderAddParam
      * @return
      */
-    OrderCountStatusDto countOrderStatus();
-
-    /**
-     * 完成
-     * @param orderCompleteParam
-     * @return
-     */
-    TupleRet complete(OrderCompleteParam orderCompleteParam);
+    public TupleRet<Long> submit(OrderAddParam orderAddParam);
 }

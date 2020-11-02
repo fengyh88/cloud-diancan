@@ -1,9 +1,9 @@
 package com.fish.cloud.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fish.cloud.bean.model.Perm;
 import com.fish.cloud.repo.PermMapper;
 import com.fish.cloud.service.IPermService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

@@ -4,13 +4,14 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.fish.cloud.api.config.ConfigBeanValue;
-import com.fish.cloud.common.context.ApiContextHolder;
 import com.fish.cloud.api.context.ApiResponseUtil;
+import com.fish.cloud.common.context.ApiContextHolder;
+import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.common.token.AuthDto;
 import com.fish.cloud.common.token.JwtUtil;
-import com.fish.cloud.common.ret.ApiResult;
-import com.fish.cloud.service.IEmpService;
 import com.fish.cloud.service.IShopService;
+import com.fish.cloud.service.ITableService;
+import com.fish.cloud.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,11 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthInterceptor implements HandlerInterceptor {
 
     @Autowired
-    private IEmpService empService;
+    private IUserService userService;
     @Autowired
     private IShopService shopService;
+    @Autowired
+    private ITableService tableService;
     @Autowired
     private ConfigBeanValue configBeanValue;
 
@@ -33,7 +36,8 @@ public class AuthInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 //        if (configBeanValue.isDev){
 //            // 存入CONTEXT信息入缓存
-//            ApiContextHolder.setAuthDto(new AuthDto("123","1"));
+//            ApiContextHolder.setAuthDto(new AuthDto("123"));
+//            ApiContextHolder.setShopId(configBeanValue.shopId);
 //            return true;
 //        }
         String token = request.getHeader("token");// 从 http 请求头中取出 token
@@ -61,17 +65,24 @@ public class AuthInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        var emp = empService.getById(authDto.getEmpId());
-        if (ObjectUtil.isNull(emp)){
+        var user = userService.getById(authDto.getUserId());
+        if (ObjectUtil.isNull(user)){
             ApiContextHolder.clearAuthDto();
-            ApiResponseUtil.sendJsonMessage(response, ApiResult.unauthorized("员工不存在"));
+            ApiResponseUtil.sendJsonMessage(response, ApiResult.unauthorized("用户不存在"));
             return false;
         }
 
-        var shop = shopService.getById(authDto.getShopId());
+        var shop = shopService.getById(configBeanValue.shopId);
         if (ObjectUtil.isNull(shop)){
-            ApiContextHolder.clearAuthDto();
+            ApiContextHolder.clearShopId();
             ApiResponseUtil.sendJsonMessage(response, ApiResult.unauthorized("店铺不存在"));
+            return false;
+        }
+
+        var table = tableService.getById(configBeanValue.tableId);
+        if (ObjectUtil.isNull(table)){
+            ApiContextHolder.clearTableId();
+            ApiResponseUtil.sendJsonMessage(response, ApiResult.unauthorized("台桌不存在"));
             return false;
         }
 
@@ -83,6 +94,9 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         // 存入CONTEXT信息入缓存
         ApiContextHolder.setAuthDto(authDto);
+        ApiContextHolder.setShopId(shop.getShopId());
+        ApiContextHolder.setTableId(table.getTableId());
+
         return true;
     }
 }

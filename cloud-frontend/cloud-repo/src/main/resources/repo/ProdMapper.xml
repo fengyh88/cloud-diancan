@@ -70,13 +70,6 @@
 		<result column="puton_time" property="putonTime" />
 		<result column="cate_name" property="cateName" />
 		<result column="unit_name" property="unitName" />
-		<collection property="imgs" javaType="list" ofType="com.fish.cloud.bean.dto.ProdImgDto">
-			<result column="img_id" property="imgId" />
-			<result column="img_url" property="imgUrl" />
-			<result column="upload_time" property="uploadTime" />
-			<result column="link_id" property="linkId" />
-			<result column="link_cate" property="linkCate" />
-		</collection>
 	</resultMap>
 
 	<sql id="prodDto_SQL">
@@ -118,12 +111,7 @@
         p.`status`,
         p.`puton_time`,
         cate.`cate_name`,
-        kv.`value` as `unit_name`,
-        img.`img_id`,
-        img.`img_url`,
-        img.`link_id`,
-        img.`upload_time`,
-        img.`link_cate`
+        kv.`value` as `unit_name`
     </sql>
 
 	<!--全部	-->
@@ -151,7 +139,6 @@
 		FROM cloud_prod p
 		LEFT JOIN cloud_prod_cate cate ON  p.`cate_id` = cate.`cate_id`
 		LEFT JOIN cloud_sys_dic_kv kv ON p.`unit_id` = kv.`key` AND kv.`dic_code` = 'D0001'
-		LEFT JOIN cloud_prod_img img ON  p.`prod_id` = img.`link_id` AND img.link_type = 1
 		WHERE p.`prod_id` = #{id} AND p.`status` != -1
 	</select>
 </mapper>

@@ -1,9 +1,9 @@
 package com.fish.cloud.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fish.cloud.bean.model.User;
 import com.fish.cloud.repo.UserMapper;
 import com.fish.cloud.service.IUserService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

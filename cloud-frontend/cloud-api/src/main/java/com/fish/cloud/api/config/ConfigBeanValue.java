@@ -10,5 +10,9 @@ public class ConfigBeanValue {
     @Value("${foo.isDev} ")
     public Boolean isDev;
 
+    @Value("${foo.shopId}")
+    public String shopId;
+    @Value("${foo.tableId}")
+    public String tableId;
 }
 

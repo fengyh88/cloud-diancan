@@ -1,9 +1,9 @@
 package com.fish.cloud.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fish.cloud.bean.model.SearchRecord;
 import com.fish.cloud.repo.SearchRecordMapper;
 import com.fish.cloud.service.ISearchRecordService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

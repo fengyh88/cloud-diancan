@@ -1,9 +1,7 @@
 package com.fish.cloud.service;
 
-import com.fish.cloud.bean.model.SysDicKv;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.fish.cloud.bean.param.SysDicKvAddParam;
-import com.fish.cloud.common.ret.TupleRet;
+import com.fish.cloud.bean.model.SysDicKv;
 
 import java.util.List;
 
@@ -23,28 +21,4 @@ public interface ISysDicKvService extends IService<SysDicKv> {
      * @return
      */
     List<SysDicKv> listByDicCode(String dicCode);
-
-    /**
-     * 更新状态，正常禁用删除
-     *
-     * @param id
-     * @return
-     */
-    TupleRet updateStatus(Long id, Integer status);
-
-    /**
-     * 添加
-     *
-     * @param sysDicKvAddParam
-     * @return
-     */
-    TupleRet add(SysDicKvAddParam sysDicKvAddParam);
-    /**
-     * 编辑
-     *
-     * @param sysDicKvAddParam
-     * @return
-     */
-    TupleRet edit(SysDicKvAddParam sysDicKvAddParam);
-
 }

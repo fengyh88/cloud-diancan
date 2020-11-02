@@ -1,7 +1,7 @@
 package com.fish.cloud.repo;
 
-import com.fish.cloud.bean.model.Table;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.fish.cloud.bean.model.Table;
 
 /**
  * <p>

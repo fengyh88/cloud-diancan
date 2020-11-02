@@ -1,9 +1,9 @@
 package com.fish.cloud.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fish.cloud.bean.model.ProdPropValue;
 import com.fish.cloud.repo.ProdPropValueMapper;
 import com.fish.cloud.service.IProdPropValueService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

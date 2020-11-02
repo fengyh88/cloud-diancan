@@ -1,18 +1,20 @@
 package com.fish.cloud.common.util;
 
-import lombok.extern.slf4j.Slf4j;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
 
-@Slf4j
 public class HttpRequestUtil {
+    //protected static Logger logger = LogManager.getLogger();
 
     /**
      * 向指定URL发送GET方法的请求
@@ -48,7 +50,7 @@ public class HttpRequestUtil {
                 result += line;
             }
         } catch (Exception e) {
-            log.error("发送GET请求出现异常！" + e);
+            //logger.error("发送GET请求出现异常！" + e);
             e.printStackTrace();
         } finally {
             // 使用finally块来关闭输入流
@@ -57,7 +59,7 @@ public class HttpRequestUtil {
                     in.close();
                 }
             } catch (Exception e2) {
-                log.error("关闭GET请求出现异常！" + e2);
+               // logger.error("关闭GET请求出现异常！" + e2);
                 e2.printStackTrace();
             }
         }
@@ -116,5 +118,25 @@ public class HttpRequestUtil {
             }
         }
         return result;
+    }
+
+    public static InputStream sendPostWithBody(String url, String params) throws Exception {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost(url);
+        httpPost.addHeader(HTTP.CONTENT_TYPE, "application/json");
+        StringEntity se = new StringEntity(params);
+        se.setContentType("application/json");
+        se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "UTF-8"));
+        httpPost.setEntity(se);
+        org.apache.http.HttpResponse response = httpClient.execute(httpPost);
+        if (response != null) {
+            org.apache.http.HttpEntity resEntity = response.getEntity();
+            if (resEntity != null) {
+                InputStream inputStream = resEntity.getContent();
+                return inputStream;
+            }
+        }
+        httpPost.abort();
+        return null;
     }
 }

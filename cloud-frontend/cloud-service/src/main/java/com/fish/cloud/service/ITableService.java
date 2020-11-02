@@ -1,7 +1,7 @@
 package com.fish.cloud.service;
 
-import com.fish.cloud.bean.model.Table;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fish.cloud.bean.model.Table;
 
 /**
  * <p>

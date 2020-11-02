@@ -10,7 +10,7 @@
 		<result column="nick_name" property="nickName" />
 		<result column="real_name" property="realName" />
 		<result column="mobile" property="mobile" />
-		<result column="mail" property="mail" />
+		<result column="email" property="email" />
 		<result column="gender" property="gender" />
 		<result column="birth_date" property="birthDate" />
 		<result column="reg_time" property="regTime" />
@@ -21,6 +21,7 @@
 		<result column="grade_id" property="gradeId" />
 		<result column="current_integral" property="currentIntegral" />
 		<result column="remark" property="remark" />
+		<result column="wechat_open_id" property="wechatOpenId" />
 		<result column="status" property="status" />
 		<result column="create_time" property="createTime" />
 		<result column="update_time" property="updateTime" />

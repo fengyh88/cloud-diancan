@@ -1,10 +1,9 @@
 package com.fish.cloud.api.controller;
 
-import com.fish.cloud.bean.dto.OrderCountStatusDto;
 import com.fish.cloud.bean.dto.OrderDetailDto;
 import com.fish.cloud.bean.dto.OrderDto;
+import com.fish.cloud.bean.param.OrderAddParam;
 import com.fish.cloud.bean.param.OrderBySatusParam;
-import com.fish.cloud.bean.param.OrderCompleteParam;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.IOrderService;
 import io.swagger.annotations.Api;
@@ -52,18 +51,11 @@ public class OrderController {
         return ApiResult.success(dto);
     }
 
-    @ApiOperation("统计订单各个状态数量")
-    @GetMapping(value = "/countOrderStatus")
-    public ApiResult<OrderCountStatusDto> countOrderStatus() {
-        var dto = orderService.countOrderStatus();
-        return ApiResult.success(dto);
-    }
-
-    @ApiOperation("完成")
-    @ApiImplicitParam(name = "orderCompleteParam", value = "完成信息", required = true)
-    @PostMapping(value = "/complete")
-    public ApiResult complete(@RequestBody OrderCompleteParam orderCompleteParam) {
-        var ret = orderService.complete(orderCompleteParam);
+    @ApiOperation("订单提交")
+    @ApiImplicitParam(name = "orderAddParam", value = "订单提交信息", required = true)
+    @RequestMapping(value = "/submit", method = RequestMethod.POST)
+    public ApiResult<Long> submit(@RequestBody OrderAddParam orderAddParam) {
+        var ret = orderService.submit(orderAddParam);
         return ApiResult.fromTupleRet(ret);
     }
 }

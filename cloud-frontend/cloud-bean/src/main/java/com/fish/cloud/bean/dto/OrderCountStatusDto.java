@@ -9,12 +9,16 @@ import lombok.Data;
 public class OrderCountStatusDto {
     @ApiModelProperty(value = "所有订单数量")
     private Integer all;
-    @ApiModelProperty(name = "已提交")
-    private Integer submitted;
-    @ApiModelProperty(name = "已支付")
-    private Integer payed;
-    @ApiModelProperty(value = "关闭，失败")
-    private Integer closed;
-    @ApiModelProperty(value = "完成，成功")
-    private Integer completed;
+    @ApiModelProperty(name = "待付款")
+    private Integer notPay;
+    @ApiModelProperty(name = "待发货")
+    private Integer notSend;
+    @ApiModelProperty(name = "已发货")
+    private Integer send;
+    @ApiModelProperty(name = "已收货")
+    private Integer confirm;
+    @ApiModelProperty(name = "已取消")
+    private Integer cancel;
+    @ApiModelProperty(value = "已删除")
+    private Integer close;
 }
