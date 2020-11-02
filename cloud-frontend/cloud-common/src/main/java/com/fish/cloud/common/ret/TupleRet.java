@@ -31,7 +31,7 @@ public class TupleRet<T> {
     /**
      * 成功返回结果
      */
-    public static <T> TupleRet<T> successMessage(String message) {
+    public static <T> TupleRet<T> successMsg(String message) {
         return new TupleRet<T>(true, message,null);
     }
 

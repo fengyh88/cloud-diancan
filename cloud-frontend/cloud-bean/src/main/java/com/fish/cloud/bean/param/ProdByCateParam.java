@@ -6,7 +6,7 @@ import lombok.Data;
 
 @ApiModel
 @Data
-public class ProdByCateParam {
+public class ProdByCateParam extends ProdParam {
     @ApiModelProperty(value = "商品类目")
     private String cateId;
     @ApiModelProperty(value = "关键字")

@@ -38,13 +38,13 @@
             <version>3.4.0</version>
         </dependency>
         <dependency>
-            <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-pay</artifactId>
-            <version>3.7.0</version>
+            <groupId>com.belerweb</groupId>
+            <artifactId>pinyin4j</artifactId>
+            <version>2.5.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.binarywang</groupId>
-            <artifactId>weixin-java-miniapp</artifactId>
+            <artifactId>weixin-java-pay</artifactId>
             <version>3.7.0</version>
         </dependency>
         <dependency>
@@ -52,10 +52,6 @@
             <artifactId>cloud-bean</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
         </dependency>
         <!--七牛配置依赖-->
         <!-- 七牛云 -->

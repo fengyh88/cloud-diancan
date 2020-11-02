@@ -24,6 +24,7 @@ public class BeanUtil {
         if (null == object) {
             return null;
         }
+        String aa = JSON.toJSONString(object);
         return JSON.parseObject(JSON.toJSONString(object), entityClass);
     }
 

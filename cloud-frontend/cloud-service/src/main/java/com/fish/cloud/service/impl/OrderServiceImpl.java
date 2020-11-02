@@ -4,29 +4,38 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fish.cloud.bean.dto.OrderCountStatusDto;
 import com.fish.cloud.bean.dto.OrderDetailDto;
 import com.fish.cloud.bean.dto.OrderDto;
+import com.fish.cloud.bean.dto.OrderItemDto;
 import com.fish.cloud.bean.model.Order;
-import com.fish.cloud.bean.model.OrderItem;
-import com.fish.cloud.bean.param.OrderAddItemParam;
-import com.fish.cloud.bean.param.OrderAddParam;
+import com.fish.cloud.bean.model.Prod;
 import com.fish.cloud.bean.param.OrderBySatusParam;
+import com.fish.cloud.bean.param.OrderCompleteParam;
+import com.fish.cloud.bean.param.OrderSendParam;
 import com.fish.cloud.common.context.ApiContextHolder;
+import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.common.ret.TupleRet;
 import com.fish.cloud.common.util.DateTimeUtil;
-import com.fish.cloud.common.util.IdUtil;
 import com.fish.cloud.repo.OrderMapper;
-import com.fish.cloud.service.ICartService;
 import com.fish.cloud.service.IOrderItemService;
 import com.fish.cloud.service.IOrderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fish.cloud.service.IProdService;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,17 +54,13 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     @Autowired
     private IOrderItemService orderItemService;
-    @Autowired
-    private ICartService cartService;
 
     @ApiOperation("根据状态查询列表")
     @Override
     public List<OrderDto> listByStatus(OrderBySatusParam orderBySatusParam) {
         var models = baseMapper.selectList(new LambdaQueryWrapper<Order>()
-                .eq(Order::getShopId, ApiContextHolder.getShopId())
-                .eq(Order::getTableId, ApiContextHolder.getTableId())
-                .eq(Order::getUserId, ApiContextHolder.getAuthDto().getUserId())
-                .eq(0 != orderBySatusParam.getStatus(), Order::getStatus, orderBySatusParam.getStatus()));
+        .eq(Order::getShopId,ApiContextHolder.getAuthDto().getShopId())
+        .eq(0 != orderBySatusParam.getStatus(),Order::getStatus, orderBySatusParam.getStatus()));
         // dto
         List<OrderDto> dtoList = models.stream().map(model -> {
             var dto = new OrderDto();
@@ -79,76 +84,37 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         return dto;
     }
 
+    @ApiOperation("统计店铺订单数量")
+    @Override
+    public OrderCountStatusDto countOrderStatus() {
+        return baseMapper.countOrderStatus(ApiContextHolder.getAuthDto().getShopId());
+    }
+
     /**
-     * 提交订单
-     * @param orderAddParam
+     * 完成
+     * @param orderCompleteParam
      * @return
      */
-    @Transactional
     @Override
-    public TupleRet<Long> submit(OrderAddParam orderAddParam) {
-        // 提交订单主表
-        Order order = new Order();
-        order.setShopId(ApiContextHolder.getShopId());
-        order.setTableId(ApiContextHolder.getTableId());
-        order.setUserId(ApiContextHolder.getAuthDto().getUserId());
-        order.setProdName("");
-        order.setOrderNumber(IdUtil.getOrderNumberByTime(ApiContextHolder.getShopId()));
-        order.setOrderType(1); // 暂固定值
-        // 金额
-        order.setTotalAmount(orderAddParam.getTotalAmount());
-        order.setReduceAmount(orderAddParam.getReduceAmount());
-        order.setActualAmount(orderAddParam.getActualAmount());
-        // 支付
-        order.setPayType(orderAddParam.getPayType()); // 微信支付
-        order.setIsPayed(0); // 未支付
-        order.setRemark(orderAddParam.getRemark());
-        order.setStatus(1); // 已提交状态
-        // 商品总数
-        Integer prodNum = orderAddParam.getItems().stream().mapToInt(OrderAddItemParam::getNum).sum();
-        order.setProdNum(prodNum);
-        order.setCreateTime(DateTimeUtil.getCurrentDateTime());
+    public TupleRet complete(OrderCompleteParam orderCompleteParam) {
+        var model = baseMapper.selectById(orderCompleteParam.getOrderId());
+        if (ObjectUtils.isEmpty(model)) {
+            return TupleRet.failed("订单不存在") ;
+        }
+
+        // 判断订单状态，此系统不判断
+
+        // 更新状态，13:关闭，失败，17:完成，成功
+        model.setStatus(orderCompleteParam.getStatus());
+        model.setCompleteTime(DateTimeUtil.getCurrentDateTime());
 
         try {
-            baseMapper.insert(order);
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
-            return TupleRet.failed(ex.getMessage());
+            baseMapper.updateById(model);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return  TupleRet.failed("失败");
         }
 
-        // 添加订单明细
-        try {
-            List<OrderItem> orderItems = new ArrayList<>();
-            orderAddParam.getItems().forEach(item -> {
-                OrderItem orderItem = new OrderItem();
-                orderItem.setOrderId(order.getOrderId());
-                orderItem.setTableId(ApiContextHolder.getTableId());
-                orderItem.setProdId(item.getProdId());
-                orderItem.setProdName(item.getProdName());
-                orderItem.setProdImg(item.getProdImg());
-                orderItem.setSkuId(item.getSkuId());
-                orderItem.setSkuName(item.getSkuName());
-                orderItem.setSkuImg(item.getSkuImg());
-                orderItem.setNum(item.getNum());
-                orderItem.setPrice(item.getPrice());
-                orderItem.setTotalAmount(item.getTotalAmount());
-                orderItem.setCreateTime(DateTimeUtil.getCurrentDateTime());
-
-                orderItems.add(orderItem);
-            });
-
-            orderItemService.saveBatch(orderItems);
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
-            return TupleRet.failed(ex.getMessage());
-        }
-
-        // 清空购物车
-        TupleRet retClear = cartService.clearByUserIdAndShopId(ApiContextHolder.getAuthDto().getUserId(), ApiContextHolder.getShopId());
-        if (!retClear.getSuccess()) {
-            return TupleRet.failed("清空购物车错误");
-        }
-
-        return TupleRet.success(order.getOrderId());
+        return TupleRet.success("成功");
     }
 }

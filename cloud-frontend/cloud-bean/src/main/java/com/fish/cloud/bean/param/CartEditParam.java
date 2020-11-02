@@ -1,18 +1,16 @@
 package com.fish.cloud.bean.param;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-@ApiModel
 @Data
 public class CartEditParam {
-    @ApiModelProperty(name = "cartId")
+    @ApiModelProperty(name = "")
     private Long cartId;
     @ApiModelProperty(name = "商品Id")
     private Long prodId;
     @ApiModelProperty(name = "商品数量")
     private Integer num;
-    @ApiModelProperty(name = "skuId")
+    @ApiModelProperty(name = "规格")
     private String skuId;
 }

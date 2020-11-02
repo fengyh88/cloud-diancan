@@ -1,34 +1,16 @@
 package com.fish.cloud.bean.param;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-@ApiModel
 @Data
 public class UserLoginWxParam {
-    @ApiModelProperty(value = "code")
+    @ApiModelProperty(name = "")
     private String code;
-    @ApiModelProperty(value = "encryptedData")
+    @ApiModelProperty(name = "")
     private String encryptedData;
-    @ApiModelProperty(value = "iv")
+    @ApiModelProperty(name = "")
     private String iv;
-    @ApiModelProperty(value = "signature")
+    @ApiModelProperty(name = "")
     private String signature;
-
-    // 另外一种方式获取微信信息
-    @ApiModelProperty(value = "nickName")
-    private String nickName;
-    @ApiModelProperty(value = "gender")
-    private String gender;
-    @ApiModelProperty(value = "city")
-    private String city;
-    @ApiModelProperty(value = "province")
-    private String province;
-    @ApiModelProperty(value = "country")
-    private String country;
-    @ApiModelProperty(value = "avatarUrl")
-    private String avatarUrl;
-    @ApiModelProperty(value = "unionId")
-    private String unionId;
 }

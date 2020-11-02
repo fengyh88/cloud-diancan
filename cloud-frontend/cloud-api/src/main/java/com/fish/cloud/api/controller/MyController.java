@@ -1,7 +1,7 @@
 package com.fish.cloud.api.controller;
 
-import com.fish.cloud.bean.param.UserMyParam;
-import com.fish.cloud.bean.param.UserPwdParam;
+import com.fish.cloud.bean.param.EmpMyParam;
+import com.fish.cloud.bean.param.EmpPwdParam;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.IMyService;
 import io.swagger.annotations.Api;
@@ -24,7 +24,7 @@ public class MyController {
     @ApiOperation("更新密码")
     @ApiImplicitParam(name = "empPwdParam", value = "密码信息", required = true)
     @PostMapping("/updatePassword")
-    public ApiResult updatePassword(@RequestBody UserPwdParam empPwdParam) {
+    public ApiResult updatePassword(@RequestBody EmpPwdParam empPwdParam) {
         var ret = myService.updatePassword(empPwdParam);
         return ApiResult.fromTupleRet(ret);
     }
@@ -51,10 +51,10 @@ public class MyController {
     }
 
     @ApiOperation("编辑个人信息")
-    @ApiImplicitParam(name = "userMyParam", value = "可编辑的个人信息", required = true)
+    @ApiImplicitParam(name = "empMyParam", value = "可编辑的个人信息", required = true)
     @PostMapping(value = "/editMy")
-    public ApiResult editMy(@RequestBody UserMyParam userMyParam) {
-        var ret = myService.editMy(userMyParam);
+    public ApiResult editMy(@RequestBody EmpMyParam empMyParam) {
+        var ret = myService.editMy(empMyParam);
         return ApiResult.fromTupleRet(ret);
     }
 }

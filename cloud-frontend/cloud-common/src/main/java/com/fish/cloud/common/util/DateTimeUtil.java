@@ -8,7 +8,6 @@ public class DateTimeUtil {
         Date currentTime = new Date();
         return currentTime;
     }
-
     public static String getCurrentDateTimeFormat(){
         Date d = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");

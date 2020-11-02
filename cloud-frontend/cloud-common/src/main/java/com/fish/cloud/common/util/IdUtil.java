@@ -21,26 +21,39 @@ public class IdUtil {
         return String.format("%01d", hashCodeV);
     }
 
-    public static String getOrderNumberByTime(Long shopId) {
+    public static Long getLongIdByUUId() {
+        int machineId = 1;//最大支持1-9个集群机器部署
+        int hashCodeV = UUID.randomUUID().toString().substring(0,4).hashCode();
+        if (hashCodeV < 0) {//有可能是负数
+            hashCodeV = -hashCodeV;
+        }
+//         0 代表前面补充0
+//         4 代表长度为4
+//         d 代表参数为正数型
+        String id =  String.format("%01d", hashCodeV);
+        return Long.parseLong(id);
+    }
+
+    private static String getOrderNoByTime(Integer storeId) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         String newDate = sdf.format(new Date());
-        String ret = "O" + newDate; //+ completeZore(shopId, 2);
-        return ret;
+
+        return newDate;
         //订单规则改变
         //String store = frontCompWithZore(storeId, 4);
         //String result = randomLen(3);
         //return newDate + store + result;
     }
 
-    public static String completeZore(String sourceDate, int length) {
+    private static String frontCompWithZore(int sourceDate,int formatLength) {
         //0 指前面补充零
-        // length 字符总长度为 length
+        // formatLength 字符总长度为 formatLength
         // d 代表为正数。
-        String newString = String.format("%0" + length + "d", sourceDate);
+        String newString = String.format("%0" + formatLength + "d", sourceDate);
         return newString;
     }
 
-    public static String randomLen(int len) {
+    private static String randomLen(int len) {
         String result = "";
         Random random = new Random();
         for (int i = 0; i < len; i++) {
@@ -54,12 +67,12 @@ public class IdUtil {
      * @param length length用户要求产生字符串的长度
      * @return
      */
-    public static String getRandomString(int length){
-        String str="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        Random random=new Random();
-        StringBuffer sb=new StringBuffer();
-        for(int i=0;i<length;i++){
-            int number=random.nextInt(62);
+    public static String getRandomString(int length) {
+        String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < length; i++) {
+            int number = random.nextInt(62);
             sb.append(str.charAt(number));
         }
         return sb.toString();
@@ -70,7 +83,7 @@ public class IdUtil {
      * @param length
      * @return
      */
-    public static String getRandomString2(int length){
+    private static String getRandomString2(int length){
         Random random=new Random();
         StringBuffer sb=new StringBuffer();
         for(int i=0;i<length;i++){
@@ -95,7 +108,7 @@ public class IdUtil {
         return sb.toString();
     }
 
-    public static String getRandomString3(int length){
+    private static String getRandomString3(int length){
         return RandomStringUtils.randomAlphanumeric(length);
     }
 }

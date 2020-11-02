@@ -17,13 +17,13 @@ import java.io.FileInputStream;
 public class QiniuUtil {
 
     // 设置需要操作的账号的AK和SK
-    private static final String ACCESS_KEY = "";
-    private static final String SECRET_KEY = "";
+    private static final String ACCESS_KEY = "y76SpYCCA6J2zsYqydeJMXZfJjLfBARewBdL5A5g";
+    private static final String SECRET_KEY = "YS3NIOnnlPjp0kzsAD-yI2ifubUlBOrTG685W4yz";
     // 要上传的空间名称
-    private static final String BUCKETNAME = "";
+    private static final String BUCKETNAME = "cloudsg";
 
     // 外链默认域名
-    private static final String DOMAIN = "";
+    private static final String DOMAIN = "www-linkeo-cloud-idvbz3h.qiniudns.com";
 
     /**
      * 将图片上传到七牛云

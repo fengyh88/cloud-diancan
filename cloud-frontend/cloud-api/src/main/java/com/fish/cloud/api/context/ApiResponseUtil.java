@@ -2,6 +2,7 @@ package com.fish.cloud.api.context;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.fish.cloud.common.token.AuthDto;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
@@ -39,4 +40,5 @@ public class ApiResponseUtil {
         writer.close();
         response.flushBuffer();
     }
+
 }

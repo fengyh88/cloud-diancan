@@ -8,11 +8,9 @@ import lombok.Data;
 @Data
 public class LoginParam {
     @ApiModelProperty(value = "店铺Id")
-    private Long shopId;
-    @ApiModelProperty(value = "台桌Id")
-    private Long tableId;
+    private String shopId;
     @ApiModelProperty(name = "工号或手机号")
-    private String userName;
+    private String userNumber;
     @ApiModelProperty(name = "密码")
     private String password;
 }

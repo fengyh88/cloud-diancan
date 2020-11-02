@@ -2,6 +2,8 @@ package com.fish.cloud.service;
 
 import com.fish.cloud.bean.model.SysConfig;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fish.cloud.bean.param.SysConfigEditParam;
+import com.fish.cloud.common.ret.TupleRet;
 
 import java.util.List;
 
@@ -28,5 +30,13 @@ public interface ISysConfigService extends IService<SysConfig> {
      * @return
      */
     List<SysConfig> all();
+
+    /**
+     * 编辑
+     *
+     * @param sysConfigEditParam
+     * @return
+     */
+    TupleRet edit(SysConfigEditParam sysConfigEditParam);
 
 }

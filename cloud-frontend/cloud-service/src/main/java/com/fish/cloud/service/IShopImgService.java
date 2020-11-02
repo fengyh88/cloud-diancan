@@ -1,7 +1,10 @@
 package com.fish.cloud.service;
 
+
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fish.cloud.bean.model.ShopImg;
+import com.fish.cloud.bean.param.ShopImgAddParam;
+import com.fish.cloud.common.ret.TupleRet;
 
 import java.util.List;
 
@@ -20,4 +23,19 @@ public interface IShopImgService extends IService<ShopImg> {
      * @return
      */
     List<ShopImg> listByShopId(Long shopId);
+
+    /**
+     * 添加或者编辑
+     *
+     * @param shopImgAddParam
+     * @return
+     */
+    TupleRet addOrEdit(ShopImgAddParam shopImgAddParam);
+
+    /**
+     * 删除
+     * @param id
+     * @return
+     */
+    TupleRet delete(Long id);
 }

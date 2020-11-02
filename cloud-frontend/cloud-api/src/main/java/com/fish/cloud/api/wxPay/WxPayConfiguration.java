@@ -12,10 +12,10 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-//@Configuration
-//@ConditionalOnClass(WxPayService.class)
-//@EnableConfigurationProperties(WxPayProperties.class)
-//@AllArgsConstructor
+@Configuration
+@ConditionalOnClass(WxPayService.class)
+@EnableConfigurationProperties(WxPayProperties.class)
+@AllArgsConstructor
 public class WxPayConfiguration {
     private WxPayProperties properties;
 
@@ -23,12 +23,12 @@ public class WxPayConfiguration {
     @ConditionalOnMissingBean
     public WxPayService wxService() {
         WxPayConfig payConfig = new WxPayConfig();
-//        payConfig.setAppId(StringUtils.trimToNull(this.properties.getAppId()));
-//        payConfig.setMchId(StringUtils.trimToNull(this.properties.getMchId()));
-//        payConfig.setMchKey(StringUtils.trimToNull(this.properties.getMchKey()));
-//        payConfig.setSubAppId(StringUtils.trimToNull(this.properties.getSubAppId()));
-//        payConfig.setSubMchId(StringUtils.trimToNull(this.properties.getSubMchId()));
-//        payConfig.setKeyPath(StringUtils.trimToNull(this.properties.getKeyPath()));
+        payConfig.setAppId(StringUtils.trimToNull(this.properties.getAppId()));
+        payConfig.setMchId(StringUtils.trimToNull(this.properties.getMchId()));
+        payConfig.setMchKey(StringUtils.trimToNull(this.properties.getMchKey()));
+        payConfig.setSubAppId(StringUtils.trimToNull(this.properties.getSubAppId()));
+        payConfig.setSubMchId(StringUtils.trimToNull(this.properties.getSubMchId()));
+        payConfig.setKeyPath(StringUtils.trimToNull(this.properties.getKeyPath()));
 
         // 可以指定是否使用沙箱环境
         payConfig.setUseSandboxEnv(false);

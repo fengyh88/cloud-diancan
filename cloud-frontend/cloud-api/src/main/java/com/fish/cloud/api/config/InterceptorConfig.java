@@ -19,7 +19,7 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(getAuthInterceptor()).addPathPatterns("/**")
                 // 登录获取token时不验证
-                .excludePathPatterns("/login/**","/sysConfig/mpAppConf","/wxPay/notify/**")
+                .excludePathPatterns("/api/login/token")
                 // 不验证swagger路径
                 .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**")
                 .excludePathPatterns("/error");
