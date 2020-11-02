@@ -10,6 +10,7 @@ import com.fish.cloud.common.token.AuthDto;
 import com.fish.cloud.common.token.JwtUtil;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.IShopService;
+import com.fish.cloud.service.ITableService;
 import com.fish.cloud.service.IUserService;
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
@@ -26,6 +27,8 @@ public class AuthInterceptor implements HandlerInterceptor {
     private IUserService userService;
     @Autowired
     private IShopService shopService;
+    @Autowired
+    private ITableService tableService;
     @Autowired
     private ConfigBeanValue configBeanValue;
 
@@ -71,8 +74,15 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         var shop = shopService.getById(configBeanValue.shopId);
         if (ObjectUtil.isNull(shop)){
-            ApiContextHolder.clearAuthDto();
+            ApiContextHolder.clearShopId();
             ApiResponseUtil.sendJsonMessage(response, ApiResult.unauthorized("店铺不存在"));
+            return false;
+        }
+
+        var table = tableService.getById(configBeanValue.tableId);
+        if (ObjectUtil.isNull(table)){
+            ApiContextHolder.clearTableId();
+            ApiResponseUtil.sendJsonMessage(response, ApiResult.unauthorized("台桌不存在"));
             return false;
         }
 
@@ -84,7 +94,8 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         // 存入CONTEXT信息入缓存
         ApiContextHolder.setAuthDto(authDto);
-        ApiContextHolder.setShopId(configBeanValue.shopId);
+        ApiContextHolder.setShopId(shop.getShopId());
+        ApiContextHolder.setTableId(table.getTableId());
 
         return true;
     }

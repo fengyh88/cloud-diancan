@@ -1,6 +1,7 @@
 package com.fish.cloud.service;
 
 import com.fish.cloud.bean.param.LoginParam;
+import com.fish.cloud.bean.param.UserLoginWxParam;
 import com.fish.cloud.common.ret.TupleRet;
 
 /**
@@ -20,4 +21,18 @@ public interface ILoginService {
      * @return
      */
     TupleRet<String> token(LoginParam loginParam);
+
+    /**
+     * 微信登录
+     * @param userLoginWxParam
+     * @return
+     */
+    TupleRet loginWx(UserLoginWxParam userLoginWxParam);
+
+    /**
+     * 微信登录-仅登录
+     * @param userLoginWxParam
+     * @return
+     */
+    TupleRet loginWxOnly(UserLoginWxParam userLoginWxParam);
 }

@@ -10,8 +10,11 @@ import java.util.Date;
 @Data
 public class UserMyParam {
 
-    @ApiModelProperty(value = "姓名")
-    private String empName;
+    @ApiModelProperty(value = "用户名")
+    private String userName;
+
+    @ApiModelProperty(value = "用户昵称")
+    private String nickName;
 
     @ApiModelProperty(value = "邮箱")
     private String email;
@@ -20,5 +23,5 @@ public class UserMyParam {
     private String gender;
 
     @ApiModelProperty(value = "出生日期，例如：2009-11-27")
-    private Date birthDate;
+    private String birthDate;
 }

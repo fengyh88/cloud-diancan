@@ -12,5 +12,7 @@ public class ConfigBeanValue {
 
     @Value("${foo.shopId}")
     public String shopId;
+    @Value("${foo.tableId}")
+    public String tableId;
 }
 

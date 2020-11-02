@@ -51,10 +51,10 @@ public class MyController {
     }
 
     @ApiOperation("编辑个人信息")
-    @ApiImplicitParam(name = "empMyParam", value = "可编辑的个人信息", required = true)
+    @ApiImplicitParam(name = "userMyParam", value = "可编辑的个人信息", required = true)
     @PostMapping(value = "/editMy")
-    public ApiResult editMy(@RequestBody UserMyParam empMyParam) {
-        var ret = myService.editMy(empMyParam);
+    public ApiResult editMy(@RequestBody UserMyParam userMyParam) {
+        var ret = myService.editMy(userMyParam);
         return ApiResult.fromTupleRet(ret);
     }
 }
