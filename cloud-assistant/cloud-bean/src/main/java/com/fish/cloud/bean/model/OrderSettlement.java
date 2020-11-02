@@ -11,11 +11,11 @@ import java.io.Serializable;
 
 /**
  * <p>
- * 
+ * 结算
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 @TableName("cloud_order_settlement")
 public class OrderSettlement extends Model<OrderSettlement> {
@@ -38,15 +38,20 @@ public class OrderSettlement extends Model<OrderSettlement> {
 	@TableField("order_number")
 	private String orderNumber;
     /**
-     * 支付方式 1 微信支付 2 支付宝
+     * 店铺Id
+     */
+	@TableField("shop_id")
+	private Long shopId;
+    /**
+     * 用户Id
+     */
+	@TableField("user_id")
+	private String userId;
+    /**
+     * 支付方式 1 微信支付 2 支付宝 3 现金支付
      */
 	@TableField("pay_type")
 	private Integer payType;
-    /**
-     * 支付方式名称
-     */
-	@TableField("pay_type_name")
-	private String payTypeName;
     /**
      * 支付金额
      */
@@ -58,7 +63,7 @@ public class OrderSettlement extends Model<OrderSettlement> {
 	@TableField("pay_number")
 	private String payNumber;
     /**
-     * 支付状态
+     * 支付状态 1 已支付
      */
 	@TableField("pay_status")
 	private Integer payStatus;
@@ -78,24 +83,10 @@ public class OrderSettlement extends Model<OrderSettlement> {
 	@TableField("clear_time")
 	private Date clearTime;
     /**
-     * 用户Id
-     */
-	@TableField("user_id")
-	private String userId;
-    /**
-     * 店铺Id
-     */
-	@TableField("shop_id")
-	private Long shopId;
-    /**
      * 创建时间
      */
 	@TableField("create_time")
 	private Date createTime;
-    /**
-     * 版本号
-     */
-	private Integer version;
 
 
 	public Long getSettlementId() {
@@ -125,21 +116,30 @@ public class OrderSettlement extends Model<OrderSettlement> {
 		return this;
 	}
 
+	public Long getShopId() {
+		return shopId;
+	}
+
+	public OrderSettlement setShopId(Long shopId) {
+		this.shopId = shopId;
+		return this;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public OrderSettlement setUserId(String userId) {
+		this.userId = userId;
+		return this;
+	}
+
 	public Integer getPayType() {
 		return payType;
 	}
 
 	public OrderSettlement setPayType(Integer payType) {
 		this.payType = payType;
-		return this;
-	}
-
-	public String getPayTypeName() {
-		return payTypeName;
-	}
-
-	public OrderSettlement setPayTypeName(String payTypeName) {
-		this.payTypeName = payTypeName;
 		return this;
 	}
 
@@ -197,39 +197,12 @@ public class OrderSettlement extends Model<OrderSettlement> {
 		return this;
 	}
 
-	public String getUserId() {
-		return userId;
-	}
-
-	public OrderSettlement setUserId(String userId) {
-		this.userId = userId;
-		return this;
-	}
-
-	public Long getShopId() {
-		return shopId;
-	}
-
-	public OrderSettlement setShopId(Long shopId) {
-		this.shopId = shopId;
-		return this;
-	}
-
 	public Date getCreateTime() {
 		return createTime;
 	}
 
 	public OrderSettlement setCreateTime(Date createTime) {
 		this.createTime = createTime;
-		return this;
-	}
-
-	public Integer getVersion() {
-		return version;
-	}
-
-	public OrderSettlement setVersion(Integer version) {
-		this.version = version;
 		return this;
 	}
 

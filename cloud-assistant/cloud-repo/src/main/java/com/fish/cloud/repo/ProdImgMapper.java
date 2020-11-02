@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
-  * 商品图 Mapper 接口
+  * 商品图
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 public interface ProdImgMapper extends BaseMapper<ProdImg> {
 

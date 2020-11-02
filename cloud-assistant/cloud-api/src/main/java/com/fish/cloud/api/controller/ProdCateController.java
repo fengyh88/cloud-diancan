@@ -1,17 +1,18 @@
 package com.fish.cloud.api.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fish.cloud.bean.model.ProdCate;
 import com.fish.cloud.bean.param.ProdCateAddParam;
-import com.fish.cloud.common.util.CommonResult;
-import com.fish.cloud.common.util.SecurityUtil;
-import com.fish.cloud.common.util.TupleRet;
+import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.IProdCateService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -20,9 +21,10 @@ import java.util.List;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
-@RestController
+@Api(tags = "商品类目")
+@Controller
 @RequestMapping("/api/prodCate")
 public class ProdCateController {
     @Autowired
@@ -30,26 +32,40 @@ public class ProdCateController {
 
     /**
      * 全部
+     *
      * @return
      */
+    @ApiOperation("所有列表")
     @GetMapping("/all")
-    public TupleRet<List<ProdCate>> all() {
-        List<ProdCate> prodCates = prodCateService.list(new LambdaQueryWrapper<ProdCate>()
-        .eq(ProdCate::getShopId, SecurityUtil.getAdmin().getShopId()));
-        return TupleRet.success(prodCates);
+    public ApiResult<List<ProdCate>> all() {
+        var dtos = prodCateService.all();
+        return ApiResult.success(dtos);
     }
 
     @ApiOperation("更新状态")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "id", required = true),
+            @ApiImplicitParam(name = "status", value = "状态 -1删除 0禁用 1启用", required = true)
+    })
     @GetMapping(value = "/updateStatus/{id}/{status}")
-    public TupleRet updateStatus(@PathVariable("id") long id,@PathVariable("status") Integer status){
-        Boolean success = prodCateService.updateStatus(id,status);
-        return TupleRet.success(success);
+    public ApiResult updateStatus(@PathVariable("id") long id, @PathVariable("status") Integer status) {
+        var ret = prodCateService.updateStatus(id, status);
+        return ApiResult.fromTupleRet(ret);
     }
 
-    @ApiOperation("新增或编辑")
-    @RequestMapping(value = "/addOrEdit", method = RequestMethod.POST)
-    public TupleRet addOrEdit(@RequestBody ProdCateAddParam prodCateAddParam) {
-        return prodCateService.addOrEdit(prodCateAddParam);
+    @ApiOperation("添加")
+    @ApiImplicitParam(name = "prodCateAddParam", value = "类目信息", required = true)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public ApiResult add(@RequestBody ProdCateAddParam prodCateAddParam) {
+        var ret = prodCateService.add(prodCateAddParam);
+        return ApiResult.fromTupleRet(ret);
     }
 
+    @ApiOperation("编辑")
+    @ApiImplicitParam(name = "prodCateAddParam", value = "类目信息", required = true)
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public ApiResult edit(@RequestBody ProdCateAddParam prodCateAddParam) {
+        var ret = prodCateService.edit(prodCateAddParam);
+        return ApiResult.fromTupleRet(ret);
+    }
 }

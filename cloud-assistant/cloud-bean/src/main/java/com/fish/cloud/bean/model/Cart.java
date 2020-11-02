@@ -14,7 +14,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 @TableName("cloud_cart")
 public class Cart extends Model<Cart> {
@@ -42,10 +42,15 @@ public class Cart extends Model<Cart> {
 	@TableField("prod_id")
 	private Long prodId;
     /**
-     * SkuId
+     * skuId
      */
 	@TableField("sku_id")
 	private Long skuId;
+    /**
+     * 商品属性JSON
+     */
+	@TableField("prod_prop")
+	private String prodProp;
     /**
      * 购物车商品个数
      */
@@ -99,6 +104,15 @@ public class Cart extends Model<Cart> {
 
 	public Cart setSkuId(Long skuId) {
 		this.skuId = skuId;
+		return this;
+	}
+
+	public String getProdProp() {
+		return prodProp;
+	}
+
+	public Cart setProdProp(String prodProp) {
+		this.prodProp = prodProp;
 		return this;
 	}
 

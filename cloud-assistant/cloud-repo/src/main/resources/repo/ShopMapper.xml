@@ -10,7 +10,7 @@
 		<result column="industry" property="industry" />
 		<result column="brief" property="brief" />
 		<result column="notice" property="notice" />
-		<result column="owner_id" property="ownerId" />
+		<result column="owner" property="owner" />
 		<result column="mobile" property="mobile" />
 		<result column="tel" property="tel" />
 		<result column="lat" property="lat" />
@@ -20,8 +20,6 @@
 		<result column="address" property="address" />
 		<result column="open_time" property="openTime" />
 		<result column="close_time" property="closeTime" />
-		<result column="free_dvy" property="freeDvy" />
-		<result column="free_go" property="freeGo" />
 		<result column="status" property="status" />
 		<result column="create_time" property="createTime" />
 		<result column="update_time" property="updateTime" />

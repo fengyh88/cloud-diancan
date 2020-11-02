@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @Description
@@ -16,6 +17,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.fish.cloud"})
 @MapperScan("com.fish.cloud.repo")
+@EnableScheduling
 public class ApiApplication extends SpringBootServletInitializer {
     public static void main(String[] args) {
         SpringApplication.run(ApiApplication.class, args);

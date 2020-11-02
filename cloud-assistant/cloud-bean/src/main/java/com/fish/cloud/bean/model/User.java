@@ -13,7 +13,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 @TableName("cloud_user")
 public class User extends Model<User> {
@@ -33,37 +33,12 @@ public class User extends Model<User> {
     /**
      * 登录密码
      */
-	@TableField("login_password")
-	private String loginPassword;
-	/**
-	 *
-	 */
-	@TableField("access_token")
-	private String accessToken;
+	private String password;
     /**
      * 用户昵称
      */
 	@TableField("nick_name")
 	private String nickName;
-
-	/**
-	 * 微信openid
-	 */
-	@TableField("wechat_open_id")
-	private String wechatOpenId;
-
-	/**
-	 * 微信用户union id
-	 */
-	@TableField("wechat_union_id")
-	private String wechatUnionId;
-
-	/**
-	 *
-	 */
-	@TableField("avatar_url")
-	private String avatarUrl;
-
     /**
      * 真实姓名
      */
@@ -158,37 +133,13 @@ public class User extends Model<User> {
 		return this;
 	}
 
-	public String getLoginPassword() {
-		return loginPassword;
+	public String getPassword() {
+		return password;
 	}
 
-	public User setLoginPassword(String loginPassword) {
-		this.loginPassword = loginPassword;
+	public User setPassword(String password) {
+		this.password = password;
 		return this;
-	}
-
-	public String getWechatOpenId() {
-		return wechatOpenId;
-	}
-
-	public void setWechatOpenId(String wechatOpenId) {
-		this.wechatOpenId = wechatOpenId;
-	}
-
-	public String getWechatUnionId() {
-		return wechatUnionId;
-	}
-
-	public void setWechatUnionId(String wechatUnionId) {
-		this.wechatUnionId = wechatUnionId;
-	}
-
-	public String getAvatarUrl() {
-		return avatarUrl;
-	}
-
-	public void setAvatarUrl(String avatarUrl) {
-		this.avatarUrl = avatarUrl;
 	}
 
 	public String getNickName() {
@@ -234,14 +185,6 @@ public class User extends Model<User> {
 	public User setGender(String gender) {
 		this.gender = gender;
 		return this;
-	}
-
-	public String getAccessToken() {
-		return accessToken;
-	}
-
-	public void setAccessToken(String accessToken) {
-		this.accessToken = accessToken;
 	}
 
 	public String getBirthDate() {

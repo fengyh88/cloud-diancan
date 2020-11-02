@@ -1,22 +1,20 @@
 package com.fish.cloud.bean.dto;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-/**
- * @Description
- * @Author fengyh
- * @Date 2020/3/9 0:34
- * @Version 1.0
- */
+@ApiModel
 @Data
 public class OrderCountStatusDto {
-    @ApiModelProperty(name = "待付款")
-    private Integer notPay;
-    @ApiModelProperty(name = "待发货")
-    private Integer notSend;
-    @ApiModelProperty(name = "待收货")
-    private Integer send;
-    @ApiModelProperty(name = "已完成")
-    private Integer confirm;
+    @ApiModelProperty(value = "所有订单数量")
+    private Integer all;
+    @ApiModelProperty(name = "已提交")
+    private Integer submitted;
+    @ApiModelProperty(name = "已支付")
+    private Integer payed;
+    @ApiModelProperty(value = "关闭，失败")
+    private Integer closed;
+    @ApiModelProperty(value = "完成，成功")
+    private Integer completed;
 }

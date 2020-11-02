@@ -14,11 +14,13 @@ import javax.validation.constraints.Size;
 @Data
 public class ProdParam {
     /**
-     * 商品名称
+     * 关键字
      */
     @NotBlank(message = "商品名称不能为空")
     @Size(max = 200, message = "商品名称长度应该小于{max}")
-    private String prodName;
-
-    private Long shopId;
+    private String keyword;
+    /**
+     * 商品类目
+     */
+    private String cateId;
 }

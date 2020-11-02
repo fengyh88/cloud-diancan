@@ -1,23 +1,23 @@
 package com.fish.cloud.api.controller;
 
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.fish.cloud.bean.model.Prod;
+import com.fish.cloud.common.context.ApiContextHolder;
+import com.fish.cloud.bean.dto.ProdDetailDto;
+import com.fish.cloud.bean.dto.ProdDto;
 import com.fish.cloud.bean.param.ProdAddParam;
 import com.fish.cloud.bean.param.ProdByCateParam;
-import com.fish.cloud.bean.param.ProdParam;
-import com.fish.cloud.common.util.CommonResult;
-import com.fish.cloud.common.util.TupleRet;
+import com.fish.cloud.bean.param.ProdEditParam;
+import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.IProdService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.var;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -26,50 +26,58 @@ import java.util.List;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
-@RestController
+@Api(tags = "商品")
+@Controller
 @RequestMapping("/api/prod")
 public class ProdController {
     @Autowired
     private IProdService prodService;
 
-    @ApiOperation("根据商品分类查询列表")
+    @ApiOperation("根据商品类目查询列表")
+    @ApiImplicitParam(name = "prodByCateParam", value = "根据商品类目查询信息", required = true)
     @PostMapping(value = "/listByCate")
-    public CommonResult<List<Prod>> listByCat(@RequestBody ProdByCateParam prodByCateParam) {
-        List<Prod> prods = prodService.list(new LambdaQueryWrapper<Prod>()
-                .eq(prodByCateParam.getShopId() != null, Prod::getShopId, prodByCateParam.getShopId())
-                .eq(prodByCateParam.getCateId() != null, Prod::getCateId, prodByCateParam.getCateId())
-                .like(StrUtil.isNotBlank(prodByCateParam.getProdName()), Prod::getProdName, prodByCateParam.getProdName())
-                .orderByDesc(Prod::getPutonTime));
-        return CommonResult.success(prods);
+    public ApiResult<List<ProdDto>> listByCate(@RequestBody ProdByCateParam prodByCateParam) {
+        var dtos = prodService.listByCate(prodByCateParam);
+        return ApiResult.success(dtos);
     }
 
-    @ApiOperation("商品详情")
-    @GetMapping(value = "/detail")
-    public CommonResult<Prod> detail(@RequestParam(value = "id") long id) {
-        Prod prod = prodService.getById(id);
-        return CommonResult.success(prod);
+    @ApiOperation("详情")
+    @ApiImplicitParam(name = "id", value = "id", required = true)
+    @GetMapping(value = "/detail/{id}")
+    public ApiResult<ProdDetailDto> detail(@PathVariable(value = "id") Long id) {
+        var dto = prodService.detail(id);
+        return ApiResult.success(dto);
     }
 
-    @ApiOperation("新增或编辑")
-    @RequestMapping(value = "/addOrEdit", method = RequestMethod.POST)
-    public TupleRet addOrEdit(@RequestBody ProdAddParam prodAddParam) {
-        return prodService.addOrEdit(prodAddParam);
-    }
-
-    @ApiOperation("更改状态，上架下架")
+    @ApiOperation("更改状态，上架下架删除")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "id", required = true),
+            @ApiImplicitParam(name = "status", value = "状态 -1删除 0禁用 1启用", required = true)
+    })
     @GetMapping(value = "/updateStatus")
-    public TupleRet updateStatus(@RequestParam(value = "id") long id, @RequestParam("status") Integer status) {
-        if (!ArrayUtils.contains(new int[]{0, 1}, status)) {
-            return TupleRet.failed("status传值需为1上架或者0下架");
+    public ApiResult updateStatus(@RequestParam(value = "id") Long id, @RequestParam("status") Integer status) {
+        if (!ArrayUtils.contains(new int[]{-1, 0, 1}, status)) {
+            return ApiResult.failed("status传值需为-1删除1上架或者0下架");
         }
-        return prodService.updateStatus(id, status);
+        var ret = prodService.updateStatus(id, status);
+        return ApiResult.fromTupleRet(ret);
     }
 
-    @ApiOperation("更新库存")
-    @GetMapping(value = "/updateStock")
-    public TupleRet updateStock(@RequestParam(value = "id") long id, @RequestParam("num") Integer num) {
-        return prodService.updateStock(id, num);
+    @ApiOperation("添加")
+    @ApiImplicitParam(name = "prodAddParam", value = "商品信息", required = true)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public ApiResult add(@RequestBody ProdAddParam prodAddParam) {
+        var ret = prodService.add(prodAddParam);
+        return ApiResult.fromTupleRet(ret);
+    }
+
+    @ApiOperation("编辑")
+    @ApiImplicitParam(name = "prodEditParam", value = "商品信息", required = true)
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public ApiResult edit(@RequestBody ProdEditParam prodEditParam) {
+        var ret = prodService.edit(prodEditParam);
+        return ApiResult.fromTupleRet(ret);
     }
 }

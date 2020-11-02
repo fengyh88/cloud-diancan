@@ -9,7 +9,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import javax.sql.DataSource;
 
 /**
- * @Description
+ * @Description 数据源配置
  * @Author fengyh
  * @Date 2020/3/8 19:15
  * @Version 1.0

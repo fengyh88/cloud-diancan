@@ -1,15 +1,14 @@
 package com.fish.cloud.bean.param;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-/**
- * @Description
- * @Author fengyh
- * @Date 2020/3/8 23:08
- * @Version 1.0
- */
+@ApiModel
 @Data
 public class ProdByCateParam extends ProdParam {
-    private Long cateId;
+    @ApiModelProperty(value = "商品类目")
+    private String cateId;
+    @ApiModelProperty(value = "关键字")
     private String keyword;
 }

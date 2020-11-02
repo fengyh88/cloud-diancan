@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
-  * 商品类目 Mapper 接口
+  * 商品类目
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 public interface ProdCateMapper extends BaseMapper<ProdCate> {
 

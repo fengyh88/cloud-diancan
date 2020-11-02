@@ -14,11 +14,23 @@ import java.math.BigDecimal;
 @Data
 public class OrderAddItemParam {
     @ApiModelProperty(name = "商品Id")
-    private long goodsId;
+    private Long prodId;
+    @ApiModelProperty(name = "sku Id")
+    private Long skuId;
+    @ApiModelProperty(name = "商品名称")
+    private String prodName;
+    @ApiModelProperty(name = "sku名称")
+    private String skuName;
+    @ApiModelProperty(name = "商品图片")
+    private String prodImg;
+    @ApiModelProperty(name = "sku图片")
+    private String skuImg;
     @ApiModelProperty(name = "商品数量")
-    private long num;
+    private Integer num;
+    @ApiModelProperty(name = "单价")
+    private BigDecimal price;
     @ApiModelProperty(name = "此商品的总价")
-    private BigDecimal totalPrice;
+    private BigDecimal totalAmount;
     @ApiModelProperty(name = "商品规格")
     private String attr;
     @ApiModelProperty(name = "商品规格图片")

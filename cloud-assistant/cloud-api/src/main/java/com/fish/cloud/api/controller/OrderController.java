@@ -1,15 +1,22 @@
 package com.fish.cloud.api.controller;
 
-import com.fish.cloud.bean.page.PageParam;
-import com.fish.cloud.bean.model.Order;
+import com.fish.cloud.bean.dto.OrderCountStatusDto;
+import com.fish.cloud.bean.dto.OrderDetailDto;
+import com.fish.cloud.bean.dto.OrderDto;
 import com.fish.cloud.bean.param.OrderBySatusParam;
-import com.fish.cloud.bean.param.OrderCancelParam;
-import com.fish.cloud.common.util.TupleRet;
+import com.fish.cloud.bean.param.OrderCompleteParam;
+import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.IOrderService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import lombok.var;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -17,66 +24,46 @@ import org.springframework.web.bind.annotation.*;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
-@RestController
+@Api(tags = "订单")
+@Controller
 @RequestMapping("/api/order")
 public class OrderController {
     @Autowired
     private IOrderService orderService;
 
     @ApiOperation("根据状态查询列表")
+    @ApiImplicitParam(name = "orderBySatusParam", value = "根据状态查询参数", required = true)
     @PostMapping(value = "/listByStatus")
-    public TupleRet listByStatus(@RequestBody OrderBySatusParam orderBySatusParam) {
-        if (!ArrayUtils.contains(new int[]{0, 1, 2, 3, 4}, orderBySatusParam.getStatus())) {
-            return TupleRet.failed("未设置查询的订单状态或者订单状态设置错误");
+    public ApiResult<List<OrderDto>> listByStatus(@RequestBody OrderBySatusParam orderBySatusParam) {
+        if (!ArrayUtils.contains(new int[]{0, 1, 9, 13, 17}, orderBySatusParam.getStatus())) {
+            return ApiResult.failed("订单状态错误");
         }
-        return orderService.listByStatus(orderBySatusParam);
+        var dtoList = orderService.listByStatus(orderBySatusParam);
+        return ApiResult.success(dtoList);
     }
 
-    @ApiOperation("根据状态查询列表，分页")
-    @PostMapping(value = "/pageByStatus")
-    public TupleRet pageByStatus(@RequestBody OrderBySatusParam orderBySatusParam, PageParam<Order> page) {
-        if (!ArrayUtils.contains(new int[]{0, 1, 2, 3, 4, 11, 10}, orderBySatusParam.getStatus())) {
-            return TupleRet.failed("未设置查询的订单状态或者订单状态设置错误");
-        }
-        return orderService.pageByStatus(orderBySatusParam, page);
-    }
-
-    @ApiOperation("订单各个状态数量")
-    @GetMapping(value = "/getCountStatus")
-    public TupleRet getCountStatus() {
-        return orderService.getCountStatus();
-    }
-
-    @ApiOperation("取消订单")
-    @PostMapping(value = "/cancel")
-    public TupleRet cancel(@RequestBody OrderCancelParam orderCancelParam) {
-        return orderService.cancel(orderCancelParam);
-    }
-
-    @ApiOperation("订单详情")
+    @ApiOperation("详情")
+    @ApiImplicitParam(name = "id", value = "id", required = true)
     @GetMapping(value = "/detail")
-    public TupleRet<Order> detail(@RequestParam(value = "id") Long id) {
-        return orderService.detail(id);
+    public ApiResult<OrderDetailDto> detail(@RequestParam(value = "id") long id) {
+        var dto = orderService.detail(id);
+        return ApiResult.success(dto);
     }
 
-    @ApiOperation("取消订单审核")
-    @GetMapping(value = "/cancelAudit")
-    public TupleRet cancelAudit(@RequestParam(value = "id") Long id) {
-        return orderService.cancelAudit(id);
+    @ApiOperation("统计订单各个状态数量")
+    @GetMapping(value = "/countOrderStatus")
+    public ApiResult<OrderCountStatusDto> countOrderStatus() {
+        var dto = orderService.countOrderStatus();
+        return ApiResult.success(dto);
     }
 
-    @ApiOperation("发货")
-    @PostMapping(value = "/send/{orderId}")
-    public TupleRet send(@PathVariable Long orderId) {
-        return orderService.send(orderId);
+    @ApiOperation("完成")
+    @ApiImplicitParam(name = "orderCompleteParam", value = "完成信息", required = true)
+    @PostMapping(value = "/complete")
+    public ApiResult complete(@RequestBody OrderCompleteParam orderCompleteParam) {
+        var ret = orderService.complete(orderCompleteParam);
+        return ApiResult.fromTupleRet(ret);
     }
-
-    @ApiOperation("确定不发货，取消订单")
-    @GetMapping(value = "/sendNo")
-    public TupleRet sendNo(@RequestParam(value = "id") long id) {
-        return orderService.sendNo(id);
-    }
-
 }

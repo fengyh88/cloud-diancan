@@ -8,7 +8,7 @@
 		<result column="shop_id" property="shopId" />
 		<result column="coupon_name" property="couponName" />
 		<result column="intro" property="intro" />
-		<result column="pic" property="pic" />
+		<result column="img" property="img" />
 		<result column="discount_type" property="discountType" />
 		<result column="min_amount" property="minAmount" />
 		<result column="sub_amount" property="subAmount" />
@@ -18,14 +18,9 @@
 		<result column="begin_time" property="beginTime" />
 		<result column="end_time" property="endTime" />
 		<result column="total_num" property="totalNum" />
-		<result column="cate_id_list" property="cateIdList" />
-		<result column="prod_id_list" property="prodIdList" />
+		<result column="prod_cate_list" property="prodCateList" />
+		<result column="prod_list" property="prodList" />
 		<result column="price" property="price" />
-		<result column="join_coupon" property="joinCoupon" />
-		<result column="join_integral" property="joinIntegral" />
-		<result column="integral" property="integral" />
-		<result column="integral_total_num" property="integralTotalNum" />
-		<result column="integral_user_num" property="integralUserNum" />
 		<result column="seq" property="seq" />
 		<result column="status" property="status" />
 		<result column="create_time" property="createTime" />

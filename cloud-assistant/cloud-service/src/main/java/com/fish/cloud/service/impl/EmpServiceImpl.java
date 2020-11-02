@@ -1,21 +1,20 @@
 package com.fish.cloud.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.fish.cloud.bean.dto.EmpDto;
 import com.fish.cloud.bean.model.Emp;
-import com.fish.cloud.bean.param.AdminLoginParam;
 import com.fish.cloud.bean.param.EmpAddParam;
-import com.fish.cloud.bean.param.EmpPwdParam;
+import com.fish.cloud.common.context.ApiContextHolder;
+import com.fish.cloud.common.ret.TupleRet;
+import com.fish.cloud.common.util.DateTimeUtil;
 import com.fish.cloud.common.util.MD5Util;
-import com.fish.cloud.common.util.SecurityUtil;
-import com.fish.cloud.common.util.TupleRet;
 import com.fish.cloud.repo.EmpMapper;
 import com.fish.cloud.service.IEmpService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.fish.cloud.service.IShopService;
+import lombok.extern.slf4j.Slf4j;
 import lombok.var;
-import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 
@@ -25,143 +24,131 @@ import java.util.List;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
+@Slf4j
 @Service
 public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp> implements IEmpService {
-
-    @Autowired
-    private IShopService shopService;
-
     @Override
-    public TupleRet login(AdminLoginParam adminLoginParam) {
-        var emp = baseMapper.selectOne(new LambdaQueryWrapper<Emp>()
-                .eq(Emp::getEmpNumber, adminLoginParam.getUserNumber()));
-
-        if (null == emp) {
-            return TupleRet.failed("用户不存在");
-        }
-        if (!MD5Util.authenticatePassword(emp.getPassword(), adminLoginParam.getPassword())) {
-            return TupleRet.failed("密码不正确");
-        }
-
-        return TupleRet.success(emp);
+    public EmpDto detail(Long id) {
+        return baseMapper.detail(id);
     }
 
     @Override
-    public TupleRet updatePassword(EmpPwdParam empPwdParam) {
-        Emp model = baseMapper.selectById(SecurityUtil.getAdmin().getEmpId());
-        if (null == model) {
-            return TupleRet.failed("用户不存在");
-        }
-        if(!model.getPassword().equals(MD5Util.md5(empPwdParam.getOldPwd()))) {
-            return TupleRet.failed("原密码错误");
-        }
-        if (!empPwdParam.getNewPwd().equals(empPwdParam.getNewPwd2())) {
-            return TupleRet.failed("两次密码输入不一致");
-        }
-        model.setPassword(MD5Util.md5(empPwdParam.getNewPwd()));
-
-        try {
-            baseMapper.updateById(model);
-        } catch (Exception e) {
-            // logger.error(e.getMessage());
-            return TupleRet.failed("更新失败");
-        }
-
-        return TupleRet.success();
+    public List<EmpDto> all() {
+        return baseMapper.all(ApiContextHolder.getAuthDto().getShopId());
     }
-
-    @Override
-    public TupleRet updateAvatarUrl(String avatarUrl, Long empId) {
-        Emp model = baseMapper.selectById(SecurityUtil.getAdmin().getEmpId());
-        if (null == model) {
-            return TupleRet.failed("用户不存在");
-        }
-        if (!avatarUrl.startsWith("OTA")) {
-            avatarUrl = avatarUrl.substring(avatarUrl.indexOf("OTA"));
-        }
-        model.setPic(avatarUrl);
-
-        try {
-            baseMapper.updateById(model);
-        } catch (Exception e) {
-            // logger.error(e.getMessage());
-            return TupleRet.failed("更新失败");
-        }
-
-        return TupleRet.success();
-    }
-
+    /**
+     * 更新状态，正常禁用删除
+     * @param id
+     * @param status
+     * @return
+     */
     @Override
     public TupleRet updateStatus(Long id, Integer status) {
-        return null;
+        var model = baseMapper.selectById(id);
+        if (ObjectUtils.isEmpty(model)){
+            return TupleRet.failed("员工不存在");
+        }
+        model.setStatus(status);
+        baseMapper.updateById(model);
+        return TupleRet.success();
     }
 
     @Override
-    public TupleRet addOrEdit(EmpAddParam empAddParam) {
+    public TupleRet add(EmpAddParam empAddParam) {
+        var count = baseMapper.selectCount(new LambdaQueryWrapper<Emp>()
+                .eq(Emp::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(Emp::getEmpNumber, empAddParam.getEmpNumber()));
+        if (count > 0) {
+            return TupleRet.failed("工号不得重复");
+        }
+        var countMobile = baseMapper.selectCount(new LambdaQueryWrapper<Emp>()
+                .eq(Emp::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(Emp::getMobile, empAddParam.getMobile()));
+        if (countMobile > 0) {
+            return TupleRet.failed("手机号不得重复");
+        }
+        var countEmail = baseMapper.selectCount(new LambdaQueryWrapper<Emp>()
+                .eq(Emp::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(Emp::getEmail, empAddParam.getEmail()));
+        if (countEmail > 0) {
+            return TupleRet.failed("邮箱不得重复");
+        }
+
         try {
-            Emp existModel = baseMapper.selectById(empAddParam.getEmpId());
-            if (null == existModel) {
-                //不存在，则新增
-//            AdminModel adminModelUserCode = adminRepository.findFirstByStoreIdAndUserCode(authDto.getStoreId(), empAddParam.getUserCode());
-//            if (adminModelUserCode != null && adminModelUserCode.getStatus() != 3) {
-//                return null;
-//            }
-                Emp model = new Emp();
-                model.setShopId(SecurityUtil.getAdmin().getShopId());
-                model.setEmpId(empAddParam.getEmpId());
-                model.setEmpName(empAddParam.getEmpName());
-                model.setPassword(MD5Util.md5("111111"));
-                model.setGender(empAddParam.getGender());
-                model.setBirthDate(empAddParam.getBirthDate());
-                model.setMobile(empAddParam.getMobile());
-                model.setStatus(empAddParam.getStatus());
-                String avatarUrl = empAddParam.getPic();
-                if (!avatarUrl.startsWith("OTA")) {
-                    avatarUrl = avatarUrl.substring(avatarUrl.indexOf("OTA"));
-                }
-                model.setPic(avatarUrl);
+            var model = new Emp();
+            model.setEmpNumber(empAddParam.getEmpNumber());
+            model.setEmpName(empAddParam.getEmpName());
+            // 默认密码
+            model.setPassword(MD5Util.md5("111111"));
+            model.setEmail(empAddParam.getEmail());
+            model.setMobile(empAddParam.getMobile());
+            model.setGender(empAddParam.getGender());
+            model.setBirthDate(empAddParam.getBirthDate());
+            model.setImg(empAddParam.getImg());
+            model.setShopId(ApiContextHolder.getAuthDto().getShopId());
+            model.setDeptId(empAddParam.getDeptId());
+            model.setDutyId(empAddParam.getDutyId());
+            // 默认启用
+            model.setStatus(1);
+            model.setCreateTime(DateTimeUtil.getCurrentDateTime());
 
-                baseMapper.insert(model);
-            }
-            //已存在，则编辑
-//        //1 UserCode不得重复
-//        AdminModel adminModelUserCode = adminRepository.findFirstByStoreIdAndUserCode(authDto.getStoreId(), empAddParam.getUserCode());
-//        if (adminModelUserCode != null && adminModelUserCode.getStatus() != 3 && adminModelUserCode.getId() != empAddParam.getId()) {
-//            return null;
-//        }
-            else {
-                existModel.setEmpName(empAddParam.getEmpName());
-                existModel.setPassword(MD5Util.md5("111111"));
-                existModel.setGender(empAddParam.getGender());
-                existModel.setBirthDate(empAddParam.getBirthDate());
-                existModel.setMobile(empAddParam.getMobile());
-                existModel.setStatus(empAddParam.getStatus());
-                String avatarUrl = empAddParam.getPic();
-                if (!avatarUrl.startsWith("OTA")) {
-                    avatarUrl = avatarUrl.substring(avatarUrl.indexOf("OTA"));
-                }
-                existModel.setPic(avatarUrl);
-                existModel.setStatus(empAddParam.getStatus());
-
-                baseMapper.updateById(existModel);
-            }
+            baseMapper.insert(model);
         } catch (Exception ex) {
-            // logger.error(ex.getStackTrace());
+            log.error(ex.getMessage());
             return TupleRet.failed(ex.getMessage());
         }
         return TupleRet.success();
     }
 
     @Override
-    public TupleRet detail(Long id) {
-        return null;
-    }
+    public TupleRet edit(EmpAddParam empAddParam) {
+        var model = baseMapper.selectById(empAddParam.getEmpId());
+        if (ObjectUtils.isEmpty(model)){
+            return TupleRet.failed("员工不存在");
+        }
+        var count = baseMapper.selectCount(new LambdaQueryWrapper<Emp>()
+                .eq(Emp::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(Emp::getEmpNumber, empAddParam.getEmpNumber())
+                .ne(Emp::getEmpId,empAddParam.getEmpId()));
+        if (count > 0) {
+            return TupleRet.failed("工号不得重复");
+        }
+        var countMobile = baseMapper.selectCount(new LambdaQueryWrapper<Emp>()
+                .eq(Emp::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(Emp::getMobile, empAddParam.getMobile())
+                .ne(Emp::getEmpId,empAddParam.getEmpId()));
+        if (countMobile > 0) {
+            return TupleRet.failed("手机号不得重复");
+        }
+        var countEmail = baseMapper.selectCount(new LambdaQueryWrapper<Emp>()
+                .eq(Emp::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(Emp::getEmail, empAddParam.getEmail())
+                .ne(Emp::getEmpId,empAddParam.getEmpId()));
+        if (countEmail > 0) {
+            return TupleRet.failed("邮箱不得重复");
+        }
 
-    @Override
-    public TupleRet all() {
-        return null;
+        try {
+            model.setEmpNumber(empAddParam.getEmpNumber());
+            model.setEmpName(empAddParam.getEmpName());
+            model.setEmail(empAddParam.getEmail());
+            model.setMobile(empAddParam.getMobile());
+            model.setGender(empAddParam.getGender());
+            model.setBirthDate(empAddParam.getBirthDate());
+            model.setImg(empAddParam.getImg());
+            model.setShopId(ApiContextHolder.getAuthDto().getShopId());
+            model.setDeptId(empAddParam.getDeptId());
+            model.setDutyId(empAddParam.getDutyId());
+            model.setUpdateTime(DateTimeUtil.getCurrentDateTime());
+
+            baseMapper.updateById(model);
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            return TupleRet.failed(ex.getMessage());
+        }
+        return TupleRet.success();
     }
 
 }

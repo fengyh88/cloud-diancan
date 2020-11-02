@@ -14,7 +14,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 @TableName("cloud_sys_config")
 public class SysConfig extends Model<SysConfig> {
@@ -42,7 +42,7 @@ public class SysConfig extends Model<SysConfig> {
      */
 	private Integer status;
     /**
-     * 店铺id 0表示全局配置
+     * 店铺Id
      */
 	@TableField("shop_id")
 	private Long shopId;

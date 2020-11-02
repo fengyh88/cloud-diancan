@@ -9,6 +9,7 @@
 		<result column="user_id" property="userId" />
 		<result column="prod_id" property="prodId" />
 		<result column="sku_id" property="skuId" />
+		<result column="prod_prop" property="prodProp" />
 		<result column="num" property="num" />
 		<result column="cart_time" property="cartTime" />
 	</resultMap>

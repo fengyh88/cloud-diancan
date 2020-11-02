@@ -14,7 +14,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 @TableName("cloud_emp")
 public class Emp extends Model<Emp> {
@@ -57,7 +57,7 @@ public class Emp extends Model<Emp> {
     /**
      * 头像图片路径
      */
-	private String pic;
+	private String img;
     /**
      * 用户所在的商城Id
      */
@@ -161,12 +161,12 @@ public class Emp extends Model<Emp> {
 		return this;
 	}
 
-	public String getPic() {
-		return pic;
+	public String getImg() {
+		return img;
 	}
 
-	public Emp setPic(String pic) {
-		this.pic = pic;
+	public Emp setImg(String img) {
+		this.img = img;
 		return this;
 	}
 

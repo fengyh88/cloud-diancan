@@ -1,17 +1,13 @@
 package com.fish.cloud.bean.param;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-/**
- * @Description
- * @Author fengyh
- * @Date 2020/3/8 23:24
- * @Version 1.0
- */
+@ApiModel
 @Data
 public class OrderBySatusParam {
-    /**
-     * 0全部 1待付款 2待发货 3待收货 4已完成
-     */
+
+    @ApiModelProperty(value = "0全部  1：已提交 9:已支付 13:关闭，失败，17:完成，成功")
     private Integer status;
 }

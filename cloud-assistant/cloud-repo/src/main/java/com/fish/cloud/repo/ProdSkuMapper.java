@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
-  * 单品SKU Mapper 接口
+  * 单品SKU
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 public interface ProdSkuMapper extends BaseMapper<ProdSku> {
 

@@ -11,7 +11,7 @@ import lombok.Data;
  */
 @Data
 public class OrderPayOnlineParam {
-    private long id;
-    @ApiModelProperty("微信支付")
+    private Long id;
+    @ApiModelProperty("1微信支付 2支付宝支付")
     private Integer payType;
 }

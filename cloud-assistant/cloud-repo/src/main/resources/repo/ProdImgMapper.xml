@@ -9,8 +9,8 @@
 		<result column="img_type" property="imgType" />
 		<result column="img_size" property="imgSize" />
 		<result column="upload_time" property="uploadTime" />
-		<result column="link_id" property="linkId" />
 		<result column="link_type" property="linkType" />
+		<result column="link_id" property="linkId" />
 		<result column="link_cate" property="linkCate" />
 	</resultMap>
 

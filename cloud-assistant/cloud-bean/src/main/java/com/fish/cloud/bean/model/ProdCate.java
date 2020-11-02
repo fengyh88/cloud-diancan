@@ -14,7 +14,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 @TableName("cloud_prod_cate")
 public class ProdCate extends Model<ProdCate> {
@@ -58,7 +58,7 @@ public class ProdCate extends Model<ProdCate> {
      */
 	private Integer seq;
     /**
-     * 默认是1，表示正常状态,0为下线状态
+     * 默认是1 正常状态,0 禁用状态 -1 删除状态
      */
 	private Integer status;
     /**

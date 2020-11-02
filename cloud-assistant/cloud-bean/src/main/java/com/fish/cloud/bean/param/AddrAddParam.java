@@ -10,13 +10,19 @@ public class AddrAddParam {
     @ApiModelProperty(name = "联系电话")
     private String mobile;
     @ApiModelProperty(name = "所在地区，省")
-    private long provinceId;
+    private Long provinceId;
+    @ApiModelProperty(name = "所在地区，省")
+    private String province;
     @ApiModelProperty(name = "所在地区，市")
-    private long cityId;
+    private Long cityId;
+    @ApiModelProperty(name = "所在地区，市")
+    private String city;
     @ApiModelProperty(name = "所在地区，区")
-    private long districtId;
+    private Long areaId;
+    @ApiModelProperty(name = "所在地区，区")
+    private String area;
     @ApiModelProperty(name = "详细地址")
-    private String detail;
+    private String addr;
     @ApiModelProperty(name = "是否是默认地址：0=否，1=是'")
-    private long isDefault;
+    private Integer isDefault;
 }

@@ -1,11 +1,19 @@
 package com.fish.cloud.api.controller;
 
-import com.fish.cloud.bean.param.ShopAddParam;
-import com.fish.cloud.common.util.TupleRet;
+import com.fish.cloud.bean.dto.ShopDto;
+import com.fish.cloud.bean.param.ShopEditParam;
+import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.IShopService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * <p>
@@ -13,9 +21,10 @@ import org.springframework.web.bind.annotation.*;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
-@RestController
+@Api(tags = "店铺")
+@Controller
 @RequestMapping("/api/shop")
 public class ShopController {
     @Autowired
@@ -23,24 +32,16 @@ public class ShopController {
 
     @ApiOperation("详情")
     @GetMapping(value = "/detail")
-    public TupleRet detail(@RequestParam(name = "id") long id) {
-        return shopService.detail(id);
+    public ApiResult<ShopDto> detail() {
+        var ret = shopService.detail();
+        return ApiResult.fromTupleRet(ret);
     }
 
-    @ApiOperation("新增或编辑")
-    @RequestMapping(value = "/addOrEdit", method = RequestMethod.POST)
-    public TupleRet addOrEdit(@RequestBody ShopAddParam shopAddParam) {
-        return shopService.addOrEdit(shopAddParam);
-    }
-
-    @ApiOperation("更新状态")
-    @GetMapping(value = "/updateStatus/{id}/{status}")
-    public TupleRet updateStatus(@PathVariable("id") long id,@PathVariable("status") Integer status){
-        return shopService.updateStatus(id,status);
-    }
-    @ApiOperation("生成商家编码")
-    @GetMapping(value = "/assistant/generate")
-    public TupleRet assistantGenerate() {
-        return shopService.generateCode();
+    @ApiOperation("编辑")
+    @ApiImplicitParam(name = "shopEditParam", value = "店铺信息", required = true)
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public ApiResult addOrEdit(@RequestBody ShopEditParam shopEditParam) {
+        var ret = shopService.edit(shopEditParam);
+        return ApiResult.fromTupleRet(ret);
     }
 }

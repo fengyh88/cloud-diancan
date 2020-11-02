@@ -4,18 +4,16 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.fish.cloud.common.util.AesCbcUtil;
 import com.fish.cloud.common.util.HttpRequestUtil;
-import com.fish.cloud.common.util.StorageUtil;
-import com.fish.cloud.common.util.TupleRet;
+import com.fish.cloud.common.ret.TupleRet;
 import org.springframework.util.StringUtils;
 
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 public class WxUtil {
 
     /**
-     *
+     * 获取Openid
      * @param code
      * @param wechatAppId 小程序的AppID
      * @param wechatSecretKey 小程序的session-key
@@ -50,7 +48,7 @@ public class WxUtil {
     }
 
     /**
-     *
+     * 解密获取用户信息
      * @param iv
      * @param encryptedData
      * @param sessionKey
@@ -73,54 +71,12 @@ public class WxUtil {
             wxUserInfoModel.setProvince(userInfoJSON.get("province").toString());
             wxUserInfoModel.setCountry(userInfoJSON.get("country").toString());
             wxUserInfoModel.setAvatarUrl(userInfoJSON.get("avatarUrl").toString());
-            //wxUserInfoModel.setUnionId(userInfoJSON.get("unionId").toString());
+            wxUserInfoModel.setUnionId(userInfoJSON.get("unionId").toString());
 
             return TupleRet.success(wxUserInfoModel);
         } catch (Exception e) {
             e.printStackTrace();
+            return TupleRet.failed("解密失败");
         }
-        return TupleRet.failed("解密失败");
-    }
-
-    /**
-     * 获取access_token
-     *
-     * @param wechatAppId
-     * @param wechatSecretKey
-     * @return
-     */
-    public static TupleRet getAccessToken(String wechatAppId, String wechatSecretKey) {
-        try {
-            if (org.apache.commons.lang3.StringUtils.isEmpty(wechatAppId)) {
-                return TupleRet.failed("wechatAppId 不能为空");
-            }
-            if (org.apache.commons.lang3.StringUtils.isEmpty(wechatSecretKey)) {
-                return TupleRet.failed("wechatSecretKey 不能为空");
-            }
-
-            String grantType = "client_credential";
-            String params = "grant_type=" + grantType + "&appid=" + wechatAppId + "&secret=" + wechatSecretKey;
-            // sending request
-            String sr = HttpRequestUtil.sendGet("https://api.weixin.qq.com/cgi-bin/token", params);
-            JSONObject jsonObject = JSON.parseObject(sr);
-            String accessToken = jsonObject.getString("access_token");
-            return TupleRet.success(accessToken);
-        } catch (Exception e) {
-            return TupleRet.failed(e.getMessage());
-        }
-    }
-
-    // 生成小程序码接口url
-    private final static String genetate_barcode_url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=";
-
-    public static String getBarCodeWithInterB(String accessToken, String params, String imgName,String savePath) {
-        try {
-            InputStream inputStream = HttpRequestUtil.sendPostWithBody(genetate_barcode_url + accessToken, params);
-            StorageUtil.saveImgByInputStream(inputStream, savePath, imgName);
-        } catch (Exception ex) {
-            //logger.error(ex.getStackTrace());
-            return ex.getMessage();
-        }
-        return "";
     }
 }

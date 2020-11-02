@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
-  * 角色与菜单对应关系 Mapper 接口
+  * 角色与菜单对应关系
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 public interface RoleMenuMapper extends BaseMapper<RoleMenu> {
 

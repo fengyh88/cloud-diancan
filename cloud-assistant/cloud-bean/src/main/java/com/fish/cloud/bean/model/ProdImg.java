@@ -14,7 +14,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 @TableName("cloud_prod_img")
 public class ProdImg extends Model<ProdImg> {
@@ -44,17 +44,17 @@ public class ProdImg extends Model<ProdImg> {
 	@TableField("upload_time")
 	private Date uploadTime;
     /**
+     * 图片关联表类型：1 商品表 2 商品规格
+     */
+	@TableField("link_type")
+	private Integer linkType;
+    /**
      * 图片关联的表主键Id
      */
 	@TableField("link_id")
 	private Long linkId;
     /**
-     * 图片关联表类型：1 商品表
-     */
-	@TableField("link_type")
-	private Integer linkType;
-    /**
-     * 1 商品表(1 轮播图，2 详情图)
+     * 1 商品表(1 主图 2 轮播图 3 详情图 ) 2 商品规格表(1 主图，2 详情图)
      */
 	@TableField("link_cate")
 	private Integer linkCate;
@@ -105,21 +105,21 @@ public class ProdImg extends Model<ProdImg> {
 		return this;
 	}
 
-	public Long getLinkId() {
-		return linkId;
-	}
-
-	public ProdImg setLinkId(Long linkId) {
-		this.linkId = linkId;
-		return this;
-	}
-
 	public Integer getLinkType() {
 		return linkType;
 	}
 
 	public ProdImg setLinkType(Integer linkType) {
 		this.linkType = linkType;
+		return this;
+	}
+
+	public Long getLinkId() {
+		return linkId;
+	}
+
+	public ProdImg setLinkId(Long linkId) {
+		this.linkId = linkId;
 		return this;
 	}
 

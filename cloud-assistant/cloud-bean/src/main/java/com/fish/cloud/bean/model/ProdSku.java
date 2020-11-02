@@ -15,7 +15,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 @TableName("cloud_prod_sku")
 public class ProdSku extends Model<ProdSku> {
@@ -42,9 +42,10 @@ public class ProdSku extends Model<ProdSku> {
      */
 	private String barcode;
     /**
-     * 销售属性组合字符串 格式是p1:v1;p2:v2
+     * 销售属性组合JSON 格式是p1:v1;p2:v2
      */
-	private String properties;
+	@TableField("sku_prop")
+	private String skuProp;
     /**
      * sku名称
      */
@@ -77,10 +78,6 @@ public class ProdSku extends Model<ProdSku> {
      * 实际库存
      */
 	private Integer stock;
-    /**
-     * 主图
-     */
-	private String img;
     /**
      * 0 禁用 1 启用 -1 已删除
      */
@@ -137,12 +134,12 @@ public class ProdSku extends Model<ProdSku> {
 		return this;
 	}
 
-	public String getProperties() {
-		return properties;
+	public String getSkuProp() {
+		return skuProp;
 	}
 
-	public ProdSku setProperties(String properties) {
-		this.properties = properties;
+	public ProdSku setSkuProp(String skuProp) {
+		this.skuProp = skuProp;
 		return this;
 	}
 
@@ -206,15 +203,6 @@ public class ProdSku extends Model<ProdSku> {
 
 	public ProdSku setStock(Integer stock) {
 		this.stock = stock;
-		return this;
-	}
-
-	public String getImg() {
-		return img;
-	}
-
-	public ProdSku setImg(String img) {
-		this.img = img;
 		return this;
 	}
 

@@ -11,7 +11,7 @@ import lombok.Data;
  */
 @Data
 public class OrderCancelParam {
-    private long id;
+    private Long id;
     @ApiModelProperty(name = "取消订单原因")
     private String content;
 }

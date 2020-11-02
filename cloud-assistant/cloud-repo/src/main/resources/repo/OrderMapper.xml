@@ -6,31 +6,35 @@
 	<resultMap id="BaseResultMap" type="com.fish.cloud.bean.model.Order">
 		<id column="order_id" property="orderId" />
 		<result column="shop_id" property="shopId" />
+		<result column="table_id" property="tableId" />
 		<result column="prod_name" property="prodName" />
 		<result column="user_id" property="userId" />
 		<result column="order_number" property="orderNumber" />
 		<result column="order_type" property="orderType" />
 		<result column="total_amount" property="totalAmount" />
-		<result column="actual_amount" property="actualAmount" />
 		<result column="user_coupon_id" property="userCouponId" />
 		<result column="reduce_amount" property="reduceAmount" />
+		<result column="actual_amount" property="actualAmount" />
 		<result column="pay_type" property="payType" />
 		<result column="is_payed" property="isPayed" />
 		<result column="remark" property="remark" />
 		<result column="status" property="status" />
-		<result column="dvy_type" property="dvyType" />
-		<result column="dvy_id" property="dvyId" />
-		<result column="dvy_number" property="dvyNumber" />
-		<result column="dvy_amount" property="dvyAmount" />
 		<result column="prod_num" property="prodNum" />
 		<result column="create_time" property="createTime" />
 		<result column="update_time" property="updateTime" />
 		<result column="pay_time" property="payTime" />
-		<result column="dvy_time" property="dvyTime" />
-		<result column="finish_time" property="finishTime" />
-		<result column="cancel_time" property="cancelTime" />
-		<result column="refund_status" property="refundStatus" />
-		<result column="close_type" property="closeType" />
+		<result column="complete_time" property="completeTime" />
 	</resultMap>
 
+	<!--订单各个状态数量	-->
+	<select id="countOrderStatus" resultType="com.fish.cloud.bean.dto.OrderCountStatusDto">
+        SELECT
+        COUNT(o.order_id) `all`,
+        COUNT( CASE WHEN o.status = 1 THEN o.order_id ELSE NULL END ) AS submitted,
+        COUNT( CASE WHEN o.status = 9 THEN o.order_id ELSE NULL END ) AS payed,
+        COUNT( CASE WHEN o.status = 13 THEN o.order_id ELSE NULL END ) AS closed,
+        COUNT( CASE WHEN o.status = 17 THEN o.order_id ELSE NULL END ) AS completed
+        FROM cloud_order o
+        WHERE o.shop_id = #{shopId}
+    </select>
 </mapper>

@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
-  * 用户优惠券 Mapper 接口
+  * 用户优惠券
  * </p>
  *
  * @author fengyh
- * @since 2020-03-07
+ * @since 2020-10-30
  */
 public interface UserCouponMapper extends BaseMapper<UserCoupon> {
 
