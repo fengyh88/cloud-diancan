@@ -1,17 +1,15 @@
 package com.fish.cloud.bean.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fish.cloud.bean.annotation.Dic;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
 @ApiModel
 @Data
-public class EmpDto extends DtoDic{
+public class EmpDto implements IDtoDic {
     @ApiModelProperty(value = "empId")
     private Long empId;
 

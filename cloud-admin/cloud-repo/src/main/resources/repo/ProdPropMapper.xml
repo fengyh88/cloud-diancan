@@ -6,9 +6,8 @@
 	<resultMap id="BaseResultMap" type="com.fish.cloud.bean.model.ProdProp">
 		<id column="prop_id" property="propId" />
 		<result column="shop_id" property="shopId" />
-		<result column="cate_id" property="cateId" />
-		<result column="rule" property="rule" />
 		<result column="prop_name" property="propName" />
+		<result column="prop_value" property="propValue" />
 	</resultMap>
 
 </mapper>

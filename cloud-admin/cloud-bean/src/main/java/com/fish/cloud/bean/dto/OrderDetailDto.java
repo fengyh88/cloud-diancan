@@ -1,11 +1,9 @@
 package com.fish.cloud.bean.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fish.cloud.bean.annotation.Dic;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -13,7 +11,7 @@ import java.util.List;
 
 @ApiModel
 @Data
-public class OrderDetailDto extends DtoDic{
+public class OrderDetailDto implements IDtoDic {
 
     @ApiModelProperty(value = "订单Id")
     private Long orderId;

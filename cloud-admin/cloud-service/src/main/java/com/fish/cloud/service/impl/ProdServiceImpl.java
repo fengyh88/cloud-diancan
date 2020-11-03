@@ -1,16 +1,12 @@
 package com.fish.cloud.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.fish.cloud.bean.dto.ProdDetailDto;
-import com.fish.cloud.bean.dto.ProdDto;
 import com.fish.cloud.bean.model.Prod;
 import com.fish.cloud.bean.param.ProdAddParam;
-import com.fish.cloud.bean.param.ProdByCateParam;
 import com.fish.cloud.bean.param.ProdEditParam;
 import com.fish.cloud.common.context.ApiContextHolder;
 import com.fish.cloud.common.ret.TupleRet;
 import com.fish.cloud.common.util.DateTimeUtil;
-import com.fish.cloud.common.util.IdUtil;
 import com.fish.cloud.common.util.PinyinUtil;
 import com.fish.cloud.repo.ProdMapper;
 import com.fish.cloud.service.IProdService;
@@ -20,8 +16,6 @@ import lombok.var;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
-
-import java.util.List;
 
 /**
  * <p>
@@ -34,17 +28,6 @@ import java.util.List;
 @Slf4j
 @Service
 public class ProdServiceImpl extends ServiceImpl<ProdMapper, Prod> implements IProdService {
-    @Override
-    public List<ProdDto> listByCate(ProdByCateParam prodByCateParam) {
-        var models = baseMapper.listByCate(ApiContextHolder.getAuthDto().getShopId(), prodByCateParam);
-        return models;
-    }
-
-    @Override
-    public ProdDetailDto detail(Long id) {
-        var model = baseMapper.detail(id);
-        return model;
-    }
 
     @Override
     public TupleRet updateStatus(Long id, Integer status) {

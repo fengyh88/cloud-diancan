@@ -1,7 +1,12 @@
 package com.fish.cloud.api.controller;
 
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fish.cloud.bean.model.Prod;
 import com.fish.cloud.common.context.ApiContextHolder;
-import com.fish.cloud.bean.dto.ProdDetailDto;
 import com.fish.cloud.bean.dto.ProdDto;
 import com.fish.cloud.bean.param.ProdAddParam;
 import com.fish.cloud.bean.param.ProdByCateParam;
@@ -14,11 +19,13 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.var;
 import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -35,20 +42,59 @@ public class ProdController {
     @Autowired
     private IProdService prodService;
 
-    @ApiOperation("根据商品类目查询列表")
+    /**
+     * 分页
+     *
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @ApiOperation(value = "根据商品类目分页", notes = "根据商品类目分页")
+    @GetMapping("/pageByCate")
+    @ResponseBody
+    public ApiResult<IPage<ProdDto>> pageByCate(@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+                                                   @RequestParam(name = "pageSize", defaultValue = "15") Integer pageSize,
+                                                 ProdByCateParam prodByCateParam) {
+
+        // 分页
+        var models = prodService.page(new Page<Prod>(pageNo, pageSize), new LambdaQueryWrapper<Prod>()
+                .eq(Prod::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .and(wrapper -> wrapper.like(StrUtil.isNotEmpty(prodByCateParam.getKeyword()), Prod::getProdCode, prodByCateParam.getKeyword())
+                        .or()
+                        .like(StrUtil.isNotEmpty(prodByCateParam.getKeyword()), Prod::getProdName, prodByCateParam.getKeyword())
+                        .or()
+                        .like(StrUtil.isNotEmpty(prodByCateParam.getKeyword()), Prod::getPinyin, prodByCateParam.getKeyword()))
+                .eq(Prod::getStatus, 1)
+                .orderByDesc(Prod::getPutonTime));
+
+        // dto
+        IPage<ProdDto> dtoList = models.convert(model -> Convert.convert(ProdDto.class, model));
+
+        return ApiResult.success(dtoList);
+    }
+
+    @ApiOperation("根据商品类目列表")
     @ApiImplicitParam(name = "prodByCateParam", value = "根据商品类目查询信息", required = true)
     @PostMapping(value = "/listByCate")
     public ApiResult<List<ProdDto>> listByCate(@RequestBody ProdByCateParam prodByCateParam) {
-        var dtos = prodService.listByCate(prodByCateParam);
-        return ApiResult.success(dtos);
-    }
+        var models = prodService.list(new LambdaQueryWrapper<Prod>()
+                .eq(Prod::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .and(wrapper -> wrapper.like(StrUtil.isNotEmpty(prodByCateParam.getKeyword()), Prod::getProdCode, prodByCateParam.getKeyword())
+                        .or()
+                        .like(StrUtil.isNotEmpty(prodByCateParam.getKeyword()), Prod::getProdName, prodByCateParam.getKeyword())
+                        .or()
+                        .like(StrUtil.isNotEmpty(prodByCateParam.getKeyword()), Prod::getPinyin, prodByCateParam.getKeyword()))
+                .eq(Prod::getStatus, 1)
+                .orderByDesc(Prod::getPutonTime));
 
-    @ApiOperation("详情")
-    @ApiImplicitParam(name = "id", value = "id", required = true)
-    @GetMapping(value = "/detail/{id}")
-    public ApiResult<ProdDetailDto> detail(@PathVariable(value = "id") Long id) {
-        var dto = prodService.detail(id);
-        return ApiResult.success(dto);
+        // dto
+        List<ProdDto> dtoList = models.stream().map(model -> {
+            var dto = new ProdDto();
+            BeanUtils.copyProperties(model, dto);
+            return dto;
+        }).collect(Collectors.toList());
+
+        return ApiResult.success(dtoList);
     }
 
     @ApiOperation("更改状态，上架下架删除")

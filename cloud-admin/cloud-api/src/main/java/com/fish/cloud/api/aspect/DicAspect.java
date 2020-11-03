@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fish.cloud.bean.annotation.Dic;
-import com.fish.cloud.bean.dto.DtoDic;
+import com.fish.cloud.bean.dto.IDtoDic;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.common.util.ConvertUtil;
 import com.fish.cloud.service.ISysDicKvService;
@@ -57,7 +57,7 @@ public class DicAspect {
 
     private void parseDictText(Object result) {
         if (result instanceof ApiResult) {
-            if (((ApiResult) result).getData() instanceof IPage || ((ApiResult) result).getData() instanceof List || ((ApiResult) result).getData() instanceof DtoDic) {
+            if (((ApiResult) result).getData() instanceof IPage || ((ApiResult) result).getData() instanceof List || ((ApiResult) result).getData() instanceof IDtoDic) {
                 List<JSONObject> items = new ArrayList<>();
                 for (Object record : ((IPage) ((ApiResult) result).getData()).getRecords()) {
                     ObjectMapper mapper = new ObjectMapper();
