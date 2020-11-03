@@ -53,47 +53,9 @@ public class ProdController {
     @GetMapping("/pageByCate")
     @ResponseBody
     public ApiResult<IPage<ProdDto>> pageByCate(@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
-                                                   @RequestParam(name = "pageSize", defaultValue = "15") Integer pageSize,
-                                                 ProdByCateParam prodByCateParam) {
-
-        // 分页
-        var models = prodService.page(new Page<Prod>(pageNo, pageSize), new LambdaQueryWrapper<Prod>()
-                .eq(Prod::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .and(wrapper -> wrapper.like(StrUtil.isNotEmpty(prodByCateParam.getKeyword()), Prod::getProdCode, prodByCateParam.getKeyword())
-                        .or()
-                        .like(StrUtil.isNotEmpty(prodByCateParam.getKeyword()), Prod::getProdName, prodByCateParam.getKeyword())
-                        .or()
-                        .like(StrUtil.isNotEmpty(prodByCateParam.getKeyword()), Prod::getPinyin, prodByCateParam.getKeyword()))
-                .eq(Prod::getStatus, 1)
-                .orderByDesc(Prod::getPutonTime));
-
-        // dto
-        IPage<ProdDto> dtoList = models.convert(model -> Convert.convert(ProdDto.class, model));
-
-        return ApiResult.success(dtoList);
-    }
-
-    @ApiOperation("根据商品类目列表")
-    @ApiImplicitParam(name = "prodByCateParam", value = "根据商品类目查询信息", required = true)
-    @PostMapping(value = "/listByCate")
-    public ApiResult<List<ProdDto>> listByCate(@RequestBody ProdByCateParam prodByCateParam) {
-        var models = prodService.list(new LambdaQueryWrapper<Prod>()
-                .eq(Prod::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .and(wrapper -> wrapper.like(StrUtil.isNotEmpty(prodByCateParam.getKeyword()), Prod::getProdCode, prodByCateParam.getKeyword())
-                        .or()
-                        .like(StrUtil.isNotEmpty(prodByCateParam.getKeyword()), Prod::getProdName, prodByCateParam.getKeyword())
-                        .or()
-                        .like(StrUtil.isNotEmpty(prodByCateParam.getKeyword()), Prod::getPinyin, prodByCateParam.getKeyword()))
-                .eq(Prod::getStatus, 1)
-                .orderByDesc(Prod::getPutonTime));
-
-        // dto
-        List<ProdDto> dtoList = models.stream().map(model -> {
-            var dto = new ProdDto();
-            BeanUtils.copyProperties(model, dto);
-            return dto;
-        }).collect(Collectors.toList());
-
+                                                @RequestParam(name = "pageSize", defaultValue = "15") Integer pageSize,
+                                                ProdByCateParam prodByCateParam) {
+        var dtoList = prodService.pageByCate(pageNo, pageSize, prodByCateParam);
         return ApiResult.success(dtoList);
     }
 

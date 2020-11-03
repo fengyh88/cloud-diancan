@@ -8,6 +8,7 @@
 		<result column="shop_id" property="shopId" />
 		<result column="prop_name" property="propName" />
 		<result column="prop_value" property="propValue" />
+		<result column="status" property="status" />
 	</resultMap>
 
 </mapper>

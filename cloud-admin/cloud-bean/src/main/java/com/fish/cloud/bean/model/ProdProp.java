@@ -44,6 +44,11 @@ public class ProdProp extends Model<ProdProp> {
 	@TableField("prop_value")
 	private String propValue;
 
+	/**
+	 * 默认是1 正常状态,0 禁用状态 -1 删除状态
+	 */
+	private Integer status;
+
 	@Override
 	protected Serializable pkVal() {
 		return this.propId;
