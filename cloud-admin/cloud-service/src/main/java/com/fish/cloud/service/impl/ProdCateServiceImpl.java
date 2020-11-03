@@ -30,14 +30,6 @@ import java.util.List;
 public class ProdCateServiceImpl extends ServiceImpl<ProdCateMapper, ProdCate> implements IProdCateService {
 
     @Override
-    public List<ProdCate> all() {
-        var models = baseMapper.selectList(new LambdaQueryWrapper<ProdCate>()
-                .eq(ProdCate::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .ne(ProdCate::getStatus, -1));
-        return models;
-    }
-
-    @Override
     public TupleRet updateStatus(Long id, Integer status) {
         var model = baseMapper.selectById(id);
         if (ObjectUtils.isEmpty(model)) {

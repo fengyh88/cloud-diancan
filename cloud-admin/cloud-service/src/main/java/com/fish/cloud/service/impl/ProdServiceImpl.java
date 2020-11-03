@@ -73,7 +73,7 @@ public class ProdServiceImpl extends ServiceImpl<ProdMapper, Prod> implements IP
         Integer count = baseMapper.selectCount(new LambdaQueryWrapper<Prod>()
                 .eq(Prod::getProdCode, prodAddParam.getProdCode())
                 .eq(Prod::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .ne(Prod::getStatus, -1));
+                .eq(Prod::getStatus, 1));
         if (count > 0) {
             TupleRet.failed("编码不得重复");
         }
@@ -108,7 +108,7 @@ public class ProdServiceImpl extends ServiceImpl<ProdMapper, Prod> implements IP
                 .eq(Prod::getProdCode, prodEditParam.getProdCode())
                 .eq(Prod::getShopId, ApiContextHolder.getAuthDto().getShopId())
                 .ne(Prod::getProdId, prodEditParam.getProdId())
-                .ne(Prod::getStatus, -1));
+                .eq(Prod::getStatus, 1));
         if (count > 0) {
             return TupleRet.failed("编码不得重复");
         }

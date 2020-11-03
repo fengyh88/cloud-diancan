@@ -1,7 +1,9 @@
 package com.fish.cloud.api.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fish.cloud.bean.model.ProdCate;
 import com.fish.cloud.bean.param.ProdCateAddParam;
+import com.fish.cloud.common.context.ApiContextHolder;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.IProdCateService;
 import io.swagger.annotations.Api;
@@ -31,15 +33,17 @@ public class ProdCateController {
     private IProdCateService prodCateService;
 
     /**
-     * 全部
+     * 列表
      *
      * @return
      */
-    @ApiOperation("所有列表")
-    @GetMapping("/all")
-    public ApiResult<List<ProdCate>> all() {
-        var dtos = prodCateService.all();
-        return ApiResult.success(dtos);
+    @ApiOperation("列表")
+    @GetMapping("/list")
+    public ApiResult<List<ProdCate>> list() {
+        var dtoList = prodCateService.list(new LambdaQueryWrapper<ProdCate>()
+                .eq(ProdCate::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .ne(ProdCate::getStatus, -1));
+        return ApiResult.success(dtoList);
     }
 
     @ApiOperation("更新状态")

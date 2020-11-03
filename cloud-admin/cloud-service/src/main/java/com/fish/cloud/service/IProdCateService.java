@@ -18,13 +18,6 @@ import java.util.List;
 public interface IProdCateService extends IService<ProdCate> {
 
     /**
-     * 所有列表
-     *
-     * @return
-     */
-    List<ProdCate> all();
-
-    /**
      *更新状态
      * @param id
      * @param status

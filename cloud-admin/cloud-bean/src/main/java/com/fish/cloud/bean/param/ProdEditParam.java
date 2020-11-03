@@ -45,7 +45,4 @@ public class ProdEditParam {
 
     @ApiModelProperty(value = "详细描述")
     private String content;
-
-    @ApiModelProperty(value = "主图")
-    private String img;
 }
