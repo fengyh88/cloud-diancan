@@ -33,6 +33,11 @@ public class ProdProp extends Model<ProdProp> {
      */
 	@TableField("shop_id")
 	private Long shopId;
+	/**
+	 * 商品Id
+	 */
+	@TableField("prod_id")
+	private Long prodId;
     /**
      * 属性名称
      */

@@ -1,7 +1,5 @@
 package com.fish.cloud.api.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.fish.cloud.bean.dto.ProdDto;
 import com.fish.cloud.bean.model.ProdSku;
 import com.fish.cloud.bean.param.*;
 import com.fish.cloud.common.ret.ApiResult;
