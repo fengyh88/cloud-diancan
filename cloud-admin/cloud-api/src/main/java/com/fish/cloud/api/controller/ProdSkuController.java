@@ -1,8 +1,12 @@
 package com.fish.cloud.api.controller;
 
+import cn.hutool.core.util.ObjectUtil;
+import com.fish.cloud.bean.dto.ProdSkuDto;
+import com.fish.cloud.bean.model.ProdImg;
 import com.fish.cloud.bean.model.ProdSku;
 import com.fish.cloud.bean.param.*;
 import com.fish.cloud.common.ret.ApiResult;
+import com.fish.cloud.service.IProdImgService;
 import com.fish.cloud.service.IProdSkuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -10,11 +14,13 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.var;
 import org.apache.commons.lang3.ArrayUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -30,6 +36,8 @@ import java.util.List;
 public class ProdSkuController {
     @Autowired
     private IProdSkuService prodSkuService;
+    @Autowired
+    private IProdImgService prodImgService;
 
     /**
      * 根据商品Id获取列表
@@ -39,8 +47,17 @@ public class ProdSkuController {
     @ApiOperation(value = "根据商品Id获取列表", notes = "根据商品Id获取列表")
     @GetMapping("/listByProdId")
     @ResponseBody
-    public ApiResult<List<ProdSku>> listByProdId(@RequestParam Long prodId) {
-        var dtoList = prodSkuService.listByProdId(prodId);
+    public ApiResult<List<ProdSkuDto>> listByProdId(@RequestParam Long prodId) {
+        var models = prodSkuService.listByProdId(prodId);
+        List<ProdSkuDto> dtoList = models.stream().map(model -> {
+            ProdSkuDto prodSkuDto = new ProdSkuDto();
+            BeanUtils.copyProperties(model, prodSkuDto);
+            ProdImg prodImg = prodImgService.getMainImgBySkuId(model.getSkuId());
+            if (ObjectUtil.isNull(prodImg)){
+                prodSkuDto.setProdSkuImgUrl(prodImg.getImgUrl());
+            }
+            return prodSkuDto;
+        }).collect(Collectors.toList());
         return ApiResult.success(dtoList);
     }
 
