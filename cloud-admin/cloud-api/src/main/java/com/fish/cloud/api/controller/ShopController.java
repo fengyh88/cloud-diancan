@@ -10,10 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -38,9 +35,9 @@ public class ShopController {
     }
 
     @ApiOperation("编辑")
-    @ApiImplicitParam(name = "shopEditParam", value = "店铺信息", required = true)
-    @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public ApiResult addOrEdit(@RequestBody ShopEditParam shopEditParam) {
+    @ApiImplicitParam(name = "shopEditParam", value = "店铺", required = true)
+    @PostMapping(value = "/edit")
+    public ApiResult edit(@RequestBody ShopEditParam shopEditParam) {
         var ret = shopService.edit(shopEditParam);
         return ApiResult.fromTupleRet(ret);
     }

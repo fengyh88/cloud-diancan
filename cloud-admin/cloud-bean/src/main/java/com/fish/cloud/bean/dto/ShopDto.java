@@ -1,6 +1,7 @@
 package com.fish.cloud.bean.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fish.cloud.bean.annotation.Dic;
 import com.fish.cloud.bean.model.ShopImg;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -21,10 +22,8 @@ public class ShopDto {
     @ApiModelProperty(value = "店铺名称(数字、中文，英文(可混合，不可有特殊字符)，可修改)、不唯一")
     private String shopName;
 
-    @ApiModelProperty(value = "店铺类型")
-    private Integer shopType;
-
     @ApiModelProperty(value = "店铺行业(餐饮、生鲜果蔬、鲜花等)")
+    @Dic(dicCode = "industry")
     private Integer industry;
 
     @ApiModelProperty(value = "店铺简介(可修改)")
@@ -57,18 +56,10 @@ public class ShopDto {
     @ApiModelProperty(value = "每天关店时间(可修改)")
     private String closeTime;
 
-    @ApiModelProperty(value = "满X包邮")
-    private BigDecimal freeDvy;
-
-    @ApiModelProperty(value = "满X起送")
-    private BigDecimal freeGo;
-
     @ApiModelProperty(value = "店铺状态(-1:未开通 0: 停业中 1:营业中)，可修改")
     private Integer status;
 
     @ApiModelProperty(value = "创建时间")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
     @ApiModelProperty(value = "图片列表")

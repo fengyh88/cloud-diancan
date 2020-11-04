@@ -12,12 +12,6 @@ public class ShopEditParam {
     @ApiModelProperty(value = "店铺名称(数字、中文，英文(可混合，不可有特殊字符)，可修改)、不唯一")
     private String shopName;
 
-    @ApiModelProperty(value = "店铺类型")
-    private Integer shopType;
-
-    @ApiModelProperty(value = "店铺行业(餐饮、生鲜果蔬、鲜花等)")
-    private Integer industry;
-
     @ApiModelProperty(value = "店铺简介(可修改)")
     private String brief;
 
@@ -47,13 +41,4 @@ public class ShopEditParam {
 
     @ApiModelProperty(value = "每天关店时间(可修改)")
     private String closeTime;
-
-    @ApiModelProperty(value = "满X包邮")
-    private BigDecimal freeDvy;
-
-    @ApiModelProperty(value = "满X起送")
-    private BigDecimal freeGo;
-
-    @ApiModelProperty(value = "店铺状态(-1:未开通 0: 停业中 1:营业中)，可修改")
-    private Integer status;
 }

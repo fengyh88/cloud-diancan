@@ -38,24 +38,19 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
      */
     @Override
     public TupleRet<ShopDto> detail() {
-        try {
-            var model = baseMapper.selectOne(new LambdaQueryWrapper<Shop>()
-                    .eq(Shop::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                    .eq(Shop::getStatus, 1));
-            if (ObjectUtils.isEmpty(model)) {
-                return TupleRet.failed("未查询到店铺信息");
-            }
-            // dto
-            var dto = new ShopDto();
-            BeanUtils.copyProperties(model, dto);
-            // 图片
-            var imgList = shopImgService.listByShopId(ApiContextHolder.getAuthDto().getShopId());
-            dto.setImgList(imgList);
-            return TupleRet.success(dto);
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
-            return TupleRet.failed("查询错误");
+        var modelDb = baseMapper.selectOne(new LambdaQueryWrapper<Shop>()
+                .eq(Shop::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(Shop::getStatus, 1));
+        if (ObjectUtils.isEmpty(modelDb)) {
+            return TupleRet.failed("未查询到店铺信息");
         }
+        // dto
+        var dto = new ShopDto();
+        BeanUtils.copyProperties(modelDb, dto);
+        // 图片
+        var imgList = shopImgService.listByShopId(ApiContextHolder.getAuthDto().getShopId());
+        dto.setImgList(imgList);
+        return TupleRet.success(dto);
     }
 
     /**
@@ -65,30 +60,25 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
      */
     @Override
     public TupleRet edit(ShopEditParam shopEditParam) {
+        var modelDb = baseMapper.selectById(ApiContextHolder.getAuthDto().getShopId());
+        if (ObjectUtils.isEmpty(modelDb)) {
+            return TupleRet.failed("未查询到店铺信息");
+        }
+        //编辑
+        modelDb.setShopName(shopEditParam.getShopName());
+        modelDb.setBrief(shopEditParam.getBrief());
+        modelDb.setNotice(shopEditParam.getNotice());
+        modelDb.setTel(shopEditParam.getTel());
+        modelDb.setAddress(shopEditParam.getAddress());
+        modelDb.setLat(shopEditParam.getLat());
+        modelDb.setLng(shopEditParam.getLng());
+        modelDb.setPcaCode(shopEditParam.getPcaCode());
+        modelDb.setPcaName(shopEditParam.getPcaName());
+        modelDb.setAddress(shopEditParam.getAddress());
+        modelDb.setOpenTime(shopEditParam.getOpenTime());
+        modelDb.setCloseTime(shopEditParam.getCloseTime());
         try {
-            var model = baseMapper.selectById(ApiContextHolder.getAuthDto().getShopId());
-            if (ObjectUtils.isEmpty(model)){
-                return TupleRet.failed("未查询到店铺信息");
-            }
-
-            //编辑
-            model.setShopName(shopEditParam.getShopName());
-            model.setShopType(shopEditParam.getShopType());
-            model.setIndustry(shopEditParam.getIndustry());
-            model.setBrief(shopEditParam.getBrief());
-            model.setNotice(shopEditParam.getNotice());
-            model.setTel(shopEditParam.getTel());
-            model.setAddress(shopEditParam.getAddress());
-            model.setLat(shopEditParam.getLat());
-            model.setLng(shopEditParam.getLng());
-            model.setPcaCode(shopEditParam.getPcaCode());
-            model.setPcaName(shopEditParam.getPcaName());
-            model.setAddress(shopEditParam.getAddress());
-            model.setOpenTime(shopEditParam.getOpenTime());
-            model.setCloseTime(shopEditParam.getCloseTime());
-            model.setStatus(shopEditParam.getStatus());
-
-            baseMapper.updateById(model);
+            baseMapper.updateById(modelDb);
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return TupleRet.failed(ex.getMessage());
