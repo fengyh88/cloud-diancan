@@ -33,19 +33,38 @@ public class ProdImgServiceImpl extends ServiceImpl<ProdImgMapper, ProdImg> impl
      * @return
      */
     @Override
-    public List<ProdImg> listByProdId(String prodId) {
+    public List<ProdImg> listByProdId(Long prodId) {
         var models = baseMapper.selectList(new LambdaQueryWrapper<ProdImg>()
-                .eq(ProdImg::getImgType, 1)
+                .eq(ProdImg::getLinkType, 1)
                 .eq(ProdImg::getLinkId, prodId));
         return models;
     }
 
     @Override
-    public List<ProdImg> listBySkuId(String skuId) {
+    public ProdImg getMainImgByProdId(Long prodId) {
+        var model = baseMapper.selectOne(new LambdaQueryWrapper<ProdImg>()
+                .eq(ProdImg::getLinkType, 1)
+                .eq(ProdImg::getLinkId, prodId)
+                .eq(ProdImg::getLinkCate, 1));
+        return model;
+    }
+
+
+    @Override
+    public List<ProdImg> listBySkuId(Long skuId) {
         var models = baseMapper.selectList(new LambdaQueryWrapper<ProdImg>()
-                .eq(ProdImg::getImgType, 2)
+                .eq(ProdImg::getLinkType, 2)
                 .eq(ProdImg::getLinkId, skuId));
         return models;
+    }
+
+    @Override
+    public ProdImg getMainImgBySkuId(Long skuId) {
+        var model = baseMapper.selectOne(new LambdaQueryWrapper<ProdImg>()
+                .eq(ProdImg::getLinkType, 2)
+                .eq(ProdImg::getLinkId, skuId)
+                .eq(ProdImg::getLinkCate, 1));
+        return model;
     }
 
     @Override

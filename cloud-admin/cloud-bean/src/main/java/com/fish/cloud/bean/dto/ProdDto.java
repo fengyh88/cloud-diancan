@@ -73,15 +73,12 @@ public class ProdDto implements IDtoDic {
     @ApiModelProperty(value = "图片列表")
     private List<ProdImg> prodImgList;
 
-    @ApiModelProperty(value = "商品规格列表")
-    private List<ProdSku> prodSkuList;
-
     @ApiModelProperty(value = "商品规格文本")
     private String prodSkuText;
 
-    @ApiModelProperty(value = "商品属性列表")
-    private List<ProdProp> prodPropList;
-
     @ApiModelProperty(value = "商品属性文本")
     private String prodPropText;
+
+    @ApiModelProperty(value = "商品主图片地址")
+    private String prodImgUrl;
 }

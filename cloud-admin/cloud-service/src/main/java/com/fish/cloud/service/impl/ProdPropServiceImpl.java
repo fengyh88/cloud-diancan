@@ -5,6 +5,7 @@ import com.fish.cloud.bean.model.ProdProp;
 import com.fish.cloud.repo.ProdPropMapper;
 import com.fish.cloud.service.IProdPropService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.var;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,5 +26,17 @@ public class ProdPropServiceImpl extends ServiceImpl<ProdPropMapper, ProdProp> i
         return baseMapper.selectList(new LambdaQueryWrapper<ProdProp>()
                 .eq(ProdProp::getPropId, prodId)
                 .eq(ProdProp::getStatus, 1));
+    }
+
+    @Override
+    public String getProdPropTextByProdId(Long prodId) {
+        var models = baseMapper.selectList(new LambdaQueryWrapper<ProdProp>()
+                .eq(ProdProp::getPropId, prodId)
+                .eq(ProdProp::getStatus, 1));
+        StringBuilder sb = new StringBuilder();
+        for (ProdProp model : models) {
+            sb.append(model.getPropName() + ":" + model.getPropValue());
+        }
+        return null;
     }
 }

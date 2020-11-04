@@ -1,12 +1,14 @@
 package com.fish.cloud.service.impl;
 
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fish.cloud.bean.dto.ProdDto;
 import com.fish.cloud.bean.model.Prod;
+import com.fish.cloud.bean.model.ProdImg;
 import com.fish.cloud.bean.model.ProdProp;
 import com.fish.cloud.bean.model.ProdSku;
 import com.fish.cloud.bean.param.ProdAddParam;
@@ -17,6 +19,7 @@ import com.fish.cloud.common.ret.TupleRet;
 import com.fish.cloud.common.util.DateTimeUtil;
 import com.fish.cloud.common.util.PinyinUtil;
 import com.fish.cloud.repo.ProdMapper;
+import com.fish.cloud.service.IProdImgService;
 import com.fish.cloud.service.IProdPropService;
 import com.fish.cloud.service.IProdService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -47,6 +50,8 @@ public class ProdServiceImpl extends ServiceImpl<ProdMapper, Prod> implements IP
     private IProdSkuService prodSkuService;
     @Autowired
     private IProdPropService prodPropService;
+    @Autowired
+    private IProdImgService prodImgService;
 
     @Override
     public IPage<ProdDto> pageByCate(Integer pageNo, Integer pageSize, ProdByCateParam prodByCateParam){
@@ -67,12 +72,16 @@ public class ProdServiceImpl extends ServiceImpl<ProdMapper, Prod> implements IP
         // 设置列表
          dtoList.getRecords().stream().forEach(dto -> {
              // 规格
-             List<ProdSku> prodSkuList =  prodSkuService.listByProdId(dto.getProdId());
-             dto.setProdSkuList(prodSkuList);
+             String prodSkuText =  prodSkuService.getProdSkuTextByProdId(dto.getProdId());
+             dto.setProdSkuText(prodSkuText);
              // 属性
-             List<ProdProp> prodPropList =  prodPropService.listByProdId(dto.getProdId());
-             dto.setProdPropList(prodPropList);
-
+             String prodPropText =  prodPropService.getProdPropTextByProdId(dto.getProdId());
+             dto.setProdPropText(prodPropText);
+             // 图片
+             ProdImg prodImg = prodImgService.getMainImgByProdId(dto.getProdId());
+             if (ObjectUtil.isNotNull(prodImg)){
+                 dto.setProdImgUrl(prodImg.getImgUrl());
+             }
          });
         return dtoList;
     }

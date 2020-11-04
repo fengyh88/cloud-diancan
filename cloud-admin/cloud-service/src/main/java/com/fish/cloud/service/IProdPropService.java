@@ -20,4 +20,11 @@ public interface IProdPropService extends IService<ProdProp> {
      * @return
      */
 	List<ProdProp> listByProdId(Long prodId);
+
+    /**
+     * 根据商品Id获取文本
+     * @param prodId
+     * @return
+     */
+    String getProdPropTextByProdId(Long prodId);
 }

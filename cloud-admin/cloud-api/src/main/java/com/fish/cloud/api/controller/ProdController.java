@@ -1,12 +1,6 @@
 package com.fish.cloud.api.controller;
 
-import cn.hutool.core.convert.Convert;
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fish.cloud.bean.model.Prod;
-import com.fish.cloud.common.context.ApiContextHolder;
 import com.fish.cloud.bean.dto.ProdDto;
 import com.fish.cloud.bean.param.ProdAddParam;
 import com.fish.cloud.bean.param.ProdByCateParam;
@@ -19,13 +13,9 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.var;
 import org.apache.commons.lang3.ArrayUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * <p>

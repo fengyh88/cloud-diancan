@@ -22,13 +22,28 @@ public interface IProdImgService extends IService<ProdImg> {
      * @param prodId
      * @return
      */
-    List<ProdImg> listByProdId(String prodId);
+    List<ProdImg> listByProdId(Long prodId);
+
+    /**
+     * 根据商品Id获取商品主图
+     * @param prodId
+     * @return
+     */
+    ProdImg getMainImgByProdId(Long prodId);
+
     /**
      * 根据单品SkuId获取图片列表
      * @param skuId
      * @return
      */
-    List<ProdImg> listBySkuId(String skuId);
+    List<ProdImg> listBySkuId(Long skuId);
+
+    /**
+     * 根据单品SkuId获取主图
+     * @param skuId
+     * @return
+     */
+    ProdImg getMainImgBySkuId(Long skuId);
     /**
      * 添加或者编辑
      *

@@ -13,11 +13,4 @@ import org.apache.ibatis.annotations.Param;
  * @since 2020-10-30
  */
 public interface ProdMapper extends BaseMapper<Prod> {
-
-    /**
-     * 详情
-     * @param id
-     * @return
-     */
-    ProdDetailDto detail(@Param("id") Long id);
 }
