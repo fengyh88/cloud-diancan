@@ -1,7 +1,15 @@
 package com.fish.cloud.api.controller;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fish.cloud.bean.model.SysDic;
 import com.fish.cloud.bean.model.SysDicKv;
 import com.fish.cloud.bean.param.SysDicKvAddParam;
+import com.fish.cloud.bean.param.SysDicKvParam;
+import com.fish.cloud.bean.param.SysDicParam;
+import com.fish.cloud.common.context.ApiContextHolder;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.ISysDicKvService;
 import io.swagger.annotations.Api;
@@ -31,12 +39,38 @@ public class SysDicKvController {
     @Autowired
     private ISysDicKvService sysDicKvService;
 
+    /**
+     * 分页
+     *
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @ApiOperation(value = "分页", notes = "分页")
+    @GetMapping("/page")
+    @ResponseBody
+    public ApiResult<IPage<SysDicKv>> page(@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+                                         @RequestParam(name = "pageSize", defaultValue = "15") Integer pageSize,
+                                           SysDicKvParam sysDicKvParam) {
+        // 分页
+        IPage<SysDicKv> models = sysDicKvService.page(new Page<SysDicKv>(pageNo, pageSize), new LambdaQueryWrapper<SysDicKv>()
+                .eq(SysDicKv::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(StrUtil.isNotEmpty(sysDicKvParam.getDicCode()), SysDicKv::getDicCode, sysDicKvParam.getDicCode())
+                .and(wrapper -> wrapper.like(StrUtil.isNotEmpty(sysDicKvParam.getKeywords()), SysDicKv::getKey, sysDicKvParam.getKeywords())
+                        .or()
+                        .like(StrUtil.isNotEmpty(sysDicKvParam.getKeywords()), SysDicKv::getValue, sysDicKvParam.getKeywords())
+                        .or()
+                        .like(StrUtil.isNotEmpty(sysDicKvParam.getKeywords()), SysDicKv::getRemark, sysDicKvParam.getKeywords()))
+                .eq(SysDicKv::getStatus, 1));
+        return ApiResult.success(models);
+    }
+
     @ApiOperation("根据系统字典编码获取列表")
     @ApiImplicitParam(name = "dicCode", value = "系统字典编码", required = true)
     @GetMapping(value = "/listByDicCode")
     public ApiResult<List<SysDicKv>> listByDicCode(String dicCode) {
-        var dtos = sysDicKvService.listByDicCode(dicCode);
-        return ApiResult.success(dtos);
+        var models = sysDicKvService.listByDicCode(dicCode);
+        return ApiResult.success(models);
     }
 
     @ApiOperation("更改状态，正常禁用删除")

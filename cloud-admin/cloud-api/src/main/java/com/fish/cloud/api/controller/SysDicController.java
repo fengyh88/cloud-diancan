@@ -1,7 +1,15 @@
 package com.fish.cloud.api.controller;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fish.cloud.bean.model.SysConfig;
 import com.fish.cloud.bean.model.SysDic;
+import com.fish.cloud.bean.param.SysConfigParam;
 import com.fish.cloud.bean.param.SysDicAddParam;
+import com.fish.cloud.bean.param.SysDicParam;
+import com.fish.cloud.common.context.ApiContextHolder;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.ISysDicService;
 import io.swagger.annotations.Api;
@@ -31,11 +39,36 @@ public class SysDicController {
     @Autowired
     private ISysDicService sysDicService;
 
-    @ApiOperation("所有列表")
-    @GetMapping(value = "/all")
-    public ApiResult<List<SysDic>> all() {
-        var dtos = sysDicService.all();
-        return ApiResult.success(dtos);
+    /**
+     * 分页
+     *
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @ApiOperation(value = "分页", notes = "分页")
+    @GetMapping("/page")
+    @ResponseBody
+    public ApiResult<IPage<SysDic>> page(@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+                                            @RequestParam(name = "pageSize", defaultValue = "15") Integer pageSize,
+                                         SysDicParam sysDicParam) {
+        // 分页
+        IPage<SysDic> models = sysDicService.page(new Page<SysDic>(pageNo, pageSize), new LambdaQueryWrapper<SysDic>()
+                .eq(SysDic::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .and(wrapper -> wrapper.like(StrUtil.isNotEmpty(sysDicParam.getKeywords()), SysDic::getDicCode, sysDicParam.getKeywords())
+                        .or()
+                        .like(StrUtil.isNotEmpty(sysDicParam.getKeywords()), SysDic::getDicName, sysDicParam.getKeywords())
+                        .or()
+                        .like(StrUtil.isNotEmpty(sysDicParam.getKeywords()), SysDic::getRemark, sysDicParam.getKeywords()))
+                .eq(SysDic::getStatus, 1));
+        return ApiResult.success(models);
+    }
+
+    @ApiOperation("列表")
+    @GetMapping(value = "/list")
+    public ApiResult<List<SysDic>> list() {
+        var dtoList = sysDicService.all();
+        return ApiResult.success(dtoList);
     }
 
     @ApiOperation("更改状态，正常禁用删除")

@@ -3,6 +3,7 @@ package com.fish.cloud.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.fish.cloud.bean.model.SysConfig;
+import com.fish.cloud.bean.param.SysConfigAddParam;
 import com.fish.cloud.bean.param.SysConfigEditParam;
 import com.fish.cloud.common.context.ApiContextHolder;
 import com.fish.cloud.common.ret.TupleRet;
@@ -28,12 +29,13 @@ import java.util.List;
 @Service
 public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig> implements ISysConfigService {
 
+
     @Override
     public SysConfig getByKey(String key) {
         var model = baseMapper.selectOne(new LambdaQueryWrapper<SysConfig>()
                 .eq(SysConfig::getShopId, ApiContextHolder.getAuthDto().getShopId())
                 .eq(SysConfig::getParamKey, key)
-                .ne(SysConfig::getStatus, -1));
+                .eq(SysConfig::getStatus, 1));
         return model;
     }
 
@@ -41,7 +43,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
     public List<SysConfig> all() {
         var models = baseMapper.selectList(new LambdaQueryWrapper<SysConfig>()
                 .eq(SysConfig::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .ne(SysConfig::getStatus, -1));
+                .eq(SysConfig::getStatus, 1));
         return models;
     }
 
@@ -64,4 +66,32 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
         }
         return TupleRet.success();
     }
+
+    @Override
+    public TupleRet add(SysConfigAddParam sysConfigAddParam) {
+        var count = baseMapper.selectCount(new LambdaQueryWrapper<SysConfig>()
+                .eq(SysConfig::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(SysConfig::getParamKey, sysConfigAddParam.getParamKey())
+                .eq(SysConfig::getStatus, 1));
+        if (count > 0) {
+            return TupleRet.failed("key不得重复");
+        }
+
+        try {
+            var model = new SysConfig();
+            model.setParamKey(sysConfigAddParam.getParamKey());
+            model.setParamValue(sysConfigAddParam.getParamValue());
+            model.setShopId(ApiContextHolder.getAuthDto().getShopId());
+            model.setRemark(sysConfigAddParam.getRemark());
+            model.setStatus(1);
+            model.setCreateTime(DateTimeUtil.getCurrentDateTime());
+
+            baseMapper.insert(model);
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            return TupleRet.failed(ex.getMessage());
+        }
+        return TupleRet.success();
+    }
+
 }
