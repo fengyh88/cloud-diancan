@@ -5,6 +5,7 @@
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="com.fish.cloud.bean.model.Table">
 		<id column="table_id" property="tableId" />
+		<result column="shop_id" property="shopId" />
 		<result column="table_code" property="tableCode" />
 		<result column="table_name" property="tableName" />
 		<result column="location" property="location" />
@@ -13,7 +14,6 @@
 		<result column="status" property="status" />
 		<result column="seq" property="seq" />
 		<result column="created_time" property="createdTime" />
-		<result column="created_by" property="createdBy" />
 	</resultMap>
 
 </mapper>

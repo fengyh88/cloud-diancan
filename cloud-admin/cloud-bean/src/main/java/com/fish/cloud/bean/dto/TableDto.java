@@ -1,14 +1,9 @@
-package com.fish.cloud.bean.model;
+package com.fish.cloud.bean.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fish.cloud.bean.annotation.Dic;
 import lombok.Data;
 
-import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -19,30 +14,23 @@ import java.io.Serializable;
  * @since 2020-10-30
  */
 @Data
-@TableName("cloud_table")
-public class Table extends Model<Table> {
-
-    private static final long serialVersionUID = 1L;
+public class TableDto implements IDtoDic{
 
     /**
      * Id
      */
-	@TableId(value="table_id", type= IdType.AUTO)
 	private Long tableId;
 	/**
 	 * 店铺Id
 	 */
-	@TableField("shop_id")
 	private Long shopId;
     /**
      * 台桌编码
      */
-	@TableField("table_code")
 	private String tableCode;
     /**
      * 台桌名称
      */
-	@TableField("table_name")
 	private String tableName;
     /**
      * 台桌位置
@@ -59,6 +47,7 @@ public class Table extends Model<Table> {
     /**
      * 默认是1，表示正常状态,0为禁用 -1删除 1空桌 11未支付 12已支付
      */
+    @Dic(dicCode = "tableStatus")
 	private Integer status;
     /**
      * 顺序
@@ -67,12 +56,6 @@ public class Table extends Model<Table> {
     /**
      * 创建时间
      */
-	@TableField("created_time")
 	private Date createdTime;
-
-	@Override
-	protected Serializable pkVal() {
-		return this.tableId;
-	}
 
 }
