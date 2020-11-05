@@ -1,5 +1,6 @@
 package com.fish.cloud.api.controller;
 
+import com.fish.cloud.bean.model.ShopImg;
 import com.fish.cloud.bean.param.ShopImgAddParam;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.IShopImgService;
@@ -10,6 +11,8 @@ import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -25,6 +28,19 @@ import org.springframework.web.bind.annotation.*;
 public class ShopImgController {
     @Autowired
     private IShopImgService shopImgService;
+
+    /**
+     * 根据店铺Id查询列表
+     * @param shopId
+     * @return
+     */
+    @ApiOperation(value = "根据店铺Id查询列表", notes = "根据店铺Id查询列表")
+    @GetMapping("/listByShopId")
+    @ResponseBody
+    public ApiResult<List<ShopImg>> listByShopId(@RequestParam Long shopId) {
+        var dtoList = shopImgService.listByShopId(shopId);
+        return ApiResult.success(dtoList);
+    }
 
     @ApiOperation("删除")
     @ApiImplicitParam(name = "id", value = "id", required = true)

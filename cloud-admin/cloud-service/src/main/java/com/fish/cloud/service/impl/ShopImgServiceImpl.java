@@ -10,6 +10,7 @@ import com.fish.cloud.repo.ShopImgMapper;
 import com.fish.cloud.service.IShopImgService;
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -47,12 +48,7 @@ public class ShopImgServiceImpl extends ServiceImpl<ShopImgMapper, ShopImg> impl
         if (ObjectUtils.isEmpty(modelDb)) {
             //新增
             var model = new ShopImg();
-            model.setImgSize(shopImgAddParam.getImgSize());
-            model.setImgType(shopImgAddParam.getImgType());
-            model.setImgUrl(shopImgAddParam.getImgUrl());
-            model.setLinkType(1);
-            model.setLinkId(shopImgAddParam.getLinkId());
-            model.setLinkCate(shopImgAddParam.getLinkCate());
+            BeanUtils.copyProperties(shopImgAddParam, model);
             model.setUploadTime(DateTimeUtil.getCurrentDateTime());
 
             try {
@@ -64,12 +60,7 @@ public class ShopImgServiceImpl extends ServiceImpl<ShopImgMapper, ShopImg> impl
             }
         } else {
             //编辑
-            modelDb.setImgSize(shopImgAddParam.getImgSize());
-            modelDb.setImgType(shopImgAddParam.getImgType());
-            modelDb.setImgUrl(shopImgAddParam.getImgUrl());
-            modelDb.setLinkType(1);
-            modelDb.setLinkId(shopImgAddParam.getLinkId());
-            modelDb.setLinkCate(shopImgAddParam.getLinkCate());
+            BeanUtils.copyProperties(shopImgAddParam, modelDb);
             modelDb.setUploadTime(DateTimeUtil.getCurrentDateTime());
 
             try {

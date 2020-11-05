@@ -54,6 +54,4 @@ public class SysConfigController {
         var ret = sysConfigService.edit(sysConfigEditParam);
         return ApiResult.fromTupleRet(ret);
     }
-
-
 }

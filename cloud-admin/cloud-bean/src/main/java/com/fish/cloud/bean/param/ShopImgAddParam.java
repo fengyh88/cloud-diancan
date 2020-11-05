@@ -1,5 +1,6 @@
 package com.fish.cloud.bean.param;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -22,8 +23,11 @@ public class ShopImgAddParam {
     @ApiModelProperty(value = "图片大小")
     private Integer imgSize;
 
-    @ApiModelProperty(value = "上传时间")
-    private Date uploadTime;
+    /**
+     * 图片关联表类型：1 店铺表
+     */
+    @ApiModelProperty(value = "图片关联表类型：1 店铺表")
+    private Integer linkType;
 
     @ApiModelProperty(value = "图片关联的表主键Id")
     private Long linkId;

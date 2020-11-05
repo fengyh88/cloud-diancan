@@ -1,7 +1,6 @@
 package com.fish.cloud.api.controller;
 
 import com.fish.cloud.bean.model.ProdImg;
-import com.fish.cloud.bean.model.ProdProp;
 import com.fish.cloud.bean.param.ProdImgAddParam;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.IProdImgService;
