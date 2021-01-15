@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
@@ -34,7 +33,7 @@ public class ImgStorageController {
     @ApiOperation("上传")
     @ApiImplicitParam(name = "file", value = "file", required = true)
     @PostMapping("/upload")
-    public ApiResult upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
+    public ApiResult upload(@RequestParam("file") MultipartFile file) throws IOException {
         if (file.isEmpty()) {
             return ApiResult.failed("文件不存在");
         }

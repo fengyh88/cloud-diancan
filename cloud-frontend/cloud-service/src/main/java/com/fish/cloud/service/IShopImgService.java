@@ -1,6 +1,7 @@
 package com.fish.cloud.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fish.cloud.bean.dto.ShopImgDto;
 import com.fish.cloud.bean.model.ShopImg;
 
 import java.util.List;
@@ -19,5 +20,5 @@ public interface IShopImgService extends IService<ShopImg> {
      * @param shopId
      * @return
      */
-    List<ShopImg> listByShopId(Long shopId);
+    List<ShopImgDto> listByShopId(Long shopId);
 }

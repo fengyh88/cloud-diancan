@@ -48,7 +48,7 @@ public interface ICartService extends IService<Cart> {
      * @param id
      * @return
      */
-    TupleRet delete(String id);
+    TupleRet delete(Long id);
 
     /**
      * 批量删除

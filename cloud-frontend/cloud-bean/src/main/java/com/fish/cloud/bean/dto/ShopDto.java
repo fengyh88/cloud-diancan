@@ -60,12 +60,6 @@ public class ShopDto {
     @ApiModelProperty(value = "每天关店时间(可修改)")
     private String closeTime;
 
-    @ApiModelProperty(value = "满X包邮")
-    private BigDecimal freeDvy;
-
-    @ApiModelProperty(value = "满X起送")
-    private BigDecimal freeGo;
-
     @ApiModelProperty(value = "店铺状态(-1:未开通 0: 停业中 1:营业中)，可修改")
     private Integer status;
 
@@ -75,5 +69,5 @@ public class ShopDto {
     private Date createTime;
 
     @ApiModelProperty(value = "店铺图片")
-    private List<ShopImg> imgList;
+    private List<ShopImgDto> imgList;
 }

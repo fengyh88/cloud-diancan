@@ -1,7 +1,9 @@
 package com.fish.cloud.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fish.cloud.bean.dto.ShopImgDto;
 import com.fish.cloud.bean.model.ShopImg;
 import com.fish.cloud.repo.ShopImgMapper;
 import com.fish.cloud.service.IShopImgService;
@@ -10,6 +12,7 @@ import lombok.var;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -30,10 +33,15 @@ public class ShopImgServiceImpl extends ServiceImpl<ShopImgMapper, ShopImg> impl
      * @return
      */
     @Override
-    public List<ShopImg> listByShopId(Long shopId) {
+    public List<ShopImgDto> listByShopId(Long shopId) {
         var models = baseMapper.selectList(new LambdaQueryWrapper<ShopImg>()
                 .eq(ShopImg::getLinkType, 1)
                 .eq(ShopImg::getLinkId, shopId));
-        return models;
+        List<ShopImgDto> dtoList = models.stream().map(model -> {
+            ShopImgDto dto = new ShopImgDto();
+            BeanUtil.copyProperties(model,dto);
+            return dto;
+        }).collect(Collectors.toList());
+        return dtoList;
     }
 }

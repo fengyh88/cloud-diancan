@@ -1,6 +1,7 @@
 package com.fish.cloud.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fish.cloud.bean.dto.ProdCateDto;
 import com.fish.cloud.bean.model.ProdCate;
 
 import java.util.List;
@@ -20,5 +21,5 @@ public interface IProdCateService extends IService<ProdCate> {
      *
      * @return
      */
-    List<ProdCate> all();
+    List<ProdCateDto> all();
 }

@@ -40,7 +40,7 @@ public class Cart extends Model<Cart> {
 	 * 台桌Id
 	 */
 	@TableField("table_id")
-	private String tableId;
+	private Long tableId;
     /**
      * 用户Id
      */

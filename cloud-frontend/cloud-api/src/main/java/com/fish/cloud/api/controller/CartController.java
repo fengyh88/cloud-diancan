@@ -74,7 +74,7 @@ public class CartController {
     @ApiImplicitParam(name = "obj", value = "obj", required = true)
     @PostMapping(value = "/delete")
     public ApiResult delete(@RequestBody JSONObject obj) {
-        String id = obj.getStr("id", "");
+        Long id = obj.getLong("id", 0L);
         var ret = cartService.delete(id);
         return ApiResult.fromTupleRet(ret);
     }

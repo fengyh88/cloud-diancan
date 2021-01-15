@@ -1,5 +1,6 @@
 package com.fish.cloud.api.controller;
 
+import com.fish.cloud.bean.dto.ProdCateDto;
 import com.fish.cloud.bean.model.ProdCate;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.IProdCateService;
@@ -25,6 +26,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/api/prodCate")
 public class ProdCateController {
+
     @Autowired
     private IProdCateService prodCateService;
 
@@ -35,7 +37,7 @@ public class ProdCateController {
      */
     @ApiOperation("所有列表")
     @GetMapping("/all")
-    public ApiResult<List<ProdCate>> all() {
+    public ApiResult<List<ProdCateDto>> all() {
         var dtoList = prodCateService.all();
         return ApiResult.success(dtoList);
     }

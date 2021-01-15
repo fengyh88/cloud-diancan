@@ -19,10 +19,10 @@ public interface CartMapper extends BaseMapper<Cart> {
     /**
      * 全部
      * @param shopId
-     * @param userId
+     * @param tableId
      * @return
      */
-    List<CartDto> all(@Param("shopId") Long shopId, @Param("userId") String userId);
+    List<CartDto> all(@Param("shopId") Long shopId, @Param("tableId") String tableId);
 
     /**
      * 根据Ids获取列表

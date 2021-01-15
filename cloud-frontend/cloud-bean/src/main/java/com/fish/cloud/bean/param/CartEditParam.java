@@ -11,8 +11,8 @@ public class CartEditParam {
     private Long cartId;
     @ApiModelProperty(name = "商品Id")
     private Long prodId;
-    @ApiModelProperty(name = "商品数量")
-    private Integer num;
     @ApiModelProperty(name = "skuId")
     private String skuId;
+    @ApiModelProperty(name = "商品数量")
+    private Integer num;
 }

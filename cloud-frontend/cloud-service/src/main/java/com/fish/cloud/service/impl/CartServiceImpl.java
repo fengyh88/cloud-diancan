@@ -55,7 +55,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
     @Override
     public Integer countProd() {
         Integer count = baseMapper.selectCount(new LambdaQueryWrapper<Cart>()
-                .eq(Cart::getUserId, ApiContextHolder.getAuthDto().getUserId())
+                .eq(Cart::getTableId, ApiContextHolder.getTableId())
                 .eq(Cart::getShopId, ApiContextHolder.getShopId()));
         return count;
     }
@@ -69,8 +69,8 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
     @Override
     public TupleRet<String> add(CartAddParam cartAddParam) {
         var existModel = baseMapper.selectOne(new LambdaQueryWrapper<Cart>()
-                .eq(Cart::getUserId, ApiContextHolder.getAuthDto().getUserId())
                 .eq(Cart::getShopId, ApiContextHolder.getShopId())
+                .eq(Cart::getTableId, ApiContextHolder.getTableId())
                 .eq(Cart::getProdId, cartAddParam.getProdId())
                 .eq(Cart::getSkuId, cartAddParam.getSkuId()));
         //如果已经加入过购物车，则增减商品数量
@@ -88,6 +88,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
         // 添加
         var model = new Cart();
         model.setShopId(ApiContextHolder.getShopId());
+        model.setTableId(ApiContextHolder.getTableId());
         model.setUserId(ApiContextHolder.getAuthDto().getUserId());
         model.setProdId(cartAddParam.getProdId());
         model.setSkuId(cartAddParam.getSkuId());
@@ -111,7 +112,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
      * @return
      */
     @Override
-    public TupleRet delete(String id) {
+    public TupleRet delete(Long id) {
         var existModel = baseMapper.selectById(id);
         if (ObjectUtils.isEmpty(existModel)) {
             return TupleRet.failed("购物车不存在此商品");
@@ -149,8 +150,8 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
     public TupleRet clear() {
         try {
             baseMapper.delete(new LambdaQueryWrapper<Cart>()
-                    .eq(Cart::getUserId, ApiContextHolder.getAuthDto().getUserId())
-                    .eq(Cart::getShopId, ApiContextHolder.getShopId()));
+                    .eq(Cart::getShopId, ApiContextHolder.getShopId())
+                    .eq(Cart::getTableId, ApiContextHolder.getTableId()));
         } catch (Exception e) {
             log.error(e.getMessage());
             return TupleRet.failed("清空失败");
@@ -185,7 +186,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
     }
 
     /**
-     * 清空某个用户购物车数据
+     * 清空某个台桌购物车数据
      *
      * @param tableId
      * @param shopId

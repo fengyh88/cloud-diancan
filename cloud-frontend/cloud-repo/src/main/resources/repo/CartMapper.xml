@@ -96,7 +96,7 @@
 		LEFT JOIN  cloud_prod p ON cart.prod_id = p.`prod_id`
 		LEFT JOIN cloud_prod_sku sku ON cart.`prod_id` = sku.`prod_id` AND cart.`sku_id` = sku.`sku_id`
 		LEFT JOIN cloud_sys_dic_kv kv ON p.`unit_id` = kv.`key` AND kv.`dic_code` = 'D0001'
-		WHERE  cart.`user_id` = #{userId}
+		WHERE  cart.`table_id` = #{tableId}
 		<if test="shopId != null and shopId!=0 ">
 			AND cart.`shop_id` = #{shopId}
 		</if>
