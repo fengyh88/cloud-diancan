@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fish.cloud.bean.dto.OrderDetailDto;
 import com.fish.cloud.bean.dto.OrderDto;
+import com.fish.cloud.bean.dto.OrderItemDto;
 import com.fish.cloud.bean.model.Order;
 import com.fish.cloud.bean.model.OrderItem;
 import com.fish.cloud.bean.param.OrderAddItemParam;
@@ -25,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,7 +54,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         var models = baseMapper.selectList(new LambdaQueryWrapper<Order>()
                 .eq(Order::getShopId, ApiContextHolder.getShopId())
                 .eq(Order::getTableId, ApiContextHolder.getTableId())
-                .eq(Order::getUserId, ApiContextHolder.getAuthDto().getUserId())
                 .eq(0 != orderBySatusParam.getStatus(), Order::getStatus, orderBySatusParam.getStatus()));
         // dto
         List<OrderDto> dtoList = models.stream().map(model -> {
@@ -79,6 +80,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     /**
      * 提交订单
+     *
      * @param orderAddParam
      * @return
      */
@@ -90,16 +92,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         order.setShopId(ApiContextHolder.getShopId());
         order.setTableId(ApiContextHolder.getTableId());
         order.setUserId(ApiContextHolder.getAuthDto().getUserId());
-        order.setProdName("");
         order.setOrderNumber(IdUtil.getOrderNumberByTime(ApiContextHolder.getShopId()));
-        order.setOrderType(1); // 暂固定值
         // 金额
         order.setTotalAmount(orderAddParam.getTotalAmount());
         order.setReduceAmount(orderAddParam.getReduceAmount());
         order.setActualAmount(orderAddParam.getActualAmount());
-        // 支付
-        order.setPayType(orderAddParam.getPayType()); // 微信支付
-        order.setIsPayed(0); // 未支付
         order.setRemark(orderAddParam.getRemark());
         order.setStatus(1); // 已提交状态
         // 商品总数
@@ -131,6 +128,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
                 orderItem.setPrice(item.getPrice());
                 orderItem.setTotalAmount(item.getTotalAmount());
                 orderItem.setCreateTime(DateTimeUtil.getCurrentDateTime());
+                orderItem.setStatus(1);
 
                 orderItems.add(orderItem);
             });
@@ -142,11 +140,29 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         }
 
         // 清空购物车
-        TupleRet retClear = cartService.clearByUserIdAndShopId(ApiContextHolder.getAuthDto().getUserId(), ApiContextHolder.getShopId());
+        TupleRet retClear = cartService.clearByShopIdAndTableId(ApiContextHolder.getTableId(), ApiContextHolder.getShopId());
         if (!retClear.getSuccess()) {
+            log.error(retClear.getMessage());
             return TupleRet.failed("清空购物车错误");
         }
 
         return TupleRet.success(order.getOrderId());
+    }
+
+    @Override
+    public TupleRet calOrder(Order order) {
+        // 商品总数
+        List<OrderItemDto> orderItemList = orderItemService.listByOrderId(order.getOrderId());
+        Integer prodNum = orderItemList.stream().mapToInt(OrderItemDto::getNum).sum();
+        Double totalAmountDouble = orderItemList.stream().mapToDouble(orderItemDto -> orderItemDto.getTotalAmount().doubleValue()).sum();
+        // 金额
+        BigDecimal totalAmount = new BigDecimal(totalAmountDouble).setScale(2, BigDecimal.ROUND_HALF_UP);
+        BigDecimal actualAmount = totalAmount.subtract(order.getReduceAmount()).setScale(2, BigDecimal.ROUND_HALF_UP);
+        // 更新值
+        order.setProdNum(prodNum);
+        order.setTotalAmount(totalAmount);
+        order.setActualAmount(actualAmount);
+        baseMapper.updateById(order);
+        return TupleRet.success();
     }
 }

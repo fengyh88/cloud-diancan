@@ -32,6 +32,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
 
     /**
      * 全部
+     *
      * @return
      */
     @Override
@@ -48,6 +49,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
 
     /**
      * 统计购物车中商品数量
+     *
      * @return
      */
     @Override
@@ -60,6 +62,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
 
     /**
      * 添加
+     *
      * @param cartAddParam
      * @return
      */
@@ -103,6 +106,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
 
     /**
      * 删除
+     *
      * @param id
      * @return
      */
@@ -125,6 +129,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
 
     /**
      * 批量删除
+     *
      * @param ids
      * @return
      */
@@ -157,6 +162,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
 
     /**
      * 编辑
+     *
      * @param cartEditParam
      * @return
      */
@@ -180,17 +186,18 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
 
     /**
      * 清空某个用户购物车数据
-     * @param userId
+     *
+     * @param tableId
      * @param shopId
      * @return
      */
     @Override
-    public TupleRet clearByUserIdAndShopId(String userId, Long shopId) {
+    public TupleRet clearByShopIdAndTableId(Long tableId, Long shopId) {
         try {
             baseMapper.delete(new LambdaQueryWrapper<Cart>()
-                    .eq(Cart::getUserId, userId)
-                    .eq(Cart::getShopId, shopId));
-        } catch (Exception ex){
+                    .eq(Cart::getShopId, shopId)
+                    .eq(Cart::getTableId, tableId));
+        } catch (Exception ex) {
             log.error(ex.getMessage());
             return TupleRet.failed("清空购物车数据失败");
         }

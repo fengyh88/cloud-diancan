@@ -6,6 +6,7 @@
 	<resultMap id="BaseResultMap" type="com.fish.cloud.bean.model.Cart">
 		<id column="cart_id" property="cartId" />
 		<result column="shop_id" property="shopId" />
+		<result column="table_id" property="tableId" />
 		<result column="user_id" property="userId" />
 		<result column="prod_id" property="prodId" />
 		<result column="sku_id" property="skuId" />

@@ -23,9 +23,6 @@ public class OrderDetailDto {
     @ApiModelProperty(value = "台桌Id")
     private Long tableId;
 
-    @ApiModelProperty(value = "商品名称,多个商品将会以逗号隔开")
-    private String prodName;
-
     @ApiModelProperty(value = "订购用户Id")
     private String userId;
 
@@ -35,23 +32,20 @@ public class OrderDetailDto {
     @ApiModelProperty(value = "总值")
     private BigDecimal totalAmount;
 
+    @ApiModelProperty(value = "实际总值")
+    private BigDecimal actualAmount;
+
     @ApiModelProperty(value = "用户优惠券Id")
     private Long userCouponId;
 
     @ApiModelProperty(value = "优惠总额")
     private BigDecimal reduceAmount;
 
-    @ApiModelProperty(value = "实际总值")
-    private BigDecimal actualAmount;
-
     @ApiModelProperty(value = "订单备注")
     private String remark;
 
     @ApiModelProperty(value = "订单状态")
     private Integer status;
-
-    @ApiModelProperty(value = "订单运费")
-    private BigDecimal dvyAmount;
 
     @ApiModelProperty(value = "订单商品总数")
     private Integer prodNum;
@@ -60,11 +54,6 @@ public class OrderDetailDto {
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
-
-    @ApiModelProperty(value = "付款时间")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date payTime;
 
     @ApiModelProperty(value = "完成时间")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")

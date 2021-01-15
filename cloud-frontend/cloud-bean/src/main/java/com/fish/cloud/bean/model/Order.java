@@ -97,7 +97,7 @@ public class Order extends Model<Order> {
      */
 	private String remark;
     /**
-     * 订单状态 1：已提交 5：未支付 9:已支付 13:关闭，失败，17:完成，成功
+     * 订单状态 1：已提交 5：未支付 9:已支付 13:关闭，失败
      */
 	private Integer status;
     /**

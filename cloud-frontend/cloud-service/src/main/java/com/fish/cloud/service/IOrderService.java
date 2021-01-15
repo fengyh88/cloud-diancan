@@ -39,5 +39,12 @@ public interface IOrderService extends IService<Order> {
      * @param orderAddParam
      * @return
      */
-    public TupleRet<Long> submit(OrderAddParam orderAddParam);
+    TupleRet<Long> submit(OrderAddParam orderAddParam);
+
+    /**
+     * 重新计算订单信息
+     * @param order
+     * @return
+     */
+    TupleRet calOrder(Order order);
 }

@@ -110,6 +110,11 @@ public class OrderItem extends Model<OrderItem> {
 	@TableField("create_time")
 	private Date createTime;
 
+	/**
+	 * 状态 1正常 0 删除
+	 */
+	private Integer status;
+
 	@Override
 	protected Serializable pkVal() {
 		return this.orderItemId;

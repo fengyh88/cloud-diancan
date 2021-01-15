@@ -70,10 +70,10 @@ public interface ICartService extends IService<Cart> {
     TupleRet edit(CartEditParam cartEditParam);
 
     /**
-     * 清空某个用户购物车数据
-     * @param userId
+     * 清空某个台桌购物车数据
+     * @param tableId
      * @param shopId
      * @return
      */
-    TupleRet clearByUserIdAndShopId(String userId, Long shopId);
+    TupleRet clearByShopIdAndTableId(Long tableId, Long shopId);
 }

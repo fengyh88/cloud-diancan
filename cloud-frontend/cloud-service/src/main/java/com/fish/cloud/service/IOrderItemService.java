@@ -3,6 +3,7 @@ package com.fish.cloud.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fish.cloud.bean.dto.OrderItemDto;
 import com.fish.cloud.bean.model.OrderItem;
+import com.fish.cloud.common.ret.TupleRet;
 
 import java.util.List;
 
@@ -21,4 +22,10 @@ public interface IOrderItemService extends IService<OrderItem> {
      * @return
      */
     List<OrderItemDto> listByOrderId(Long orderId);
+
+    /**
+     * 根据orderItemId删除某项
+     * @param orderItemId
+     */
+    TupleRet deleteByOrderItemId(Long orderItemId);
 }

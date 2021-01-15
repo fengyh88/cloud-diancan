@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,6 +19,8 @@ import java.util.Date;
  * @author fengyh
  * @since 2020-10-30
  */
+@Data
+@NoArgsConstructor
 @TableName("cloud_cart")
 public class Cart extends Model<Cart> {
 
@@ -32,6 +36,11 @@ public class Cart extends Model<Cart> {
      */
 	@TableField("shop_id")
 	private Long shopId;
+	/**
+	 * 台桌Id
+	 */
+	@TableField("table_id")
+	private String tableId;
     /**
      * 用户Id
      */
@@ -61,79 +70,6 @@ public class Cart extends Model<Cart> {
      */
 	@TableField("cart_time")
 	private Date cartTime;
-
-
-	public Long getCartId() {
-		return cartId;
-	}
-
-	public Cart setCartId(Long cartId) {
-		this.cartId = cartId;
-		return this;
-	}
-
-	public Long getShopId() {
-		return shopId;
-	}
-
-	public Cart setShopId(Long shopId) {
-		this.shopId = shopId;
-		return this;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public Cart setUserId(String userId) {
-		this.userId = userId;
-		return this;
-	}
-
-	public Long getProdId() {
-		return prodId;
-	}
-
-	public Cart setProdId(Long prodId) {
-		this.prodId = prodId;
-		return this;
-	}
-
-	public Long getSkuId() {
-		return skuId;
-	}
-
-	public Cart setSkuId(Long skuId) {
-		this.skuId = skuId;
-		return this;
-	}
-
-	public String getProdProp() {
-		return prodProp;
-	}
-
-	public Cart setProdProp(String prodProp) {
-		this.prodProp = prodProp;
-		return this;
-	}
-
-	public Integer getNum() {
-		return num;
-	}
-
-	public Cart setNum(Integer num) {
-		this.num = num;
-		return this;
-	}
-
-	public Date getCartTime() {
-		return cartTime;
-	}
-
-	public Cart setCartTime(Date cartTime) {
-		this.cartTime = cartTime;
-		return this;
-	}
 
 	@Override
 	protected Serializable pkVal() {

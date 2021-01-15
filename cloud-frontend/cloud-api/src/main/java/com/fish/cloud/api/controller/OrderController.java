@@ -36,7 +36,7 @@ public class OrderController {
     @ApiImplicitParam(name = "orderBySatusParam", value = "根据状态查询参数", required = true)
     @PostMapping(value = "/listByStatus")
     public ApiResult<List<OrderDto>> listByStatus(@RequestBody OrderBySatusParam orderBySatusParam) {
-        if (!ArrayUtils.contains(new int[]{0, 1, 9, 13, 17}, orderBySatusParam.getStatus())) {
+        if (!ArrayUtils.contains(new int[]{0, 1, 9, 13}, orderBySatusParam.getStatus())) {
             return ApiResult.failed("订单状态错误");
         }
         var dtoList = orderService.listByStatus(orderBySatusParam);
@@ -53,7 +53,7 @@ public class OrderController {
 
     @ApiOperation("订单提交")
     @ApiImplicitParam(name = "orderAddParam", value = "订单提交信息", required = true)
-    @RequestMapping(value = "/submit", method = RequestMethod.POST)
+    @PostMapping(value = "/submit")
     public ApiResult<Long> submit(@RequestBody OrderAddParam orderAddParam) {
         var ret = orderService.submit(orderAddParam);
         return ApiResult.fromTupleRet(ret);
