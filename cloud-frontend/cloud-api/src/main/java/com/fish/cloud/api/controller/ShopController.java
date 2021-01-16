@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Api(tags = "店铺")
 @Controller
-@RequestMapping("/api/shop")
+@RequestMapping("/shop")
 public class ShopController {
     @Autowired
     private IShopService shopService;

@@ -121,7 +121,7 @@
 		FROM cloud_prod p
 		LEFT JOIN cloud_prod_cate cate ON  p.`cate_id` = cate.`cate_id`
 		LEFT JOIN cloud_sys_dic_kv kv ON p.`unit_id` = kv.`key` AND kv.`dic_code` = 'D0001'
-		WHERE p.`shop_id` = #{shopId} AND p.`status` != -1
+		WHERE p.`shop_id` = #{shopId} AND p.`status` == 1
 		<if test="prodByCateParam.cateId != null and prodByCateParam.cateId != ''">
 			AND p.`cate_id`=#{prodByCateParam.cateId}
 		</if>
@@ -139,6 +139,6 @@
 		FROM cloud_prod p
 		LEFT JOIN cloud_prod_cate cate ON  p.`cate_id` = cate.`cate_id`
 		LEFT JOIN cloud_sys_dic_kv kv ON p.`unit_id` = kv.`key` AND kv.`dic_code` = 'D0001'
-		WHERE p.`prod_id` = #{id} AND p.`status` != -1
+		WHERE p.`prod_id` = #{id} AND p.`status` == 1
 	</select>
 </mapper>

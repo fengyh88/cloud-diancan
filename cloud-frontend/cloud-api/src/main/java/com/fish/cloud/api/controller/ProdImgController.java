@@ -14,6 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Api(tags = "商品图")
 @Controller
-@RequestMapping("/api/prodImg")
+@RequestMapping("/prodImg")
 public class ProdImgController {
 }

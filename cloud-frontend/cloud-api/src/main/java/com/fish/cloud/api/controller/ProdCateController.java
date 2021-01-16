@@ -1,5 +1,6 @@
 package com.fish.cloud.api.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.fish.cloud.bean.dto.ProdCateDto;
 import com.fish.cloud.bean.model.ProdCate;
 import com.fish.cloud.common.ret.ApiResult;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -24,7 +26,7 @@ import java.util.List;
  */
 @Api(tags = "商品类目")
 @Controller
-@RequestMapping("/api/prodCate")
+@RequestMapping("/prodCate")
 public class ProdCateController {
 
     @Autowired
@@ -38,7 +40,12 @@ public class ProdCateController {
     @ApiOperation("所有列表")
     @GetMapping("/all")
     public ApiResult<List<ProdCateDto>> all() {
-        var dtoList = prodCateService.all();
+        var models = prodCateService.all();
+        List<ProdCateDto> dtoList = models.stream().map(model->{
+            ProdCateDto dto = new ProdCateDto();
+            BeanUtil.copyProperties(model,dto);
+            return dto;
+        }).collect(Collectors.toList());
         return ApiResult.success(dtoList);
     }
 }

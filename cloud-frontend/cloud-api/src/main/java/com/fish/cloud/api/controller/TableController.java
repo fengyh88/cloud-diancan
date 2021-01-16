@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @since 2020-10-30
  */
 @Controller
-@RequestMapping("/api/table")
+@RequestMapping("/table")
 public class TableController {
 	
 }

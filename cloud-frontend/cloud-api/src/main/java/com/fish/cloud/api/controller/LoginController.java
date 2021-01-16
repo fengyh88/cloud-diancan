@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "登录")
-@RequestMapping(value = "/api/login")
+@RequestMapping(value = "/login")
 @RestController
 public class LoginController {
     @Autowired

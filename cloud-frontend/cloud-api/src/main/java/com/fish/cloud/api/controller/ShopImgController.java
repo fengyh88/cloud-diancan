@@ -14,6 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Api(tags = "店铺图")
 @Controller
-@RequestMapping("/api/shopImg")
+@RequestMapping("/shopImg")
 public class ShopImgController {
 }

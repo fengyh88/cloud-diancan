@@ -37,12 +37,6 @@ public class ProdSkuDto {
     @ApiModelProperty(value = "会员价")
     private BigDecimal memPrice;
 
-    @ApiModelProperty(value = "虚拟库存")
-    private Integer vStock;
-
-    @ApiModelProperty(value = "库存")
-    private Integer stock;
-
     @ApiModelProperty(value = "主图")
     private String img;
 

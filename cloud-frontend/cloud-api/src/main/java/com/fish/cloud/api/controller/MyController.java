@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Api(tags = "我的")
-@RequestMapping(value = "/api/my")
+@RequestMapping(value = "/my")
 @RestController
 public class MyController {
     @Autowired

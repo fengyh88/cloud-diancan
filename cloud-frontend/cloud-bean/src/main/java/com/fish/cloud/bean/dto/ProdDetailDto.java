@@ -33,6 +33,9 @@ public class ProdDetailDto {
     @ApiModelProperty(value = "商品分类")
     private Long cateId;
 
+    @ApiModelProperty(value = "主图")
+    private String img;
+
     @ApiModelProperty(value = "品牌Id")
     private Long brandId;
 
@@ -63,7 +66,7 @@ public class ProdDetailDto {
     private Date putonTime;
 
     @ApiModelProperty(value = "图片列表")
-    private List<ProdImg> imgList;
+    private List<ProdImgDto> imgList;
 
     @ApiModelProperty(value = "商品类目名称")
     private String cateName;

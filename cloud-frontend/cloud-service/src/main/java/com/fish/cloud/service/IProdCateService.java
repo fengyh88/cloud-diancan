@@ -21,5 +21,5 @@ public interface IProdCateService extends IService<ProdCate> {
      *
      * @return
      */
-    List<ProdCateDto> all();
+    List<ProdCate> all();
 }

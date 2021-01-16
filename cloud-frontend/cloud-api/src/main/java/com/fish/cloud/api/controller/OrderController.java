@@ -27,7 +27,7 @@ import java.util.List;
  */
 @Api(tags = "订单")
 @Controller
-@RequestMapping("/api/order")
+@RequestMapping("/order")
 public class OrderController {
     @Autowired
     private IOrderService orderService;
