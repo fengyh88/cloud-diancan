@@ -29,7 +29,7 @@ public class OrderItemController {
     @ApiImplicitParam(name = "orderItemId", value = "明细Id", required = true)
     @GetMapping(value = "/delete")
     public ApiResult delete(@RequestParam Long orderItemId) {
-        orderItemService.deleteByOrderItemId(orderItemId);
-        return ApiResult.success();
+        var ret = orderItemService.deleteByOrderItemId(orderItemId);
+        return ApiResult.fromTupleRet(ret);
     }
 }

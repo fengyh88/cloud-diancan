@@ -29,7 +29,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
         var model = baseMapper.selectOne(new LambdaQueryWrapper<SysConfig>()
                 .eq(SysConfig::getShopId, ApiContextHolder.getShopId())
                 .eq(SysConfig::getParamKey, key)
-                .ne(SysConfig::getStatus, -1));
+                .eq(SysConfig::getStatus, 1));
         return model;
     }
 
@@ -37,7 +37,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
     public List<SysConfig> all() {
         var models = baseMapper.selectList(new LambdaQueryWrapper<SysConfig>()
                 .eq(SysConfig::getShopId, ApiContextHolder.getShopId())
-                .ne(SysConfig::getStatus, -1));
+                .eq(SysConfig::getStatus, 1));
         return models;
     }
 }

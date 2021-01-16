@@ -1,7 +1,14 @@
 package com.fish.cloud.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fish.cloud.bean.dto.CallDto;
 import com.fish.cloud.bean.model.Call;
+import com.fish.cloud.bean.model.Table;
+import com.fish.cloud.bean.param.CallAddParam;
+import com.fish.cloud.bean.param.SysDicAddParam;
+import com.fish.cloud.common.ret.TupleRet;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +19,18 @@ import com.fish.cloud.bean.model.Call;
  * @since 2020-10-30
  */
 public interface ICallService extends IService<Call> {
-	
+    /**
+     * 添加
+     *
+     * @param callAddParam
+     * @return
+     */
+    TupleRet add(CallAddParam callAddParam);
+
+    /**
+     * 根据台桌获取列表
+     * @param tableCode
+     * @return
+     */
+    List<Call> listByTableCode(String tableCode);
 }

@@ -29,7 +29,7 @@ public class SysDicKvServiceImpl extends ServiceImpl<SysDicKvMapper, SysDicKv> i
         var models = baseMapper.selectList(new LambdaQueryWrapper<SysDicKv>()
                 .eq(SysDicKv::getShopId, ApiContextHolder.getShopId())
                 .eq(SysDicKv::getDicCode, dicCode)
-                .ne(SysDicKv::getStatus, -1));
+                .eq(SysDicKv::getStatus, 1));
         return models;
     }
 }

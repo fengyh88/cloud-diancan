@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -16,6 +17,7 @@ import java.io.Serializable;
  * @author fengyh
  * @since 2020-10-30
  */
+@Data
 @TableName("cloud_prod_prop")
 public class ProdProp extends Model<ProdProp> {
 
@@ -31,66 +33,26 @@ public class ProdProp extends Model<ProdProp> {
      */
 	@TableField("shop_id")
 	private Long shopId;
-    /**
-     * 商品分类 0表示所有分类通用
-     */
-	@TableField("cate_id")
-	private Long cateId;
-    /**
-     * 1:销售属性(规格); 2:参数属性
-     */
-	private Integer rule;
+	/**
+	 * 商品Id
+	 */
+	@TableField("prod_id")
+	private Long prodId;
     /**
      * 属性名称
      */
 	@TableField("prop_name")
 	private String propName;
+	/**
+	 * 属性值
+	 */
+	@TableField("prop_value")
+	private String propValue;
 
-
-	public Long getPropId() {
-		return propId;
-	}
-
-	public ProdProp setPropId(Long propId) {
-		this.propId = propId;
-		return this;
-	}
-
-	public Long getShopId() {
-		return shopId;
-	}
-
-	public ProdProp setShopId(Long shopId) {
-		this.shopId = shopId;
-		return this;
-	}
-
-	public Long getCateId() {
-		return cateId;
-	}
-
-	public ProdProp setCateId(Long cateId) {
-		this.cateId = cateId;
-		return this;
-	}
-
-	public Integer getRule() {
-		return rule;
-	}
-
-	public ProdProp setRule(Integer rule) {
-		this.rule = rule;
-		return this;
-	}
-
-	public String getPropName() {
-		return propName;
-	}
-
-	public ProdProp setPropName(String propName) {
-		this.propName = propName;
-		return this;
-	}
+	/**
+	 * 默认是1 正常状态,0 禁用状态 -1 删除状态
+	 */
+	private Integer status;
 
 	@Override
 	protected Serializable pkVal() {

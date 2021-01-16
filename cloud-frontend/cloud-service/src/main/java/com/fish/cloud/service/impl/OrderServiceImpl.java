@@ -18,6 +18,7 @@ import com.fish.cloud.repo.OrderMapper;
 import com.fish.cloud.service.ICartService;
 import com.fish.cloud.service.IOrderItemService;
 import com.fish.cloud.service.IOrderService;
+import com.fish.cloud.service.ITableService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
@@ -47,6 +48,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     private IOrderItemService orderItemService;
     @Autowired
     private ICartService cartService;
+    @Autowired
+    private ITableService tableService;
 
     @ApiOperation("根据状态查询列表")
     @Override
@@ -146,6 +149,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             return TupleRet.failed("清空购物车错误");
         }
 
+        // 台桌更新状态为就餐状态
+        tableService.updateStatus(order.getTableId(),11);
         return TupleRet.success(order.getOrderId());
     }
 

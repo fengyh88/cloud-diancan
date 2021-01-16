@@ -1,11 +1,13 @@
-package com.fish.cloud.bean.model;
+package com.fish.cloud.bean.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -19,30 +21,14 @@ import java.util.Date;
  * @since 2020-10-30
  */
 @Data
-@TableName("cloud_call")
-public class Call extends Model<Call> {
-
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * Id
-     */
-	@TableId(value="id", type= IdType.AUTO)
-	private Long id;
-    /**
-     * 店铺Id 0表示全局公告
-     */
-	@TableField("shop_id")
-	private Long shopId;
+public class CallDto {
     /**
      * 用户Id
      */
-	@TableField("user_id")
 	private Long userId;
     /**
      * 桌号Id
      */
-	@TableField("table_id")
 	private Long tableId;
     /**
      * 公告标题
@@ -57,19 +43,10 @@ public class Call extends Model<Call> {
      */
 	private Integer status;
     /**
-     * 已读员工Id
-     */
-	@TableField("emp_id")
-	private Long empId;
-    /**
      * 创建时间
      */
-	@TableField("create_time")
-	private Date createTime;
-
-	@Override
-	protected Serializable pkVal() {
-		return this.id;
-	}
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd", timezone = "GMT+8")
+	private Date createdTime;
 
 }

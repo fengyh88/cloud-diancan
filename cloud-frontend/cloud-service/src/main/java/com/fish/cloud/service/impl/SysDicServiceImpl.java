@@ -28,7 +28,7 @@ public class SysDicServiceImpl extends ServiceImpl<SysDicMapper, SysDic> impleme
     public List<SysDic> all() {
         var models = baseMapper.selectList(new LambdaQueryWrapper<SysDic>()
                 .eq(SysDic::getShopId, ApiContextHolder.getShopId())
-                .ne(SysDic::getStatus, -1));
+                .eq(SysDic::getStatus, 1));
         return models;
     }
 }
