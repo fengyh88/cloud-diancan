@@ -34,7 +34,7 @@ import java.util.List;
  */
 @Api(tags = "系统字典")
 @Controller
-@RequestMapping("/api/sysDic")
+@RequestMapping("/sysDic")
 public class SysDicController {
     @Autowired
     private ISysDicService sysDicService;

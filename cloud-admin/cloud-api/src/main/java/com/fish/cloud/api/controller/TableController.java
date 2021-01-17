@@ -33,7 +33,7 @@ import java.util.List;
  */
 @Api(tags = "台桌")
 @Controller
-@RequestMapping("/api/table")
+@RequestMapping("/table")
 public class TableController {
     @Autowired
     private ITableService tableService;

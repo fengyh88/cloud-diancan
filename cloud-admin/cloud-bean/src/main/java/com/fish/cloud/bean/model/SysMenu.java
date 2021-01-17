@@ -6,6 +6,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -16,6 +19,7 @@ import java.io.Serializable;
  * @author fengyh
  * @since 2020-10-30
  */
+@Data
 @TableName("cloud_sys_menu")
 public class SysMenu extends Model<SysMenu> {
 
@@ -29,22 +33,24 @@ public class SysMenu extends Model<SysMenu> {
 	@TableField("p_id")
 	private Long pId;
     /**
-     * 类型   0：目录   1：菜单   2：按钮
+     * 菜单类型(0:一级菜单; 1:子菜单 2:按钮权限)
      */
 	@TableField("menu_type")
 	private Integer menuType;
-    /**
-     * 菜单名称
-     */
-	@TableField("menu_name")
-	private String menuName;
-    /**
-     * 菜单URL
-     */
+	/**
+	 * 菜单标题
+	 */
+	@TableField("title")
+	private String title;
+	/**
+	 * 路径
+	 */
+	@TableField("url")
 	private String url;
-    /**
-     * 菜单图标
-     */
+	/**
+	 * 菜单图标
+	 */
+	@TableField("icon")
 	private String icon;
     /**
      * 排序
@@ -55,6 +61,27 @@ public class SysMenu extends Model<SysMenu> {
      */
 	@TableField("shop_id")
 	private Long shopId;
+	/**
+	 * 是否叶子节点: 1:是   0:不是
+	 */
+	@TableField("is_leaf")
+	private Integer isLeaf;
+	/**
+	 * 描述
+	 */
+	@TableField("des")
+	private String des;
+
+	/**
+	 * 权限策略1显示0禁用
+	 */
+	@TableField("show_type")
+	private Integer showType;
+	/**
+	 * 菜单类别 0.平台 1.控制台
+	 */
+	@TableField("menu_class")
+	private Integer menuClass;
     /**
      * 创建时间
      */
@@ -65,97 +92,6 @@ public class SysMenu extends Model<SysMenu> {
      */
 	@TableField("update_time")
 	private Date updateTime;
-
-
-	public Long getMenuId() {
-		return menuId;
-	}
-
-	public SysMenu setMenuId(Long menuId) {
-		this.menuId = menuId;
-		return this;
-	}
-
-	public Long getPId() {
-		return pId;
-	}
-
-	public SysMenu setPId(Long pId) {
-		this.pId = pId;
-		return this;
-	}
-
-	public Integer getMenuType() {
-		return menuType;
-	}
-
-	public SysMenu setMenuType(Integer menuType) {
-		this.menuType = menuType;
-		return this;
-	}
-
-	public String getMenuName() {
-		return menuName;
-	}
-
-	public SysMenu setMenuName(String menuName) {
-		this.menuName = menuName;
-		return this;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public SysMenu setUrl(String url) {
-		this.url = url;
-		return this;
-	}
-
-	public String getIcon() {
-		return icon;
-	}
-
-	public SysMenu setIcon(String icon) {
-		this.icon = icon;
-		return this;
-	}
-
-	public Integer getSeq() {
-		return seq;
-	}
-
-	public SysMenu setSeq(Integer seq) {
-		this.seq = seq;
-		return this;
-	}
-
-	public Long getShopId() {
-		return shopId;
-	}
-
-	public SysMenu setShopId(Long shopId) {
-		this.shopId = shopId;
-		return this;
-	}
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public SysMenu setCreateTime(Date createTime) {
-		this.createTime = createTime;
-		return this;
-	}
-
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-
-	public SysMenu setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-		return this;
-	}
 
 	@Override
 	protected Serializable pkVal() {

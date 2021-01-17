@@ -24,7 +24,7 @@ import java.util.List;
  */
 @Api(tags = "店铺图")
 @Controller
-@RequestMapping("/api/shopImg")
+@RequestMapping("/shopImg")
 public class ShopImgController {
     @Autowired
     private IShopImgService shopImgService;

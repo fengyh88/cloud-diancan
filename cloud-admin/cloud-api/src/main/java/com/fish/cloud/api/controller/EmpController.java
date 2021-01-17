@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  */
 @Api(tags = "员工")
 @Controller
-@RequestMapping("/api/emp")
+@RequestMapping("/emp")
 public class EmpController {
     @Autowired
     private IEmpService empService;

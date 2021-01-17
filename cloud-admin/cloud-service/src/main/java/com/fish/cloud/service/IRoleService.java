@@ -18,19 +18,12 @@ import java.util.List;
 public interface IRoleService extends IService<Role> {
 
     /**
-     * 所有列表
-     *
-     * @return
-     */
-    List<Role> all();
-
-    /**
      * 更新状态，正常禁用删除
      *
      * @param id
      * @return
      */
-    TupleRet updateStatus(Long id, Integer status);
+    TupleRet status(Long id, Integer status);
 
     /**
      * 添加

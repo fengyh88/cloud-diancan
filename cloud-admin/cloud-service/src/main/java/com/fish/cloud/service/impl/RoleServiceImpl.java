@@ -14,8 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.var;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 /**
  * <p>
  * 角色
@@ -28,14 +26,6 @@ import java.util.List;
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRoleService {
 
-    @Override
-    public List<Role> all() {
-        var models = baseMapper.selectList(new LambdaQueryWrapper<Role>()
-                .eq(Role::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .ne(Role::getStatus, -1));
-        return models;
-    }
-
     /**
      * 更新状态，正常禁用删除
      * @param id
@@ -43,7 +33,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
      * @return
      */
     @Override
-    public TupleRet updateStatus(Long id, Integer status) {
+    public TupleRet status(Long id, Integer status) {
         var model = baseMapper.selectById(id);
         if (ObjectUtils.isEmpty(model)){
             return TupleRet.failed("角色不存在");
@@ -55,22 +45,13 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 
     @Override
     public TupleRet add(RoleAddParam roleAddParam) {
-        var count = baseMapper.selectCount(new LambdaQueryWrapper<Role>()
-                .eq(Role::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .eq(Role::getRoleCode, roleAddParam.getRoleCode())
-                .eq(Role::getStatus, 1));
-        if (count > 0) {
-            return TupleRet.failed("编码不得重复");
-        }
-
         try {
             var model = new Role();
-            model.setRoleCode(roleAddParam.getRoleCode());
             model.setRoleName(roleAddParam.getRoleName());
             model.setShopId(ApiContextHolder.getAuthDto().getShopId());
             model.setRemark(roleAddParam.getRemark());
             model.setStatus(1);
-            model.setCreateTime(DateTimeUtil.getCurrentDateTime());
+            model.setCreatedTime(DateTimeUtil.getCurrentDateTime());
 
             baseMapper.insert(model);
         } catch (Exception ex) {
@@ -86,17 +67,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
         if (ObjectUtils.isEmpty(model)){
             return TupleRet.failed("角色不存在");
         }
-        var count = baseMapper.selectCount(new LambdaQueryWrapper<Role>()
-                .eq(Role::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .eq(Role::getRoleCode, roleAddParam.getRoleCode())
-                .ne(Role::getRoleId, model.getRoleId())
-                .eq(Role::getStatus, 1));
-        if (count > 0) {
-            return TupleRet.failed("编码不得重复");
-        }
 
         try {
-            model.setRoleCode(roleAddParam.getRoleCode());
             model.setRoleName(roleAddParam.getRoleName());
             model.setRemark(roleAddParam.getRemark());
 

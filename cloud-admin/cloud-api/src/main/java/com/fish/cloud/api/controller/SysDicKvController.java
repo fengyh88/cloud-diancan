@@ -34,7 +34,7 @@ import java.util.List;
  */
 @Api(tags = "系统字典kv")
 @Controller
-@RequestMapping("/api/sysDicKv")
+@RequestMapping("/sysDicKv")
 public class SysDicKvController {
     @Autowired
     private ISysDicKvService sysDicKvService;

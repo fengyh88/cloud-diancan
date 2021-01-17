@@ -31,11 +31,6 @@ public class Duty extends Model<Duty> {
      */
 	@TableId(value="duty_id", type= IdType.AUTO)
 	private Long dutyId;
-	/**
-	 * 编码
-	 */
-	@TableField("duty_code")
-	private String dutyCode;
     /**
      * 名称
      */

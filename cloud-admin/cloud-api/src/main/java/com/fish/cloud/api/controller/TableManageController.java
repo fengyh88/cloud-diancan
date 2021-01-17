@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(tags = "台桌管理")
 @Controller
-@RequestMapping("/api/table/manage")
+@RequestMapping("/table/manage")
 public class TableManageController {
     @Autowired
     private ITableManageService tableManageService;

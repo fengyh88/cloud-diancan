@@ -33,7 +33,7 @@ import java.util.List;
  * @since 2020-10-30
  */
 @Controller
-@RequestMapping("/api/coupon")
+@RequestMapping("/coupon")
 public class CouponController {
     @Autowired
     private ICouponService couponService;

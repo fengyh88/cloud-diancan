@@ -10,9 +10,6 @@ public class DutyAddParam {
     @ApiModelProperty(value = "Id")
     private Long dutyId;
 
-    @ApiModelProperty(value = "编码")
-    private String dutyCode;
-
     @ApiModelProperty(value = "名称")
     private String dutyName;
 

@@ -22,7 +22,7 @@ public interface IDutyService extends IService<Duty> {
      * @param id
      * @return
      */
-    TupleRet updateStatus(Long id, Integer status);
+    TupleRet status(Long id, Integer status);
     /**
      * 添加
      *

@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
  */
 @Api(tags = "呼叫")
 @Controller
-@RequestMapping("/api/call")
+@RequestMapping("/call")
 public class CallController {
     @Autowired
     private ICallService callService;

@@ -32,7 +32,7 @@ public class DutyServiceImpl extends ServiceImpl<DutyMapper, Duty> implements ID
      * @return
      */
     @Override
-    public TupleRet updateStatus(Long id, Integer status) {
+    public TupleRet status(Long id, Integer status) {
         var model = baseMapper.selectById(id);
         if (ObjectUtils.isEmpty(model)) {
             return TupleRet.failed("岗位不存在");
@@ -44,17 +44,8 @@ public class DutyServiceImpl extends ServiceImpl<DutyMapper, Duty> implements ID
 
     @Override
     public TupleRet add(DutyAddParam dutyAddParam) {
-        var count = baseMapper.selectCount(new LambdaQueryWrapper<Duty>()
-                .eq(Duty::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .eq(Duty::getDutyCode, dutyAddParam.getDutyCode())
-                .eq(Duty::getStatus,1));
-        if (count > 0) {
-            return TupleRet.failed("编码不得重复");
-        }
-
         try {
             var model = new Duty();
-            model.setDutyCode(dutyAddParam.getDutyCode());
             model.setDutyName(dutyAddParam.getDutyName());
             model.setShopId(ApiContextHolder.getAuthDto().getShopId());
             model.setStatus(1);
@@ -74,20 +65,10 @@ public class DutyServiceImpl extends ServiceImpl<DutyMapper, Duty> implements ID
         if (ObjectUtils.isEmpty(model)) {
             return TupleRet.failed("岗位不存在");
         }
-        var count = baseMapper.selectCount(new LambdaQueryWrapper<Duty>()
-                .eq(Duty::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .eq(Duty::getDutyCode, dutyAddParam.getDutyCode())
-                .ne(Duty::getDutyId, model.getDutyId())
-                .eq(Duty::getStatus,1));
-        if (count > 0) {
-            return TupleRet.failed("编码不得重复");
-        }
+        model.setDutyName(dutyAddParam.getDutyName());
+        model.setUpdateTime(DateTimeUtil.getCurrentDateTime());
 
         try {
-            model.setDutyCode(dutyAddParam.getDutyCode());
-            model.setDutyName(dutyAddParam.getDutyName());
-            model.setUpdateTime(DateTimeUtil.getCurrentDateTime());
-
             baseMapper.updateById(model);
         } catch (Exception ex) {
             log.error(ex.getMessage());

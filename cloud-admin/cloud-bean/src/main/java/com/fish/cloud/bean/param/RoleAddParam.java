@@ -11,9 +11,6 @@ public class RoleAddParam {
     @ApiModelProperty(value = "Id")
     private Long roleId;
 
-    @ApiModelProperty(value = "编码")
-    private String roleCode;
-
     @ApiModelProperty(value = "名称")
     private String roleName;
 

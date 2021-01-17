@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
  */
 @Api(tags = "商品Sku")
 @Controller
-@RequestMapping("/api/prodSku")
+@RequestMapping("/prodSku")
 public class ProdSkuController {
     @Autowired
     private IProdSkuService prodSkuService;

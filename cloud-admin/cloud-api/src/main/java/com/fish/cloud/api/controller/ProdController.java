@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(tags = "商品")
 @Controller
-@RequestMapping("/api/prod")
+@RequestMapping("/prod")
 public class ProdController {
     @Autowired
     private IProdService prodService;

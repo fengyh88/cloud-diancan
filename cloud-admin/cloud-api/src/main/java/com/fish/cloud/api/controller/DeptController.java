@@ -1,11 +1,11 @@
 package com.fish.cloud.api.controller;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fish.cloud.bean.dto.CallDto;
-import com.fish.cloud.bean.model.Call;
+import com.fish.cloud.bean.dto.DeptDto;
 import com.fish.cloud.bean.model.Dept;
 import com.fish.cloud.bean.param.DeptAddParam;
 import com.fish.cloud.common.context.ApiContextHolder;
@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -33,10 +34,25 @@ import java.util.List;
  */
 @Api(tags = "部门")
 @Controller
-@RequestMapping("/api/dept")
+@RequestMapping("/dept")
 public class DeptController {
     @Autowired
     private IDeptService deptService;
+
+    @ApiOperation(value = "列表", notes = "列表")
+    @GetMapping(value = "/list")
+    public ApiResult<List<DeptDto>> list() {
+        // 列表
+        var models = deptService.list(new LambdaQueryWrapper<Dept>()
+                .eq(Dept::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(Dept::getStatus, 1));
+        var dtoList = models.stream().map(model -> {
+            var dto = new DeptDto();
+            BeanUtil.copyProperties(model, dto);
+            return dto;
+        }).collect(Collectors.toList());
+        return ApiResult.success(dtoList);
+    }
 
     /**
      * 分页
@@ -48,23 +64,14 @@ public class DeptController {
     @ApiOperation(value = "分页", notes = "分页")
     @GetMapping("/page")
     @ResponseBody
-    public ApiResult<IPage<Dept>> page(@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
-                                       @RequestParam(name = "pageSize", defaultValue = "15") Integer pageSize) {
+    public ApiResult<IPage<DeptDto>> page(@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+                                          @RequestParam(name = "pageSize", defaultValue = "15") Integer pageSize) {
         // 分页
-        IPage<Dept> models = deptService.page(new Page<Dept>(pageNo, pageSize), new LambdaQueryWrapper<Dept>()
+        IPage<Dept> modelPage = deptService.page(new Page<Dept>(pageNo, pageSize), new LambdaQueryWrapper<Dept>()
                 .eq(Dept::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .eq(Dept::getStatus, 1));
-        return ApiResult.success(models);
-    }
-
-    @ApiOperation(value = "列表", notes = "列表")
-    @GetMapping(value = "/list")
-    public ApiResult<List<Dept>> list() {
-        // 列表
-        var models = deptService.list(new LambdaQueryWrapper<Dept>()
-                .eq(Dept::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .eq(Dept::getStatus, 1));
-        return ApiResult.success(models);
+                .ne(Dept::getStatus, -1));
+        IPage<DeptDto> dtoPage = modelPage.convert(model -> Convert.convert(DeptDto.class, model));
+        return ApiResult.success(dtoPage);
     }
 
     @ApiOperation("更改状态，正常禁用删除")
@@ -72,12 +79,12 @@ public class DeptController {
             @ApiImplicitParam(name = "id", value = "id", required = true),
             @ApiImplicitParam(name = "status", value = "状态 -1删除 0禁用 1启用", required = true)
     })
-    @GetMapping(value = "/updateStatus")
-    public ApiResult updateStatus(@RequestParam("id") long id, @RequestParam("status") Integer status) {
+    @GetMapping(value = "/status")
+    public ApiResult status(@RequestParam("id") long id, @RequestParam("status") Integer status) {
         if (!ArrayUtils.contains(new int[]{-1, 0, 1}, status)) {
             return ApiResult.failed("需传入-1删除 0禁用 1启用");
         }
-        var ret = deptService.updateStatus(id, status);
+        var ret = deptService.status(id, status);
         return ApiResult.fromTupleRet(ret);
     }
 

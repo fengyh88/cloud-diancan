@@ -12,5 +12,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2020-10-30
  */
 public interface IRoleMenuService extends IService<RoleMenu> {
-	
+    /**
+     * 为角色绑定权限列表
+     * @param roleId
+     * @param menuIds
+     */
+    void bindRoleMenus(Long roleId, String menuIds);
 }

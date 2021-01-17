@@ -34,7 +34,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements ID
      * @return
      */
     @Override
-    public TupleRet updateStatus(Long id, Integer status) {
+    public TupleRet status(Long id, Integer status) {
         var model = baseMapper.selectById(id);
         if (ObjectUtils.isEmpty(model)) {
             return TupleRet.failed("部门不存在");

@@ -27,7 +27,7 @@ import java.util.List;
  */
 @Api(tags = "商品属性")
 @Controller
-@RequestMapping("/api/prodProp")
+@RequestMapping("/prodProp")
 public class ProdPropController {
     @Autowired
     private IProdPropService prodPropService;

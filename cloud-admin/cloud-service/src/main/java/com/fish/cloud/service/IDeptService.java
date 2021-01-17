@@ -22,7 +22,7 @@ public interface IDeptService extends IService<Dept> {
      * @param id
      * @return
      */
-    TupleRet updateStatus(Long id, Integer status);
+    TupleRet status(Long id, Integer status);
     /**
      * 添加
      *

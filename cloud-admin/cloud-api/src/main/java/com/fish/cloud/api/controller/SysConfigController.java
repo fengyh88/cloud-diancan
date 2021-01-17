@@ -34,7 +34,7 @@ import java.util.List;
  */
 @Api(tags = "系统配置信息")
 @Controller
-@RequestMapping("/api/sysConfig")
+@RequestMapping("/sysConfig")
 public class SysConfigController {
     @Autowired
     private ISysConfigService sysConfigService;
