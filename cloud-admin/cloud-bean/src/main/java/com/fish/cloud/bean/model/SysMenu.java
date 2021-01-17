@@ -27,16 +27,26 @@ public class SysMenu extends Model<SysMenu> {
 
 	@TableId(value="menu_id", type= IdType.AUTO)
 	private Long menuId;
+	/**
+	 * 店铺Id
+	 */
+	@TableField("shop_id")
+	private Long shopId;
+	/**
+	 * 菜单类别 0 平台 1控制台
+	 */
+	@TableField("menu_cate")
+	private Integer menuCate;
     /**
-     * 父菜单ID，一级菜单为0
+     * 菜单层级(1一级菜单 2二级菜单 9按钮)
      */
+	@TableField("menu_level")
+	private Integer menuLevel;
+	/**
+	 * 父菜单ID，一级菜单为1
+	 */
 	@TableField("p_id")
 	private Long pId;
-    /**
-     * 菜单类型(0:一级菜单; 1:子菜单 2:按钮权限)
-     */
-	@TableField("menu_type")
-	private Integer menuType;
 	/**
 	 * 菜单标题
 	 */
@@ -52,20 +62,6 @@ public class SysMenu extends Model<SysMenu> {
 	 */
 	@TableField("icon")
 	private String icon;
-    /**
-     * 排序
-     */
-	private Integer seq;
-    /**
-     * 店铺Id
-     */
-	@TableField("shop_id")
-	private Long shopId;
-	/**
-	 * 是否叶子节点: 1:是   0:不是
-	 */
-	@TableField("is_leaf")
-	private Integer isLeaf;
 	/**
 	 * 描述
 	 */
@@ -73,20 +69,23 @@ public class SysMenu extends Model<SysMenu> {
 	private String des;
 
 	/**
-	 * 权限策略1显示0禁用
+	 * 默认是1正常 0禁用 -1删除
 	 */
-	@TableField("show_type")
-	private Integer showType;
+	private Integer status;
 	/**
-	 * 菜单类别 0.平台 1.控制台
+	 * 排序
 	 */
-	@TableField("menu_class")
-	private Integer menuClass;
+	private Integer seq;
+	/**
+	 * 创建者
+	 */
+	@TableField("created_by")
+	private Long createdBy;
     /**
      * 创建时间
      */
-	@TableField("create_time")
-	private Date createTime;
+	@TableField("created_time")
+	private Date createdTime;
     /**
      * 更新时间
      */

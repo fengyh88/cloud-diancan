@@ -44,7 +44,7 @@ public class SysMenuDto {
      * 菜单类型(1一级菜单 2二级菜单 9按钮)
      */
     @ApiModelProperty(value = "菜单类型(1一级菜单 2二级菜单 9按钮)")
-    private Long menuType;
+    private Integer menuType;
 
     /**
      * 权限策略1显示0禁用
@@ -57,12 +57,6 @@ public class SysMenuDto {
      */
     @ApiModelProperty(value = "菜单排序")
     private Integer seq;
-
-    /**
-     * 是否叶子节点: 1:是   0:不是
-     */
-    @ApiModelProperty(value = "是否叶子节点: 1:是   0:不是")
-    private Long isLeaf;
 
     /**
      * 描述
@@ -81,4 +75,10 @@ public class SysMenuDto {
      */
     @ApiModelProperty(value = "子菜单")
     private List<SysMenuDto> subs;
+
+    /**
+     * 是否选中 1选中 0未选中
+     */
+    @ApiModelProperty(value = "是否选中 1选中 0未选中")
+    private Integer isCheck;
 }
