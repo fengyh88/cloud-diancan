@@ -50,7 +50,7 @@ public class CallServiceImpl extends ServiceImpl<CallMapper, Call> implements IC
     public List<Call> listByTableCode(String tableCode) {
         var models = baseMapper.selectList(new LambdaQueryWrapper<Call>()
                 .eq(Call::getShopId, ApiContextHolder.getShopId())
-                .eq(Call::getTableId, ApiContextHolder.getTableId())
+                .eq(Call::getTableId, ApiContextHolder.getAuthTableDto().getTableId())
                 .ne(Call::getStatus, 0)); // 0表示未过期的
         return models;
     }

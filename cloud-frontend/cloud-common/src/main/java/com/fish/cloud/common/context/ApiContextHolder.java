@@ -1,11 +1,12 @@
 package com.fish.cloud.common.context;
 
 import com.fish.cloud.common.token.AuthDto;
+import com.fish.cloud.common.token.AuthTableDto;
 
 public class ApiContextHolder {
     private static final ThreadLocal<AuthDto> CONTEXT = new ThreadLocal<>();
     private static final ThreadLocal<Long> CONTEXT_SHOP = new ThreadLocal<>();
-    private static final ThreadLocal<Long> CONTEXT_TABLE = new ThreadLocal<>();
+    private static final ThreadLocal<AuthTableDto> CONTEXT_TABLE = new ThreadLocal<>();
 
     // AuthDto
     public static void setAuthDto(AuthDto authDto){
@@ -34,11 +35,11 @@ public class ApiContextHolder {
     }
 
     // 台桌
-    public static void setTableId(Long tableId){
-        CONTEXT_TABLE.set(tableId);
+    public static void setAuthTableDto(AuthTableDto authTableDto){
+        CONTEXT_TABLE.set(authTableDto);
     }
 
-    public static Long getTableId(){
+    public static AuthTableDto getAuthTableDto(){
         return CONTEXT_TABLE.get();
     }
 

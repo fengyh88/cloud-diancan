@@ -82,16 +82,10 @@ public class Order extends Model<Order> {
      */
 	@TableField("actual_amount")
 	private BigDecimal actualAmount;
-    /**
-     * 支付方式 1 微信支付 2 支付宝 3 现金支付
-     */
-	@TableField("pay_type")
-	private Integer payType;
-    /**
-     * 是否支付，1：已经支付过，0：没有支付过
-     */
-	@TableField("is_payed")
-	private Integer isPayed;
+	/**
+	 * 就餐人数
+	 */
+	private Integer people;
     /**
      * 订单备注
      */

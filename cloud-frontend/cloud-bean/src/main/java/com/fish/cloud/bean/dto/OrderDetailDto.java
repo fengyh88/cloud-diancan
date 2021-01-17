@@ -26,6 +26,9 @@ public class OrderDetailDto {
     @ApiModelProperty(value = "订购用户Id")
     private String userId;
 
+    @ApiModelProperty(value = "就餐人数")
+    private Integer people;
+
     @ApiModelProperty(value = "订单流水号")
     private String orderNumber;
 

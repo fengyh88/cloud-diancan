@@ -1,6 +1,7 @@
 package com.fish.cloud.api.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.fish.cloud.bean.dto.SysDicDto;
 import com.fish.cloud.bean.dto.SysDicKvDto;
 import com.fish.cloud.bean.model.SysDicKv;
 import com.fish.cloud.common.ret.ApiResult;
@@ -39,6 +40,18 @@ public class SysDicKvController {
         var models = sysDicKvService.listByDicCode(dicCode);
         List<SysDicKvDto> dtoList = models.stream().map(model -> {
             SysDicKvDto dto = new SysDicKvDto();
+            BeanUtil.copyProperties(model, dto);
+            return dto;
+        }).collect(Collectors.toList());
+        return ApiResult.success(dtoList);
+    }
+
+    @ApiOperation("所有列表")
+    @GetMapping(value = "/all")
+    public ApiResult<List<SysDicKvDto>> all() {
+        var models = sysDicKvService.all();
+        List<SysDicKvDto> dtoList = models.stream().map(model -> {
+            var dto = new SysDicKvDto();
             BeanUtil.copyProperties(model, dto);
             return dto;
         }).collect(Collectors.toList());

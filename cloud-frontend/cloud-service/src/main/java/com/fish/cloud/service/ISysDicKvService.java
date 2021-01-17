@@ -16,6 +16,13 @@ import java.util.List;
 public interface ISysDicKvService extends IService<SysDicKv> {
 
     /**
+     * 所有列表
+     *
+     * @return
+     */
+    List<SysDicKv> all();
+
+    /**
      * 根据系统字典编码获取列表
      * @param dicCode
      * @return

@@ -56,7 +56,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     public List<OrderDto> listByStatus(OrderBySatusParam orderBySatusParam) {
         var models = baseMapper.selectList(new LambdaQueryWrapper<Order>()
                 .eq(Order::getShopId, ApiContextHolder.getShopId())
-                .eq(Order::getTableId, ApiContextHolder.getTableId())
+                .eq(Order::getTableId, ApiContextHolder.getAuthTableDto().getTableId())
                 .eq(0 != orderBySatusParam.getStatus(), Order::getStatus, orderBySatusParam.getStatus()));
         // dto
         List<OrderDto> dtoList = models.stream().map(model -> {
@@ -93,7 +93,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         // 提交订单主表
         Order order = new Order();
         order.setShopId(ApiContextHolder.getShopId());
-        order.setTableId(ApiContextHolder.getTableId());
+        order.setTableId(ApiContextHolder.getAuthTableDto().getTableId());
+        order.setPeople(ApiContextHolder.getAuthTableDto().getPeople());
         order.setUserId(ApiContextHolder.getAuthDto().getUserId());
         order.setOrderNumber(IdUtil.getOrderNumberByTime(ApiContextHolder.getShopId()));
         // 金额
@@ -120,7 +121,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             orderAddParam.getItems().forEach(item -> {
                 OrderItem orderItem = new OrderItem();
                 orderItem.setOrderId(order.getOrderId());
-                orderItem.setTableId(ApiContextHolder.getTableId());
+                orderItem.setTableId(ApiContextHolder.getAuthTableDto().getTableId());
                 orderItem.setProdId(item.getProdId());
                 orderItem.setProdName(item.getProdName());
                 orderItem.setProdImg(item.getProdImg());
@@ -143,7 +144,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         }
 
         // 清空购物车
-        TupleRet retClear = cartService.clearByShopIdAndTableId(ApiContextHolder.getTableId(), ApiContextHolder.getShopId());
+        TupleRet retClear = cartService.clearByShopIdAndTableId(ApiContextHolder.getAuthTableDto().getTableId(), ApiContextHolder.getShopId());
         if (!retClear.getSuccess()) {
             log.error(retClear.getMessage());
             return TupleRet.failed("清空购物车错误");

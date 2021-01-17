@@ -55,7 +55,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
     @Override
     public Integer countProd() {
         Integer count = baseMapper.selectCount(new LambdaQueryWrapper<Cart>()
-                .eq(Cart::getTableId, ApiContextHolder.getTableId())
+                .eq(Cart::getTableId, ApiContextHolder.getAuthTableDto().getTableId())
                 .eq(Cart::getShopId, ApiContextHolder.getShopId()));
         return count;
     }
@@ -70,7 +70,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
     public TupleRet<String> add(CartAddParam cartAddParam) {
         var existModel = baseMapper.selectOne(new LambdaQueryWrapper<Cart>()
                 .eq(Cart::getShopId, ApiContextHolder.getShopId())
-                .eq(Cart::getTableId, ApiContextHolder.getTableId())
+                .eq(Cart::getTableId, ApiContextHolder.getAuthTableDto().getTableId())
                 .eq(Cart::getProdId, cartAddParam.getProdId())
                 .eq(Cart::getSkuId, cartAddParam.getSkuId()));
         //如果已经加入过购物车，则增减商品数量
@@ -88,7 +88,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
         // 添加
         var model = new Cart();
         model.setShopId(ApiContextHolder.getShopId());
-        model.setTableId(ApiContextHolder.getTableId());
+        model.setTableId(ApiContextHolder.getAuthTableDto().getTableId());
         model.setUserId(ApiContextHolder.getAuthDto().getUserId());
         model.setProdId(cartAddParam.getProdId());
         model.setSkuId(cartAddParam.getSkuId());
@@ -151,7 +151,7 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements IC
         try {
             baseMapper.delete(new LambdaQueryWrapper<Cart>()
                     .eq(Cart::getShopId, ApiContextHolder.getShopId())
-                    .eq(Cart::getTableId, ApiContextHolder.getTableId()));
+                    .eq(Cart::getTableId, ApiContextHolder.getAuthTableDto().getTableId()));
         } catch (Exception e) {
             log.error(e.getMessage());
             return TupleRet.failed("清空失败");

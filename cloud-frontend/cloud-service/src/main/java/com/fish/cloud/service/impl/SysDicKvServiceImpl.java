@@ -25,6 +25,14 @@ import java.util.List;
 public class SysDicKvServiceImpl extends ServiceImpl<SysDicKvMapper, SysDicKv> implements ISysDicKvService {
 
     @Override
+    public List<SysDicKv> all() {
+        var models = baseMapper.selectList(new LambdaQueryWrapper<SysDicKv>()
+                .eq(SysDicKv::getShopId, ApiContextHolder.getShopId())
+                .eq(SysDicKv::getStatus, 1));
+        return models;
+    }
+
+    @Override
     public List<SysDicKv> listByDicCode(String dicCode) {
         var models = baseMapper.selectList(new LambdaQueryWrapper<SysDicKv>()
                 .eq(SysDicKv::getShopId, ApiContextHolder.getShopId())

@@ -18,14 +18,6 @@ public class LoginController {
     @Autowired
     private ILoginService loginService;
 
-    @ApiOperation("token")
-    @ApiImplicitParam(name = "loginParam", value = "登录信息", required = true)
-    @PostMapping("/token")
-    public ApiResult token(@RequestBody LoginParam loginParam) {
-        var ret = loginService.token(loginParam);
-        return ApiResult.fromTupleRet(ret);
-    }
-
     @ApiOperation("微信登录")
     @ApiImplicitParam(name = "userLoginWxParam", value = "登录信息", required = true)
     @RequestMapping(value = "/loginWx",method = RequestMethod.POST)

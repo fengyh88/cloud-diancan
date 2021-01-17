@@ -22,6 +22,9 @@ public class OrderDto {
     @ApiModelProperty(value = "台桌Id")
     private Long tableId;
 
+    @ApiModelProperty(value = "就餐人数")
+    private Integer people;
+
     @ApiModelProperty(value = "商品名称,多个商品将会以逗号隔开")
     private String prodName;
 

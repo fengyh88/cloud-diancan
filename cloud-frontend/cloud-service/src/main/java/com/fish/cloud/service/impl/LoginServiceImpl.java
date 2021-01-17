@@ -36,53 +36,9 @@ import java.util.List;
 public class LoginServiceImpl implements ILoginService {
 
     @Autowired
-    private IShopService shopService;
-    @Autowired
-    private ITableService tableService;
-    @Autowired
     private IUserService userService;
     @Autowired
     private IWechatPlatformService wechatPlatformService;
-
-    /**
-     * 登录
-     * @param loginParam
-     * @return
-     */
-    @Override
-    public TupleRet<String> token(LoginParam loginParam) {
-        // 判断店铺是否存在
-        var shop = shopService.getById(loginParam.getShopId());
-        if (ObjectUtils.isEmpty(shop)) {
-            return TupleRet.failed("店铺不存在");
-        }
-        // 判断台桌是否存在
-        var table = tableService.getById(loginParam.getTableId());
-        if (ObjectUtils.isEmpty(table)) {
-            return TupleRet.failed("台桌不存在");
-        }
-        // 判断用户是否存在
-        var user = userService.getOne(new LambdaQueryWrapper<User>()
-                .eq(User::getStatus, 1)
-                .and(wrapper -> {
-                    wrapper.eq(User::getUserName, loginParam.getUserName())
-                            .or()
-                            .eq(User::getMobile, loginParam.getUserName());
-                    return wrapper;
-                }));
-        if (ObjectUtils.isEmpty(user)) {
-            return TupleRet.failed("用户不存在");
-        }
-
-        if (!MD5Util.authenticatePassword(user.getPassword(),loginParam.getPassword())) {
-            return TupleRet.failed("密码不正确");
-        }
-
-        // 生成token并返回
-        AuthDto authDto = new AuthDto(user.getUserId());
-        String token = JwtUtil.toToken(authDto);
-        return TupleRet.success(token);
-    }
 
     @Override
     public TupleRet loginWx(UserLoginWxParam userLoginWxParam) {

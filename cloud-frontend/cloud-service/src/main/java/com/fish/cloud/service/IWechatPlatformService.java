@@ -1,6 +1,5 @@
 package com.fish.cloud.service;
 
-
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fish.cloud.bean.model.WechatPlatform;
 
