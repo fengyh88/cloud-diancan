@@ -110,7 +110,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                     BeanUtils.copyProperties(model1, dtoSecond);
                     return dtoSecond;
                 }).collect(Collectors.toList());
-                dto.setSubs(secondDtoList);
+                dto.setChildren(secondDtoList);
 
                 dtoList.add(dto);
             }

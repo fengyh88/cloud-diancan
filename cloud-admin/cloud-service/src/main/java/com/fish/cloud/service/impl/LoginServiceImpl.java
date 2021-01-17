@@ -1,6 +1,7 @@
 package com.fish.cloud.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.fish.cloud.bean.dto.LoginDto;
 import com.fish.cloud.bean.model.Emp;
 import com.fish.cloud.bean.param.LoginParam;
 import com.fish.cloud.common.context.ApiContextHolder;
@@ -40,7 +41,7 @@ public class LoginServiceImpl implements ILoginService {
      * @return
      */
     @Override
-    public TupleRet<String> token(LoginParam loginParam) {
+    public TupleRet<LoginDto> token(LoginParam loginParam) {
         // 判断店铺是否存在
         var shop = shopService.getById(loginParam.getShopId());
         if (ObjectUtils.isEmpty(shop)) {
@@ -50,19 +51,19 @@ public class LoginServiceImpl implements ILoginService {
         // 判断员工是否存在
         LambdaQueryWrapper<Emp> queryWrapper = new LambdaQueryWrapper<Emp>()
                 .eq(Emp::getShopId, loginParam.getShopId())
-                .eq(Emp::getStatus, 1)
                 .and(wrapper -> {
                     wrapper.eq(Emp::getEmpNumber, loginParam.getUserNumber())
                             .or()
                             .eq(Emp::getMobile, loginParam.getUserNumber());
                     return wrapper;
-                });
+                })
+                .eq(Emp::getStatus, 1);
         var emp = empService.getOne(queryWrapper);
         if (ObjectUtils.isEmpty(emp)) {
             return TupleRet.failed("用户不存在");
         }
 
-        if (!MD5Util.authenticatePassword(emp.getPassword(),loginParam.getPassword())) {
+        if (!MD5Util.authenticatePassword(emp.getPassword(), loginParam.getPassword())) {
             return TupleRet.failed("密码不正确");
         }
 
@@ -71,6 +72,11 @@ public class LoginServiceImpl implements ILoginService {
         String token = JwtUtil.toToken(authDto);
         // 缓存CONTEXT
         ApiContextHolder.setAuthDto(authDto);
+
+        LoginDto loginDto = new LoginDto();
+        loginDto.setToken(token);
+        loginDto.setRoleId(emp.get);
+
         return TupleRet.success(token);
     }
 }
