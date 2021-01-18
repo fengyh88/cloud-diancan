@@ -22,19 +22,6 @@ public interface IMyService {
      */
     TupleRet updatePassword(EmpPwdParam empPwdParam);
     /**
-     * 更新头像地址
-     *
-     * @param avatarUrl
-     * @return
-     */
-    TupleRet updateAvatarUrl(String avatarUrl);
-    /**
-     * 某员工的手机号在当前店铺是否已存在
-     * @param mobile
-     * @return
-     */
-    Boolean existMobile(String mobile);
-    /**
      * 更新手机号
      *
      * @param mobile
@@ -42,9 +29,9 @@ public interface IMyService {
      */
     TupleRet updateMobile(String mobile);
     /**
-     * 修改个人资料
+     * 编辑个人资料
      * @param empMyParam
      * @return
      */
-    TupleRet editMy(EmpMyParam empMyParam);
+    TupleRet edit(EmpMyParam empMyParam);
 }

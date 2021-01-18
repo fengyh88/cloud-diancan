@@ -17,6 +17,7 @@ import java.util.List;
  */
 public interface IRoleService extends IService<Role> {
 
+    List<Role> all();
     /**
      * 更新状态，正常禁用删除
      *

@@ -42,13 +42,6 @@ public class OrderController {
     @Autowired
     private IOrderService orderService;
 
-    /**
-     * 分页
-     *
-     * @param pageNo
-     * @param pageSize
-     * @return
-     */
     @ApiOperation(value = "分页", notes = "分页")
     @GetMapping("/pageByStatus")
     @ResponseBody

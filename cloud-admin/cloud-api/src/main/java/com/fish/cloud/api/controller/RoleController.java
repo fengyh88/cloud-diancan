@@ -48,9 +48,7 @@ public class RoleController {
     @ApiOperation(value = "列表", notes = "列表")
     @GetMapping(value = "/list")
     public ApiResult<List<RoleDto>> list() {
-        var models = roleService.list(new LambdaQueryWrapper<Role>()
-                .eq(Role::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .eq(Role::getStatus, 1));
+        var models = roleService.all();
         var dtoList = models.stream().map(model -> {
             var dto = new RoleDto();
             BeanUtil.copyProperties(model, dto);

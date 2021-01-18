@@ -1,5 +1,6 @@
 package com.fish.cloud.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fish.cloud.bean.dto.EmpDto;
 import com.fish.cloud.bean.model.Emp;
@@ -13,6 +14,7 @@ import com.fish.cloud.service.IEmpService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -29,6 +31,10 @@ import java.util.List;
 @Slf4j
 @Service
 public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp> implements IEmpService {
+
+    @Value("${prop.default.password}")
+    private static String defaultPassword;
+
     /**
      * 更新状态，正常禁用删除
      * @param id
@@ -36,7 +42,7 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp> implements IEmpS
      * @return
      */
     @Override
-    public TupleRet updateStatus(Long id, Integer status) {
+    public TupleRet status(Long id, Integer status) {
         var model = baseMapper.selectById(id);
         if (ObjectUtils.isEmpty(model)){
             return TupleRet.failed("员工不存在");
@@ -60,27 +66,13 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp> implements IEmpS
         if (countMobile > 0) {
             return TupleRet.failed("手机号不得重复");
         }
-        var countEmail = baseMapper.selectCount(new LambdaQueryWrapper<Emp>()
-                .eq(Emp::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .eq(Emp::getEmail, empAddParam.getEmail()));
-        if (countEmail > 0) {
-            return TupleRet.failed("邮箱不得重复");
-        }
 
         try {
             var model = new Emp();
-            model.setEmpNumber(empAddParam.getEmpNumber());
-            model.setEmpName(empAddParam.getEmpName());
-            // 默认密码
-            model.setPassword(MD5Util.md5("111111"));
-            model.setEmail(empAddParam.getEmail());
-            model.setMobile(empAddParam.getMobile());
-            model.setGender(empAddParam.getGender());
-            model.setBirthDate(empAddParam.getBirthDate());
-            model.setImg(empAddParam.getImg());
+            BeanUtil.copyProperties(empAddParam, model);
             model.setShopId(ApiContextHolder.getAuthDto().getShopId());
-            model.setDeptId(empAddParam.getDeptId());
-            model.setDutyId(empAddParam.getDutyId());
+            // 默认密码
+            model.setPassword(MD5Util.md5(defaultPassword));
             // 默认启用
             model.setStatus(1);
             model.setCreateTime(DateTimeUtil.getCurrentDateTime());
@@ -113,25 +105,9 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp> implements IEmpS
         if (countMobile > 0) {
             return TupleRet.failed("手机号不得重复");
         }
-        var countEmail = baseMapper.selectCount(new LambdaQueryWrapper<Emp>()
-                .eq(Emp::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .eq(Emp::getEmail, empAddParam.getEmail())
-                .ne(Emp::getEmpId,empAddParam.getEmpId()));
-        if (countEmail > 0) {
-            return TupleRet.failed("邮箱不得重复");
-        }
 
         try {
-            model.setEmpNumber(empAddParam.getEmpNumber());
-            model.setEmpName(empAddParam.getEmpName());
-            model.setEmail(empAddParam.getEmail());
-            model.setMobile(empAddParam.getMobile());
-            model.setGender(empAddParam.getGender());
-            model.setBirthDate(empAddParam.getBirthDate());
-            model.setImg(empAddParam.getImg());
-            model.setShopId(ApiContextHolder.getAuthDto().getShopId());
-            model.setDeptId(empAddParam.getDeptId());
-            model.setDutyId(empAddParam.getDutyId());
+            BeanUtil.copyProperties(empAddParam, model);
             model.setUpdateTime(DateTimeUtil.getCurrentDateTime());
 
             baseMapper.updateById(model);

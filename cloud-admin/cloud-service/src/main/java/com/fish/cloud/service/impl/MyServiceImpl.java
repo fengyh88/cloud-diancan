@@ -1,5 +1,7 @@
 package com.fish.cloud.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fish.cloud.bean.model.Emp;
 import com.fish.cloud.bean.param.EmpMyParam;
@@ -65,46 +67,6 @@ public class MyServiceImpl implements IMyService {
     }
 
     /**
-     * 更新头像地址
-     * @param avatarUrl
-     * @return
-     */
-    @Override
-    public TupleRet updateAvatarUrl(String avatarUrl) {
-        var model = empService.getById(ApiContextHolder.getAuthDto().getEmpId());
-        if (ObjectUtils.isEmpty(model)) {
-            return TupleRet.failed("用户不存在");
-        }
-
-        try {
-            model.setImg(avatarUrl);
-            empService.updateById(model);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return TupleRet.failed("更新失败");
-        }
-
-        return TupleRet.success();
-    }
-
-    /**
-     * 某员工的手机号在当前店铺是否已存在
-     * @param mobile
-     * @return
-     */
-    @Override
-    public Boolean existMobile(String mobile) {
-         var model = empService.getOne(new LambdaQueryWrapper<Emp>()
-                .eq(Emp::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .ne(Emp::getEmpId, ApiContextHolder.getAuthDto().getEmpId())
-                .eq(Emp::getMobile, mobile));
-        if (ObjectUtils.isEmpty(model)){
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * 更新手机号
      * @param mobile
      * @return
@@ -114,6 +76,13 @@ public class MyServiceImpl implements IMyService {
         var model = empService.getById(ApiContextHolder.getAuthDto().getEmpId());
         if (ObjectUtils.isEmpty(model)) {
             return TupleRet.failed("用户不存在");
+        }
+        var modelMobile = empService.getOne(new LambdaQueryWrapper<Emp>()
+                .eq(Emp::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .ne(Emp::getEmpId, ApiContextHolder.getAuthDto().getEmpId())
+                .eq(Emp::getMobile, mobile));
+        if (ObjectUtil.isNotNull(modelMobile)){
+            return TupleRet.failed("该手机号已注册");
         }
 
         try {
@@ -128,21 +97,18 @@ public class MyServiceImpl implements IMyService {
     }
 
     /**
-     * 修改个人资料
+     * 编辑个人资料
      * @param empMyParam
      * @return
      */
     @Override
-    public TupleRet editMy(EmpMyParam empMyParam) {
+    public TupleRet edit(EmpMyParam empMyParam) {
         var model = empService.getById(ApiContextHolder.getAuthDto().getEmpId());
         if (ObjectUtils.isEmpty(model)){
             return TupleRet.failed("用户不存在");
         }
         try {
-            model.setEmpName(empMyParam.getEmpName());
-            model.setEmail(empMyParam.getEmail());
-            model.setGender(empMyParam.getGender());
-            model.setBirthDate(empMyParam.getBirthDate());
+            BeanUtil.copyProperties(empMyParam, model);
 
             empService.updateById(model);
         } catch (Exception ex) {

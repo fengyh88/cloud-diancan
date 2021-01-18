@@ -13,9 +13,6 @@ public class EmpMyParam {
     @ApiModelProperty(value = "姓名")
     private String empName;
 
-    @ApiModelProperty(value = "邮箱")
-    private String email;
-
     @ApiModelProperty(value = "M(男) or F(女)")
     private String gender;
 

@@ -20,9 +20,6 @@ public class EmpAddParam {
     @ApiModelProperty(value = "姓名")
     private String empName;
 
-    @ApiModelProperty(value = "邮箱")
-    private String email;
-
     @ApiModelProperty(value = "手机号")
     private String mobile;
 
@@ -31,15 +28,6 @@ public class EmpAddParam {
 
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date birthDate;
-
-    @ApiModelProperty(value = "头像图片路径")
-    private String img;
-
-    @ApiModelProperty(value = "所属部门Id")
-    private Long deptId;
-
-    @ApiModelProperty(value = "岗位Id")
-    private Long dutyId;
 
     @ApiModelProperty(value = "角色Id")
     private Long roleId;

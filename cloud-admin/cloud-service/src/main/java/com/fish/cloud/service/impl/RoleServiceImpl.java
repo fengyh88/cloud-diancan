@@ -14,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.var;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 角色
@@ -25,6 +27,14 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRoleService {
+
+
+    @Override
+    public List<Role> all() {
+        return baseMapper.selectList(new LambdaQueryWrapper<Role>()
+                .eq(Role::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(Role::getStatus, 1));
+    }
 
     /**
      * 更新状态，正常禁用删除
