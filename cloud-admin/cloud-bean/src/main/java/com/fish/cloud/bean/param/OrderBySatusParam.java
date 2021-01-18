@@ -8,6 +8,9 @@ import lombok.Data;
 @Data
 public class OrderBySatusParam {
 
+    @ApiModelProperty(value = "台桌Id")
+    private Long tableId;
+
     @ApiModelProperty(value = "0 全部 1 已提交 9 已结算 13 关闭")
     private Integer status;
 }

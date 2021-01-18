@@ -111,7 +111,7 @@ public class OrderItem extends Model<OrderItem> {
 	private Date createTime;
 
 	/**
-	 * 状态 1正常 0 删除
+	 * 状态 1正常 2出餐 -1删除
 	 */
 	private Integer status;
 

@@ -3,6 +3,7 @@ package com.fish.cloud.service;
 import com.fish.cloud.bean.dto.TableDto;
 import com.fish.cloud.bean.model.Table;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fish.cloud.common.ret.TupleRet;
 
 import java.util.List;
 
@@ -20,4 +21,18 @@ public interface ITableService extends IService<Table> {
      * @return
      */
     List<TableDto> all();
+
+    /**
+     * 获取就餐中的台桌列表
+     * @return
+     */
+    List<TableDto> listEating();
+
+    /**
+     * 更新状态
+     * @param tableId
+     * @param status
+     * @return
+     */
+    TupleRet status(Long tableId, Integer status);
 }

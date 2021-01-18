@@ -4,15 +4,20 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @ApiModel
 @Data
 public class OrderCompleteParam {
     @ApiModelProperty(value = "订单Id")
     private Long orderId;
 
-    @ApiModelProperty(value = "订单流水号")
-    private String orderNumber;
+    @ApiModelProperty(value = "优惠总额")
+    private BigDecimal reduceAmount;
 
-    @ApiModelProperty(value = "13:关闭，失败，17:完成，成功")
-    private Integer status;
+    @ApiModelProperty(value = "实际总值")
+    private BigDecimal actualAmount;
+
+    @ApiModelProperty(value = "支付方式 1 微信支付 2 支付宝 3 现金支付")
+    private Integer payType;
 }

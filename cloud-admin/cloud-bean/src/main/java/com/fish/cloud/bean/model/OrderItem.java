@@ -104,6 +104,11 @@ public class OrderItem extends Model<OrderItem> {
      * 备注
      */
 	private String remark;
+
+	/**
+	 * 状态 1正常 2出餐 -1删除
+	 */
+	private Integer status;
     /**
      * 创建时间
      */

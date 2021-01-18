@@ -1,8 +1,12 @@
 package com.fish.cloud.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fish.cloud.bean.dto.OrderCountStatusDto;
 import com.fish.cloud.bean.dto.OrderDetailDto;
+import com.fish.cloud.bean.dto.OrderDto;
 import com.fish.cloud.bean.model.Order;
+import com.fish.cloud.bean.model.Table;
+import com.fish.cloud.bean.param.OrderCloseParam;
 import com.fish.cloud.bean.param.OrderCompleteParam;
 import com.fish.cloud.common.context.ApiContextHolder;
 import com.fish.cloud.common.ret.TupleRet;
@@ -11,6 +15,7 @@ import com.fish.cloud.repo.OrderMapper;
 import com.fish.cloud.service.IOrderItemService;
 import com.fish.cloud.service.IOrderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fish.cloud.service.ITableService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
@@ -18,6 +23,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -33,6 +41,27 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     @Autowired
     private IOrderItemService orderItemService;
+    @Autowired
+    private ITableService tableService;
+
+    @Override
+    public List<OrderDto> listByTableId(Long tableId, Integer status) {
+        List<Order> models = baseMapper.selectList(new LambdaQueryWrapper<Order>()
+                .eq(Order::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(Order::getTableId, tableId)
+                .eq(Order::getStatus, status));
+        // dto
+        List<OrderDto> dtoList = models.stream().map(model -> {
+            var dto = new OrderDto();
+            BeanUtils.copyProperties(model, dto);
+            //订单项
+            var orderItems = orderItemService.listByOrderId(dto.getOrderId());
+            dto.setOrderItems(orderItems);
+            return dto;
+        }).collect(Collectors.toList());
+
+        return dtoList;
+    }
 
     @ApiOperation("详情")
     @Override
@@ -55,22 +84,25 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         return baseMapper.countOrderStatus(ApiContextHolder.getAuthDto().getShopId());
     }
 
-    /**
-     * 完成
-     * @param orderCompleteParam
-     * @return
-     */
     @Override
     public TupleRet complete(OrderCompleteParam orderCompleteParam) {
         var model = baseMapper.selectById(orderCompleteParam.getOrderId());
         if (ObjectUtils.isEmpty(model)) {
-            return TupleRet.failed("订单不存在") ;
+            return TupleRet.failed("订单不存在");
         }
 
-        // 判断订单状态，此系统不判断
+        // 判断订单状态
+        if(9 ==  model.getStatus()){
+            return TupleRet.failed("订单已结算，不得重复结算");
+        }
+        if(13 ==  model.getStatus()){
+            return TupleRet.failed("订单已关闭");
+        }
 
-        // 更新状态，13:关闭，失败，17:完成，成功
-        model.setStatus(orderCompleteParam.getStatus());
+        model.setReduceAmount(orderCompleteParam.getReduceAmount());
+        model.setActualAmount(orderCompleteParam.getActualAmount());
+        model.setPayType(orderCompleteParam.getPayType());
+        model.setStatus(9); // 9表示已结算
         model.setCompleteTime(DateTimeUtil.getCurrentDateTime());
 
         try {
@@ -80,6 +112,38 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             return  TupleRet.failed(e.getMessage());
         }
 
+        // 更新台桌状态为空桌
+        tableService.status(model.getTableId(), 1);// 1表示空桌
+
         return TupleRet.success();
     }
+
+    @Override
+    public TupleRet close(OrderCloseParam orderCloseParam) {
+        var model = baseMapper.selectById(orderCloseParam.getOrderId());
+        if (ObjectUtils.isEmpty(model)) {
+            return TupleRet.failed("订单不存在");
+        }
+
+        // 判断订单状态
+        if(9 ==  model.getStatus()){
+            return TupleRet.failed("订单已结算，不得关闭");
+        }
+
+        model.setStatus(13); // 13表示关闭
+        model.setCompleteTime(DateTimeUtil.getCurrentDateTime());
+
+        try {
+            baseMapper.updateById(model);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return  TupleRet.failed(e.getMessage());
+        }
+
+        // 更新台桌状态为空桌
+        tableService.status(model.getTableId(), 1);// 1表示空桌
+
+        return TupleRet.success();
+    }
+
 }

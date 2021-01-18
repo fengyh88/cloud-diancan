@@ -34,9 +34,6 @@ public class OrderItemDto {
     @ApiModelProperty(value = "商品主图片路径")
     private String prodImg;
 
-    @ApiModelProperty(value = "商品属性JSON")
-    private String prodProp;
-
     @ApiModelProperty(value = "商品SkuId")
     private Long skuId;
 
@@ -46,8 +43,8 @@ public class OrderItemDto {
     @ApiModelProperty(value = "sku图片路径")
     private String skuImg;
 
-    @ApiModelProperty(value = "sku属性JSON")
-    private String skuProp;
+    @ApiModelProperty(value = "商品属性")
+    private String prodProp;
 
     @ApiModelProperty(value = "商品个数")
     private Integer num;
@@ -60,6 +57,9 @@ public class OrderItemDto {
 
     @ApiModelProperty(value = "备注")
     private String remark;
+
+    @ApiModelProperty(value = "状态 1正常 2出餐 -1删除")
+    private Integer status;
 
     @ApiModelProperty(value = "创建时间")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
