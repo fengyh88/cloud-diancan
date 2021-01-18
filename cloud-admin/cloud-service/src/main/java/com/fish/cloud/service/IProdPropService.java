@@ -32,12 +32,12 @@ public interface IProdPropService extends IService<ProdProp> {
     String getProdPropTextByProdId(Long prodId);
 
     /**
-     * 更改状态，上架下架删除
+     * 更改状态，启用禁用删除
      * @param id
      * @param status
      * @return
      */
-    TupleRet updateStatus(Long id, Integer status);
+    TupleRet status(Long id, Integer status);
 
     /**
      * 添加

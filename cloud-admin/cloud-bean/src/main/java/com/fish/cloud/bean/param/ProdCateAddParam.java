@@ -13,12 +13,6 @@ public class ProdCateAddParam {
     private String cateName;
     @ApiModelProperty(value = "类目图标")
     private String icon;
-    @ApiModelProperty(value = "类目的显示图片")
-    private String img;
-    @ApiModelProperty(value = "父节点")
-    private Long pId;
-    @ApiModelProperty(value = "分类层级")
-    private Integer grade;
     @ApiModelProperty(value = "排序")
     private Integer seq;
 }

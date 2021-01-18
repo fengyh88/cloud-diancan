@@ -1,10 +1,14 @@
 package com.fish.cloud.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.fish.cloud.bean.dto.ProdImgDto;
+import com.fish.cloud.bean.dto.ShopImgDto;
 import com.fish.cloud.bean.model.ProdImg;
 import com.fish.cloud.bean.param.ProdImgAddParam;
 import com.fish.cloud.common.ret.TupleRet;
 import com.fish.cloud.common.util.DateTimeUtil;
+import com.fish.cloud.common.util.ImgUrlUtil;
 import com.fish.cloud.repo.ProdImgMapper;
 import com.fish.cloud.service.IProdImgService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -14,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -33,52 +38,65 @@ public class ProdImgServiceImpl extends ServiceImpl<ProdImgMapper, ProdImg> impl
      * @return
      */
     @Override
-    public List<ProdImg> listByProdId(Long prodId) {
+    public List<ProdImgDto> listByProdId(Long prodId) {
         var models = baseMapper.selectList(new LambdaQueryWrapper<ProdImg>()
                 .eq(ProdImg::getLinkType, 1)
                 .eq(ProdImg::getLinkId, prodId));
-        return models;
+        List<ProdImgDto> dtoList = models.stream().map(model -> {
+            var dto = new ProdImgDto();
+            BeanUtil.copyProperties(model, dto);
+            dto.setImgUrl(ImgUrlUtil.getFullPathImgUrl(dto.getImgUrl()));
+            return dto;
+        }).collect(Collectors.toList());
+        return dtoList;
     }
 
     @Override
-    public ProdImg getMainImgByProdId(Long prodId) {
+    public ProdImgDto getMainImgByProdId(Long prodId) {
         var model = baseMapper.selectOne(new LambdaQueryWrapper<ProdImg>()
                 .eq(ProdImg::getLinkType, 1)
                 .eq(ProdImg::getLinkId, prodId)
                 .eq(ProdImg::getLinkCate, 1));
-        return model;
+        var dto = new ProdImgDto();
+        BeanUtil.copyProperties(model, dto);
+        dto.setImgUrl(ImgUrlUtil.getFullPathImgUrl(dto.getImgUrl()));
+        return dto;
     }
 
 
     @Override
-    public List<ProdImg> listBySkuId(Long skuId) {
+    public List<ProdImgDto> listBySkuId(Long skuId) {
         var models = baseMapper.selectList(new LambdaQueryWrapper<ProdImg>()
                 .eq(ProdImg::getLinkType, 2)
                 .eq(ProdImg::getLinkId, skuId));
-        return models;
+        var dtoList = models.stream().map(model -> {
+            var dto = new ProdImgDto();
+            BeanUtil.copyProperties(model, dto);
+            dto.setImgUrl(ImgUrlUtil.getFullPathImgUrl(dto.getImgUrl()));
+            return dto;
+        }).collect(Collectors.toList());
+        return dtoList;
     }
 
     @Override
-    public ProdImg getMainImgBySkuId(Long skuId) {
+    public ProdImgDto getMainImgBySkuId(Long skuId) {
         var model = baseMapper.selectOne(new LambdaQueryWrapper<ProdImg>()
                 .eq(ProdImg::getLinkType, 2)
                 .eq(ProdImg::getLinkId, skuId)
                 .eq(ProdImg::getLinkCate, 1));
-        return model;
+        var dto = new ProdImgDto();
+        BeanUtil.copyProperties(model, dto);
+        dto.setImgUrl(ImgUrlUtil.getFullPathImgUrl(dto.getImgUrl()));
+        return dto;
     }
 
     @Override
     public TupleRet addOrEdit(ProdImgAddParam prodImgAddParam) {
         var modelDb = baseMapper.selectById(prodImgAddParam.getImgId());
         if (ObjectUtils.isEmpty(modelDb)) {
-            //新增
+            // 添加
             var model = new ProdImg();
-            model.setImgSize(prodImgAddParam.getImgSize());
-            model.setImgType(prodImgAddParam.getImgType());
-            model.setImgUrl(prodImgAddParam.getImgUrl());
-            model.setLinkType(prodImgAddParam.getLinkType());
-            model.setLinkId(prodImgAddParam.getLinkId());
-            model.setLinkCate(prodImgAddParam.getLinkCate());
+            BeanUtil.copyProperties(prodImgAddParam, model);
             model.setUploadTime(DateTimeUtil.getCurrentDateTime());
 
             try {
@@ -90,12 +108,7 @@ public class ProdImgServiceImpl extends ServiceImpl<ProdImgMapper, ProdImg> impl
             }
         } else {
             //编辑
-            modelDb.setImgSize(prodImgAddParam.getImgSize());
-            modelDb.setImgType(prodImgAddParam.getImgType());
-            modelDb.setImgUrl(prodImgAddParam.getImgUrl());
-            modelDb.setLinkType(prodImgAddParam.getLinkType());
-            modelDb.setLinkId(prodImgAddParam.getLinkId());
-            modelDb.setLinkCate(prodImgAddParam.getLinkCate());
+            BeanUtil.copyProperties(prodImgAddParam, modelDb);
             modelDb.setUploadTime(DateTimeUtil.getCurrentDateTime());
 
             try {

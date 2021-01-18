@@ -2,10 +2,12 @@ package com.fish.cloud.bean.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
+@NoArgsConstructor
 @Data
 public class ProdImgDto {
     private Long imgId;

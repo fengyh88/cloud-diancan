@@ -18,19 +18,11 @@ public class ProdPropEditParam {
      */
 	private Long propId;
     /**
-     * 店铺Id
-     */
-	private Long shopId;
-	/**
-	 * 商品Id
-	 */
-	private Long prodId;
-    /**
      * 属性名称
      */
 	private String propName;
 	/**
-	 * 属性值
+	 * 属性值，多个值以英文逗号分隔
 	 */
 	private String propValue;
 

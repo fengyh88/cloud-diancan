@@ -17,13 +17,15 @@ import java.util.List;
  */
 public interface IProdCateService extends IService<ProdCate> {
 
+    List<ProdCate> all();
+
     /**
-     *更新状态
+     * 更新状态
      * @param id
      * @param status
      * @return
      */
-    TupleRet updateStatus(Long id, Integer status);
+    TupleRet status(Long id, Integer status);
 
     /**
      * 添加

@@ -32,14 +32,7 @@ public class ProdController {
     @Autowired
     private IProdService prodService;
 
-    /**
-     * 分页
-     *
-     * @param pageNo
-     * @param pageSize
-     * @return
-     */
-    @ApiOperation(value = "根据商品类目分页", notes = "根据商品类目分页")
+    @ApiOperation(value = "分页", notes = "分页")
     @GetMapping("/pageByCate")
     @ResponseBody
     public ApiResult<IPage<ProdDto>> pageByCate(@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
@@ -54,12 +47,12 @@ public class ProdController {
             @ApiImplicitParam(name = "id", value = "id", required = true),
             @ApiImplicitParam(name = "status", value = "状态 -1删除 0禁用 1启用", required = true)
     })
-    @GetMapping(value = "/updateStatus")
-    public ApiResult updateStatus(@RequestParam(value = "id") Long id, @RequestParam("status") Integer status) {
+    @GetMapping(value = "/status")
+    public ApiResult status(@RequestParam(value = "id") Long id, @RequestParam("status") Integer status) {
         if (!ArrayUtils.contains(new int[]{-1, 0, 1}, status)) {
             return ApiResult.failed("status传值需为-1删除1上架或者0下架");
         }
-        var ret = prodService.updateStatus(id, status);
+        var ret = prodService.status(id, status);
         return ApiResult.fromTupleRet(ret);
     }
 

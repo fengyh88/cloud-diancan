@@ -1,5 +1,6 @@
 package com.fish.cloud.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fish.cloud.bean.model.ProdProp;
 import com.fish.cloud.bean.model.ProdProp;
@@ -17,6 +18,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -40,18 +42,17 @@ public class ProdPropServiceImpl extends ServiceImpl<ProdPropMapper, ProdProp> i
 
     @Override
     public String getProdPropTextByProdId(Long prodId) {
-        var models = baseMapper.selectList(new LambdaQueryWrapper<ProdProp>()
-                .eq(ProdProp::getProdId, prodId)
-                .eq(ProdProp::getStatus, 1));
+        var models = listByProdId(prodId);
         StringBuilder sb = new StringBuilder();
         for (ProdProp model : models) {
-            sb.append(model.getPropName() + ":" + model.getPropValue());
+            sb.append(model.getPropName() + "(" + model.getPropValue() + ");");
         }
-        return sb.toString();
+        String text = StrUtil.removeSuffix(sb.toString(), ";");
+        return text;
     }
 
     @Override
-    public TupleRet updateStatus(Long id, Integer status) {
+    public TupleRet status(Long id, Integer status) {
         var model = baseMapper.selectById(id);
         if (ObjectUtils.isEmpty(model)){
             return TupleRet.failed("商品属性不存在");
@@ -70,14 +71,6 @@ public class ProdPropServiceImpl extends ServiceImpl<ProdPropMapper, ProdProp> i
 
     @Override
     public TupleRet add(ProdPropAddParam prodPropAddParam) {
-        Integer count = baseMapper.selectCount(new LambdaQueryWrapper<ProdProp>()
-                .eq(ProdProp::getPropName, prodPropAddParam.getPropName())
-                .eq(ProdProp::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .eq(ProdProp::getStatus, 1));
-        if (count > 0) {
-            TupleRet.failed("名称不得重复");
-        }
-
         try {
             var model = new ProdProp();
             BeanUtils.copyProperties(prodPropAddParam, model);
@@ -100,17 +93,9 @@ public class ProdPropServiceImpl extends ServiceImpl<ProdPropMapper, ProdProp> i
             return TupleRet.failed("商品属性不存在");
         }
 
-        Integer count = baseMapper.selectCount(new LambdaQueryWrapper<ProdProp>()
-                .eq(ProdProp::getPropName, prodPropEditParam.getPropName())
-                .eq(ProdProp::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .ne(ProdProp::getPropId, prodPropEditParam.getPropId())
-                .eq(ProdProp::getStatus, 1));
-        if (count > 0) {
-            return TupleRet.failed("名称不得重复");
-        }
-
         try {
             BeanUtils.copyProperties(model,prodPropEditParam);
+            model.setStatus(1);
             baseMapper.updateById(model);
         } catch (Exception ex) {
             log.error(ex.getMessage());

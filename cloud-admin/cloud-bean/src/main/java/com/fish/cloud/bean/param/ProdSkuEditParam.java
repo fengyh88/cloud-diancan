@@ -36,8 +36,4 @@ public class ProdSkuEditParam {
      * 价格
      */
 	private BigDecimal price;
-    /**
-     * 实际库存
-     */
-	private Integer stock;
 }

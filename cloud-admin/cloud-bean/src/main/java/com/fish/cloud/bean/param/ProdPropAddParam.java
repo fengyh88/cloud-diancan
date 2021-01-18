@@ -12,10 +12,6 @@ import lombok.Data;
  */
 @Data
 public class ProdPropAddParam {
-    /**
-     * 店铺Id
-     */
-	private Long shopId;
 	/**
 	 * 商品Id
 	 */
@@ -25,7 +21,7 @@ public class ProdPropAddParam {
      */
 	private String propName;
 	/**
-	 * 属性值
+	 * 属性值，多个值以英文逗号分隔
 	 */
 	private String propValue;
 

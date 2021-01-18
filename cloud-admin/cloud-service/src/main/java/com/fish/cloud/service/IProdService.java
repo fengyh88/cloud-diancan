@@ -37,7 +37,7 @@ public interface IProdService extends IService<Prod> {
      * @param status
      * @return
      */
-    TupleRet updateStatus(Long id, Integer status);
+    TupleRet status(Long id, Integer status);
 
     /**
      * 添加

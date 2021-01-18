@@ -27,12 +27,6 @@ public class ShopEditParam {
     @ApiModelProperty(value = "店铺所在经度(可修改)")
     private String lng;
 
-    @ApiModelProperty(value = "店铺省市区代码，用于回显")
-    private String pcaCode;
-
-    @ApiModelProperty(value = "店铺所在省市区（描述）")
-    private String pcaName;
-
     @ApiModelProperty(value = "详细地址")
     private String address;
 

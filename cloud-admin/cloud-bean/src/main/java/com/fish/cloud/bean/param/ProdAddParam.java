@@ -19,9 +19,6 @@ public class ProdAddParam {
     @ApiModelProperty(value = "商品分类")
     private Long cateId;
 
-    @ApiModelProperty(value = "品牌Id")
-    private Long brandId;
-
     @ApiModelProperty(value = "原价")
     private BigDecimal oriPrice;
 

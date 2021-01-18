@@ -32,11 +32,10 @@ public class ProdDto implements IDtoDic {
     private String shopId;
 
     @ApiModelProperty(value = "商品分类")
-    @Dic(dicCode = "cate_id", dicTable = "cloud_prod_cate", dicText = "cate_name")
     private Long cateId;
 
-    @ApiModelProperty(value = "品牌Id")
-    private Long brandId;
+    @ApiModelProperty(value = "商品分类")
+    private String cateText;
 
     @ApiModelProperty(value = "原价")
     private BigDecimal oriPrice;
@@ -48,8 +47,10 @@ public class ProdDto implements IDtoDic {
     private BigDecimal memPrice;
 
     @ApiModelProperty(value = "单位Id")
-    @Dic(dicCode = "unit")
     private String unitId;
+
+    @ApiModelProperty(value = "单位文本")
+    private String unitText;
 
     @ApiModelProperty(value = "简要描述,卖点等")
     private String brief;
@@ -60,18 +61,14 @@ public class ProdDto implements IDtoDic {
     @ApiModelProperty(value = "销量")
     private Integer sold;
 
-    @ApiModelProperty(value = "库存")
-    private Integer stock;
-
-    @ApiModelProperty(value = "默认是1，表示正常状态, -1表示删除, 0下架")
-    @Dic(dicCode = "statusPuton")
+    @ApiModelProperty(value = "默认是1 1正常 -1删除 0下架")
     private Integer status;
 
     @ApiModelProperty(value = "上架时间")
     private Date putonTime;
 
     @ApiModelProperty(value = "图片列表")
-    private List<ProdImg> prodImgList;
+    private List<ProdImgDto> prodImgDtoList;
 
     @ApiModelProperty(value = "商品规格文本")
     private String prodSkuText;

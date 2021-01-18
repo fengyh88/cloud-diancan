@@ -1,5 +1,6 @@
 package com.fish.cloud.api.controller;
 
+import com.fish.cloud.bean.dto.ShopImgDto;
 import com.fish.cloud.bean.model.ShopImg;
 import com.fish.cloud.bean.param.ShopImgAddParam;
 import com.fish.cloud.common.ret.ApiResult;
@@ -24,8 +25,9 @@ import java.util.List;
  */
 @Api(tags = "店铺图")
 @Controller
-@RequestMapping("/shopImg")
+@RequestMapping("/shop/img")
 public class ShopImgController {
+
     @Autowired
     private IShopImgService shopImgService;
 
@@ -37,7 +39,7 @@ public class ShopImgController {
     @ApiOperation(value = "根据店铺Id查询列表", notes = "根据店铺Id查询列表")
     @GetMapping("/listByShopId")
     @ResponseBody
-    public ApiResult<List<ShopImg>> listByShopId(@RequestParam Long shopId) {
+    public ApiResult<List<ShopImgDto>> listByShopId(@RequestParam Long shopId) {
         var dtoList = shopImgService.listByShopId(shopId);
         return ApiResult.success(dtoList);
     }

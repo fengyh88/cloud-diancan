@@ -1,9 +1,8 @@
 package com.fish.cloud.api.controller;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.fish.cloud.bean.dto.ProdImgDto;
 import com.fish.cloud.bean.dto.ProdSkuDto;
-import com.fish.cloud.bean.model.ProdImg;
-import com.fish.cloud.bean.model.ProdSku;
 import com.fish.cloud.bean.param.*;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.IProdImgService;
@@ -50,10 +49,10 @@ public class ProdSkuController {
     public ApiResult<List<ProdSkuDto>> listByProdId(@RequestParam Long prodId) {
         var models = prodSkuService.listByProdId(prodId);
         List<ProdSkuDto> dtoList = models.stream().map(model -> {
-            ProdSkuDto prodSkuDto = new ProdSkuDto();
+            var prodSkuDto = new ProdSkuDto();
             BeanUtils.copyProperties(model, prodSkuDto);
-            ProdImg prodImg = prodImgService.getMainImgBySkuId(model.getSkuId());
-            if (ObjectUtil.isNull(prodImg)){
+            ProdImgDto prodImg = prodImgService.getMainImgBySkuId(model.getSkuId());
+            if (ObjectUtil.isNotNull(prodImg)){
                 prodSkuDto.setProdSkuImgUrl(prodImg.getImgUrl());
             }
             return prodSkuDto;
@@ -61,17 +60,17 @@ public class ProdSkuController {
         return ApiResult.success(dtoList);
     }
 
-    @ApiOperation("更改状态，上架下架删除")
+    @ApiOperation("更改状态，启用禁用删除")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "id", required = true),
             @ApiImplicitParam(name = "status", value = "状态 -1删除", required = true)
     })
-    @GetMapping(value = "/updateStatus")
-    public ApiResult updateStatus(@RequestParam(value = "id") Long id, @RequestParam("status") Integer status) {
+    @GetMapping(value = "/status")
+    public ApiResult status(@RequestParam(value = "id") Long id, @RequestParam("status") Integer status) {
         if (!ArrayUtils.contains(new int[]{-1, 0, 1}, status)) {
             return ApiResult.failed("status传值需为-1删除 0禁用, 1启用");
         }
-        var ret = prodSkuService.updateStatus(id, status);
+        var ret = prodSkuService.status(id, status);
         return ApiResult.fromTupleRet(ret);
     }
 

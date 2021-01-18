@@ -1,5 +1,6 @@
 package com.fish.cloud.service;
 
+import com.fish.cloud.bean.dto.ProdImgDto;
 import com.fish.cloud.bean.model.ProdImg;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fish.cloud.bean.param.ProdImgAddParam;
@@ -22,28 +23,28 @@ public interface IProdImgService extends IService<ProdImg> {
      * @param prodId
      * @return
      */
-    List<ProdImg> listByProdId(Long prodId);
+    List<ProdImgDto> listByProdId(Long prodId);
 
     /**
      * 根据商品Id获取商品主图
      * @param prodId
      * @return
      */
-    ProdImg getMainImgByProdId(Long prodId);
+    ProdImgDto getMainImgByProdId(Long prodId);
 
     /**
      * 根据单品SkuId获取图片列表
      * @param skuId
      * @return
      */
-    List<ProdImg> listBySkuId(Long skuId);
+    List<ProdImgDto> listBySkuId(Long skuId);
 
     /**
      * 根据单品SkuId获取主图
      * @param skuId
      * @return
      */
-    ProdImg getMainImgBySkuId(Long skuId);
+    ProdImgDto getMainImgBySkuId(Long skuId);
     /**
      * 添加或者编辑
      *

@@ -45,16 +45,17 @@ public class ProdSkuServiceImpl extends ServiceImpl<ProdSkuMapper, ProdSku> impl
         var models = listByProdId(prodId);
         StringBuilder sb = new StringBuilder();
         for (ProdSku model : models) {
-            sb.append(model.getSkuName() + "(" + model.getPrice() + "元)");
+            sb.append(model.getSkuName() + "(" + model.getPrice() + "元);");
         }
-        return sb.toString();
+        String text = StrUtil.removeSuffix(sb.toString(), ";");
+        return text;
     }
 
     @Override
-    public TupleRet updateStatus(Long id, Integer status) {
+    public TupleRet status(Long id, Integer status) {
         var model = baseMapper.selectById(id);
-        if (ObjectUtils.isEmpty(model)){
-            return TupleRet.failed("商品SKU不存在");
+        if (ObjectUtils.isEmpty(model)) {
+            return TupleRet.failed("sku不存在");
         }
 
         try {
@@ -70,19 +71,10 @@ public class ProdSkuServiceImpl extends ServiceImpl<ProdSkuMapper, ProdSku> impl
 
     @Override
     public TupleRet add(ProdSkuAddParam prodSkuAddParam) {
-        Integer count = baseMapper.selectCount(new LambdaQueryWrapper<ProdSku>()
-                .eq(ProdSku::getSkuName, prodSkuAddParam.getSkuName())
-                .eq(ProdSku::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .eq(ProdSku::getStatus, 1));
-        if (count > 0) {
-            TupleRet.failed("名称不得重复");
-        }
-
         try {
             var model = new ProdSku();
             BeanUtils.copyProperties(prodSkuAddParam, model);
             model.setShopId(ApiContextHolder.getAuthDto().getShopId());
-            model.setVStock(0);
             model.setStock(0); // 默认库存0
             model.setStatus(1);
             model.setCreateTime(DateTimeUtil.getCurrentDateTime());
@@ -100,20 +92,12 @@ public class ProdSkuServiceImpl extends ServiceImpl<ProdSkuMapper, ProdSku> impl
     public TupleRet edit(ProdSkuEditParam prodSkuEditParam) {
         var model = baseMapper.selectById(prodSkuEditParam.getSkuId());
         if (ObjectUtils.isEmpty(model)) {
-            return TupleRet.failed("商品SKU不存在");
-        }
-
-        Integer count = baseMapper.selectCount(new LambdaQueryWrapper<ProdSku>()
-                .eq(ProdSku::getSkuName, prodSkuEditParam.getSkuName())
-                .eq(ProdSku::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .ne(ProdSku::getSkuId, prodSkuEditParam.getSkuId())
-                .eq(ProdSku::getStatus, 1));
-        if (count > 0) {
-            return TupleRet.failed("名称不得重复");
+            return TupleRet.failed("sku不存在");
         }
 
         try {
-            BeanUtils.copyProperties(model,prodSkuEditParam);
+            BeanUtils.copyProperties(prodSkuEditParam, model);
+            model.setStatus(1);
             baseMapper.updateById(model);
         } catch (Exception ex) {
             log.error(ex.getMessage());

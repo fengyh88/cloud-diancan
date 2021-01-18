@@ -46,7 +46,7 @@ public class ProdPropController {
         List<ProdPropDto> dtoList = models.stream().map(model -> {
             ProdPropDto dto = new ProdPropDto();
             BeanUtil.copyProperties(model, dto);
-            dto.setPropValueList(StrUtil.splitToList(dto.getPropValue(), "|"));
+            dto.setPropValueList(StrUtil.splitToList(dto.getPropValue(), ","));
             return dto;
         }).collect(Collectors.toList());
         return ApiResult.success(dtoList);

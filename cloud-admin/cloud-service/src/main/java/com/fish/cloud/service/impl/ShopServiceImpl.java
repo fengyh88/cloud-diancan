@@ -48,8 +48,8 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
         var dto = new ShopDto();
         BeanUtils.copyProperties(modelDb, dto);
         // 图片
-        var imgList = shopImgService.listByShopId(ApiContextHolder.getAuthDto().getShopId());
-        dto.setImgList(imgList);
+        var shopImgDtoList = shopImgService.listByShopId(ApiContextHolder.getAuthDto().getShopId());
+        dto.setImgList(shopImgDtoList);
         return TupleRet.success(dto);
     }
 
@@ -69,11 +69,8 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
         modelDb.setBrief(shopEditParam.getBrief());
         modelDb.setNotice(shopEditParam.getNotice());
         modelDb.setTel(shopEditParam.getTel());
-        modelDb.setAddress(shopEditParam.getAddress());
         modelDb.setLat(shopEditParam.getLat());
         modelDb.setLng(shopEditParam.getLng());
-        modelDb.setPcaCode(shopEditParam.getPcaCode());
-        modelDb.setPcaName(shopEditParam.getPcaName());
         modelDb.setAddress(shopEditParam.getAddress());
         modelDb.setOpenTime(shopEditParam.getOpenTime());
         modelDb.setCloseTime(shopEditParam.getCloseTime());

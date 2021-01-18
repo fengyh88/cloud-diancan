@@ -30,7 +30,15 @@ import java.util.List;
 public class ProdCateServiceImpl extends ServiceImpl<ProdCateMapper, ProdCate> implements IProdCateService {
 
     @Override
-    public TupleRet updateStatus(Long id, Integer status) {
+    public List<ProdCate> all() {
+        var models = baseMapper.selectList(new LambdaQueryWrapper<ProdCate>()
+                .eq(ProdCate::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(ProdCate::getStatus, 1));
+        return models;
+    }
+
+    @Override
+    public TupleRet status(Long id, Integer status) {
         var model = baseMapper.selectById(id);
         if (ObjectUtils.isEmpty(model)) {
             return TupleRet.failed("品类不存在");
@@ -72,7 +80,6 @@ public class ProdCateServiceImpl extends ServiceImpl<ProdCateMapper, ProdCate> i
 
         try {
             BeanUtils.copyProperties(prodCateAddParam, model);
-            model.setShopId(ApiContextHolder.getAuthDto().getShopId());
             model.setUpdateTime(DateTimeUtil.getCurrentDateTime());
             baseMapper.updateById(model);
         } catch (Exception ex) {
