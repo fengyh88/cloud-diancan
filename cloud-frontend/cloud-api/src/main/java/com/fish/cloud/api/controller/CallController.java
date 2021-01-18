@@ -41,11 +41,10 @@ public class CallController {
         return ApiResult.fromTupleRet(ret);
     }
 
-    @ApiOperation("根据台桌编码获取列表")
-    @ApiImplicitParam(name = "tableCode", value = "台桌编码", required = true)
-    @GetMapping(value = "/listByTableCode")
-    public ApiResult<List<CallDto>> listByTableCode(String tableCode) {
-        var models = callService.listByTableCode(tableCode);
+    @ApiOperation("获取当前台桌列表")
+    @GetMapping(value = "/listByCurTable")
+    public ApiResult<List<CallDto>> listByCurTable() {
+        var models = callService.listByCurTable();
         List<CallDto> dtoList = models.stream().map(model -> {
             var dto = new CallDto();
             BeanUtil.copyProperties(model, dto);

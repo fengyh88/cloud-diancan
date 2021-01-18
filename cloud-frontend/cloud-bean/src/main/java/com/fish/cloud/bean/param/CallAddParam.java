@@ -1,6 +1,8 @@
 package com.fish.cloud.bean.param;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * <p>
@@ -10,17 +12,17 @@ import com.baomidou.mybatisplus.annotation.TableField;
  * @author fengyh
  * @since 2020-10-30
  */
+@Data
+@NoArgsConstructor
 public class CallAddParam {
 
     /**
      * 用户Id
      */
-	@TableField("user_id")
 	private Long userId;
     /**
      * 台桌Id
      */
-	@TableField("table_id")
 	private Long tableId;
     /**
      * 公告标题

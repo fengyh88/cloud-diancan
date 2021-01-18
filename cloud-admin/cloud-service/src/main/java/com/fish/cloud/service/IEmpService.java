@@ -17,6 +17,12 @@ import java.util.List;
  * @since 2020-10-30
  */
 public interface IEmpService extends IService<Emp> {
+
+    /**
+     * 全部
+     * @return
+     */
+    List<Emp> all();
     /**
      * 更新状态，正常禁用删除
      *

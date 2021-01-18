@@ -35,6 +35,14 @@ public class EmpServiceImpl extends ServiceImpl<EmpMapper, Emp> implements IEmpS
     @Value("${prop.default.password}")
     private static String defaultPassword;
 
+
+    @Override
+    public List<Emp> all() {
+        return baseMapper.selectList(new LambdaQueryWrapper<Emp>()
+                .eq(Emp::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(Emp::getStatus, 1));
+    }
+
     /**
      * 更新状态，正常禁用删除
      * @param id

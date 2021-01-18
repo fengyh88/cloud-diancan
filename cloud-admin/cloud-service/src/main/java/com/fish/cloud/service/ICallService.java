@@ -13,11 +13,18 @@ import com.fish.cloud.common.ret.TupleRet;
  * @since 2020-10-30
  */
 public interface ICallService extends IService<Call> {
+
     /**
-     * 更新状态，状态 -1删除 2已读
+     * 更新状态 (1呼叫 2已读 0过期)
      * @param id
-     * @param status
      * @return
      */
-    TupleRet updateStatus(Long id, Integer status);
+    TupleRet read(Long id);
+
+    /**
+     * 更新状态 (1呼叫 2已读 0过期)
+     * @param id
+     * @return
+     */
+    TupleRet expire(Long id);
 }

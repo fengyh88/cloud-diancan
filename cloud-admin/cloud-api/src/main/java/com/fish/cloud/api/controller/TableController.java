@@ -1,10 +1,6 @@
 package com.fish.cloud.api.controller;
 
-import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fish.cloud.bean.dto.TableDto;
-import com.fish.cloud.bean.model.Table;
-import com.fish.cloud.common.context.ApiContextHolder;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.ITableService;
 import io.swagger.annotations.Api;
@@ -15,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -32,17 +27,10 @@ public class TableController {
     @Autowired
     private ITableService tableService;
 
-    @ApiOperation("列表")
-    @GetMapping(value = "/list")
-    public ApiResult<List<TableDto>> list() {
-        var models = tableService.list(new LambdaQueryWrapper<Table>()
-                .eq(Table::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .eq(Table::getStatus, 1));
-        List<TableDto> dtoList = models.stream().map(model -> {
-            TableDto dto = new TableDto();
-            BeanUtil.copyProperties(model, dto);
-            return dto;
-        }).collect(Collectors.toList());
+    @ApiOperation("全部列表")
+    @GetMapping(value = "/all")
+    public ApiResult<List<TableDto>> all() {
+        var dtoList = tableService.all();
         return ApiResult.success(dtoList);
     }
 

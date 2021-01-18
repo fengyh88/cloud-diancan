@@ -47,7 +47,7 @@ public class CallServiceImpl extends ServiceImpl<CallMapper, Call> implements IC
     }
 
     @Override
-    public List<Call> listByTableCode(String tableCode) {
+    public List<Call> listByCurTable() {
         var models = baseMapper.selectList(new LambdaQueryWrapper<Call>()
                 .eq(Call::getShopId, ApiContextHolder.getShopId())
                 .eq(Call::getTableId, ApiContextHolder.getAuthTableDto().getTableId())

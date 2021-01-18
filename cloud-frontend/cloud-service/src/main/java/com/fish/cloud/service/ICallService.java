@@ -28,9 +28,8 @@ public interface ICallService extends IService<Call> {
     TupleRet add(CallAddParam callAddParam);
 
     /**
-     * 根据台桌获取列表
-     * @param tableCode
+     * 获取当前台桌列表
      * @return
      */
-    List<Call> listByTableCode(String tableCode);
+    List<Call> listByCurTable();
 }

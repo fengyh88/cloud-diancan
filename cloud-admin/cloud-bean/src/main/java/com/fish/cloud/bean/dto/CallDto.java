@@ -20,38 +20,41 @@ public class CallDto {
      * Id
      */
 	private Long id;
-    /**
-     * 店铺Id
-     */
-	private Long shopId;
-    /**
-     * 用户Id
-     */
+	/**
+	 * 用户Id
+	 */
 	private Long userId;
-    /**
-     * 桌号Id
-     */
-	private Long resId;
-    /**
-     * 公告标题
-     */
+	/**
+	 * 桌号Id
+	 */
+	private Long tableId;
+
+	private String tableText;
+
+	/**
+	 * 公告标题
+	 */
 	private String title;
-    /**
-     * 公告内容
-     */
+	/**
+	 * 公告内容
+	 */
 	private String content;
-    /**
-     * 状态(1:呼叫 2:已读)
-     */
-	private Integer status;
-    /**
-     * 已读员工Id
-     */
+
 	private Long empId;
-    /**
-     * 创建时间
-     */
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	private Date createTime;
+
+	private String empText;
+	/**
+	 * 状态(1:呼叫 2:已读 0：过期)
+	 */
+	private Integer status;
+	/**
+	 * 创建时间
+	 */
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd", timezone = "GMT+8")
+	private Date createdTime;
+
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@JsonFormat(pattern="yyyy-MM-dd", timezone = "GMT+8")
+	private Date updateTime;
 }
