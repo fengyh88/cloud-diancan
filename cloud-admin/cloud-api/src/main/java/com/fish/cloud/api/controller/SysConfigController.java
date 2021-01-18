@@ -1,10 +1,14 @@
 package com.fish.cloud.api.controller;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fish.cloud.bean.dto.ProdDto;
+import com.fish.cloud.bean.dto.SysConfigDto;
+import com.fish.cloud.bean.dto.SysDicDto;
 import com.fish.cloud.bean.model.Order;
 import com.fish.cloud.bean.model.SysConfig;
 import com.fish.cloud.bean.param.ProdByCateParam;
@@ -23,6 +27,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -34,46 +39,46 @@ import java.util.List;
  */
 @Api(tags = "系统配置信息")
 @Controller
-@RequestMapping("/sysConfig")
+@RequestMapping("/sys/config")
 public class SysConfigController {
     @Autowired
     private ISysConfigService sysConfigService;
 
-    /**
-     * 分页
-     *
-     * @param pageNo
-     * @param pageSize
-     * @return
-     */
     @ApiOperation(value = "分页", notes = "分页")
     @GetMapping("/page")
     @ResponseBody
-    public ApiResult<IPage<SysConfig>> page(@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
-                                                @RequestParam(name = "pageSize", defaultValue = "15") Integer pageSize,
-                                                SysConfigParam sysConfigParam) {
-        // 分页
-        IPage<SysConfig> models = sysConfigService.page(new Page<SysConfig>(pageNo, pageSize), new LambdaQueryWrapper<SysConfig>()
+    public ApiResult<IPage<SysConfigDto>> page(@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+                                               @RequestParam(name = "pageSize", defaultValue = "15") Integer pageSize,
+                                               SysConfigParam sysConfigParam) {
+        IPage<SysConfig> modelPage = sysConfigService.page(new Page<SysConfig>(pageNo, pageSize), new LambdaQueryWrapper<SysConfig>()
                 .eq(SysConfig::getShopId, ApiContextHolder.getAuthDto().getShopId())
                 .and(wrapper -> wrapper.like(StrUtil.isNotEmpty(sysConfigParam.getKeywords()), SysConfig::getParamKey, sysConfigParam.getKeywords())
                         .or()
                         .like(StrUtil.isNotEmpty(sysConfigParam.getKeywords()), SysConfig::getRemark, sysConfigParam.getKeywords()))
-                .eq(SysConfig::getStatus, 1));
-        return ApiResult.success(models);
+                .ne(SysConfig::getStatus, -1));
+        var dtoPage = modelPage.convert(model -> Convert.convert(SysConfigDto.class, model));
+        return ApiResult.success(dtoPage);
     }
 
-    @ApiOperation("列表")
-    @GetMapping(value = "/list")
-    public ApiResult<List<SysConfig>> list() {
-        var dtoList = sysConfigService.all();
+    @ApiOperation("全部")
+    @GetMapping(value = "/all")
+    public ApiResult<List<SysConfigDto>> all() {
+        var models = sysConfigService.all();
+        List<SysConfigDto> dtoList = models.stream().map(model -> {
+            SysConfigDto dto = new SysConfigDto();
+            BeanUtil.copyProperties(model, dto);
+            return dto;
+        }).collect(Collectors.toList());
         return ApiResult.success(dtoList);
     }
 
     @ApiOperation("根据key获取值")
     @ApiImplicitParam(name = "key", value = "key", required = true)
     @GetMapping(value = "/getByKey")
-    public ApiResult<SysConfig> getByKey(String key) {
-        var dto = sysConfigService.getByKey(key);
+    public ApiResult<SysConfigDto> getByKey(String key) {
+        var model = sysConfigService.getByKey(key);
+        SysConfigDto dto = new SysConfigDto();
+        BeanUtil.copyProperties(model, dto);
         return ApiResult.success(dto);
     }
 
@@ -85,7 +90,7 @@ public class SysConfigController {
         return ApiResult.fromTupleRet(ret);
     }
 
-    @ApiOperation("新增")
+    @ApiOperation("添加")
     @ApiImplicitParam(name = "sysConfigEditParam", value = "系统配置信息", required = true)
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public ApiResult add(@RequestBody SysConfigAddParam sysConfigAddParam) {

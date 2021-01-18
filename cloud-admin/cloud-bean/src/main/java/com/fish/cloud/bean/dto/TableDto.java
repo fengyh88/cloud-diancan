@@ -25,10 +25,6 @@ public class TableDto implements IDtoDic{
 	 */
 	private Long shopId;
     /**
-     * 台桌编码
-     */
-	private String tableCode;
-    /**
      * 台桌名称
      */
 	private String tableName;
@@ -45,7 +41,7 @@ public class TableDto implements IDtoDic{
      */
 	private String remark;
     /**
-     * 默认是1，表示正常状态,0为禁用 -1删除 1空桌 11未支付 12已支付
+     * 1表示正常（空桌） 0为禁用 -1删除  11就餐
      */
     @Dic(dicCode = "tableStatus")
 	private Integer status;

@@ -30,7 +30,7 @@ public interface ISysDicService extends IService<SysDic> {
      * @param id
      * @return
      */
-    TupleRet updateStatus(Long id, Integer status);
+    TupleRet status(Long id, Integer status);
 
     /**
      * 添加

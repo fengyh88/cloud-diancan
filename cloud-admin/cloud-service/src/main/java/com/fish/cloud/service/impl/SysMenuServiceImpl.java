@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 @Service
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements ISysMenuService {
 
-    public List<SysMenuDto> listByMenuIdList(List<String> menuIdList) {
+    public List<SysMenuDto> listByMenuIdList(List<Long> menuIdList) {
         List<SysMenu> models = this.list(new LambdaQueryWrapper<SysMenu>()
                 .in(SysMenu::getMenuId, menuIdList)
                 .eq(SysMenu::getStatus, 1)
@@ -42,7 +42,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         return dtoList;
     }
 
-    public List<SysMenuDto> listByMenuIdListAndMenuCate(List<String> menuIdList, Long menuCate) {
+    public List<SysMenuDto> listByMenuIdListAndMenuCate(List<Long> menuIdList, Integer menuCate) {
         List<SysMenu> models = this.list(new LambdaQueryWrapper<SysMenu>()
                 .in(SysMenu::getMenuId, menuIdList)
                 .eq(SysMenu::getStatus, 1)

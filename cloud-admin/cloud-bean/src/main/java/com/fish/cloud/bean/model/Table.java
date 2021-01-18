@@ -35,11 +35,6 @@ public class Table extends Model<Table> {
 	@TableField("shop_id")
 	private Long shopId;
     /**
-     * 台桌编码
-     */
-	@TableField("table_code")
-	private String tableCode;
-    /**
      * 台桌名称
      */
 	@TableField("table_name")
@@ -57,7 +52,7 @@ public class Table extends Model<Table> {
      */
 	private String remark;
     /**
-     * 默认是1，表示正常状态,0为禁用 -1删除 1空桌 11未支付 12已支付
+     * 1表示正常（空桌） 0为禁用 -1删除  11就餐
      */
 	private Integer status;
     /**

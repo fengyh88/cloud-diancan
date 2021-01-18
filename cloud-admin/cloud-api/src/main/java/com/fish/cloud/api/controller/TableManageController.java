@@ -1,9 +1,12 @@
 package com.fish.cloud.api.controller;
 
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fish.cloud.bean.dto.SysConfigDto;
+import com.fish.cloud.bean.dto.TableDto;
 import com.fish.cloud.bean.model.Table;
 import com.fish.cloud.bean.param.TableAddParam;
 import com.fish.cloud.bean.param.TableEditParam;
@@ -33,32 +36,24 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/table/manage")
 public class TableManageController {
+
     @Autowired
     private ITableManageService tableManageService;
 
-    /**
-     * 分页
-     *
-     * @param pageNo
-     * @param pageSize
-     * @return
-     */
     @ApiOperation(value = "分页", notes = "分页")
     @GetMapping("/page")
     @ResponseBody
-    public ApiResult<IPage<Table>> page(@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
-                                         @RequestParam(name = "pageSize", defaultValue = "15") Integer pageSize,
-                                         TableParam tableParam) {
-        // 分页
-        IPage<Table> models = tableManageService.page(new Page<Table>(pageNo, pageSize), new LambdaQueryWrapper<Table>()
+    public ApiResult<IPage<TableDto>> page(@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
+                                           @RequestParam(name = "pageSize", defaultValue = "15") Integer pageSize,
+                                           TableParam tableParam) {
+        IPage<Table> modelPage = tableManageService.page(new Page<Table>(pageNo, pageSize), new LambdaQueryWrapper<Table>()
                 .eq(Table::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .and(wrapper -> wrapper.like(StrUtil.isNotEmpty(tableParam.getKeywords()), Table::getTableCode, tableParam.getKeywords())
-                        .or()
-                        .like(StrUtil.isNotEmpty(tableParam.getKeywords()), Table::getTableName, tableParam.getKeywords())
+                .and(wrapper -> wrapper.like(StrUtil.isNotEmpty(tableParam.getKeywords()), Table::getTableName, tableParam.getKeywords())
                         .or()
                         .like(StrUtil.isNotEmpty(tableParam.getKeywords()), Table::getRemark, tableParam.getKeywords()))
                 .ne(Table::getStatus, -1));
-        return ApiResult.success(models);
+        var dtoPage = modelPage.convert(model -> Convert.convert(TableDto.class, model));
+        return ApiResult.success(dtoPage);
     }
 
     @ApiOperation("更改状态，0为禁用 -1删除 1启用")

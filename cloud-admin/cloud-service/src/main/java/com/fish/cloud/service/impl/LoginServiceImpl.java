@@ -9,9 +9,7 @@ import com.fish.cloud.common.ret.TupleRet;
 import com.fish.cloud.common.token.AuthDto;
 import com.fish.cloud.common.token.JwtUtil;
 import com.fish.cloud.common.util.MD5Util;
-import com.fish.cloud.service.IEmpService;
-import com.fish.cloud.service.ILoginService;
-import com.fish.cloud.service.IShopService;
+import com.fish.cloud.service.*;
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +32,10 @@ public class LoginServiceImpl implements ILoginService {
     private IShopService shopService;
     @Autowired
     private IEmpService empService;
+    @Autowired
+    private IRoleMenuService roleMenuService;
+    @Autowired
+    private ISysMenuService sysMenuService;
 
     /**
      * 登录
@@ -73,10 +75,17 @@ public class LoginServiceImpl implements ILoginService {
         // 缓存CONTEXT
         ApiContextHolder.setAuthDto(authDto);
 
+        // 获取菜单列表
+        var menuIdList = roleMenuService.listMenuIdByRoleId(emp.getRoleId());
+        var sysMenuDtoList = sysMenuService.listByMenuIdListAndMenuCate(menuIdList, 1);
+
+        // 组装返回
         LoginDto loginDto = new LoginDto();
         loginDto.setToken(token);
-        loginDto.setRoleId(emp.get);
+        loginDto.setRoleId(emp.getRoleId());
+        loginDto.setEmpName(emp.getEmpName());
+        loginDto.setMenuList(sysMenuDtoList);
 
-        return TupleRet.success(token);
+        return TupleRet.success(loginDto);
     }
 }

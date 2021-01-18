@@ -25,16 +25,16 @@ public interface ISysMenuService extends IService<SysMenu> {
      * @param menuIdList
      * @return
      */
-    List<SysMenuDto> listByMenuIdList(List<String> menuIdList);
+    List<SysMenuDto> listByMenuIdList(List<Long> menuIdList);
 
     /**
      * 根据菜单Id列表和展示类别获取列表
      *
-     * @param menuIdList     权限下菜单列表
-     * @param menuCate 展示类别 0.数据展示平台 1.控制台
+     * @param menuIdList     菜单列表
+     * @param menuCate 展示类别 1主系统 2控制台
      * @return
      */
-    List<SysMenuDto> listByMenuIdListAndMenuCate(List<String> menuIdList, Long menuCate);
+    List<SysMenuDto> listByMenuIdListAndMenuCate(List<Long> menuIdList, Integer menuCate);
 
     /**
      * 更新状态，正常禁用删除

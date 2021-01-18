@@ -35,7 +35,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
         var model = baseMapper.selectOne(new LambdaQueryWrapper<SysConfig>()
                 .eq(SysConfig::getShopId, ApiContextHolder.getAuthDto().getShopId())
                 .eq(SysConfig::getParamKey, key)
-                .eq(SysConfig::getStatus, 1));
+                .ne(SysConfig::getStatus, -1));
         return model;
     }
 
@@ -72,7 +72,7 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
         var count = baseMapper.selectCount(new LambdaQueryWrapper<SysConfig>()
                 .eq(SysConfig::getShopId, ApiContextHolder.getAuthDto().getShopId())
                 .eq(SysConfig::getParamKey, sysConfigAddParam.getParamKey())
-                .eq(SysConfig::getStatus, 1));
+                .ne(SysConfig::getStatus, -1));
         if (count > 0) {
             return TupleRet.failed("key不得重复");
         }

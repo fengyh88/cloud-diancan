@@ -13,10 +13,10 @@ import lombok.Data;
  */
 @Data
 public class SysDicKvParam {
+
     @ApiModelProperty(value = "编码")
     private String dicCode;
-    /**
-     * 关键字
-     */
+
+    @ApiModelProperty(value = "关键字")
 	private String keywords;
 }

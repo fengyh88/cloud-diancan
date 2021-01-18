@@ -47,10 +47,6 @@ public class TableManageServiceImpl extends ServiceImpl<TableMapper, Table> impl
 
     @Override
     public TupleRet add(TableAddParam tableAddParam) {
-        if (existByTableCode(tableAddParam.getTableCode())) {
-            return TupleRet.failed("编码不得重复");
-        }
-
         try {
             var model = new Table();
             BeanUtils.copyProperties(tableAddParam,model);
@@ -72,29 +68,14 @@ public class TableManageServiceImpl extends ServiceImpl<TableMapper, Table> impl
         if (ObjectUtils.isEmpty(modelDb)) {
             return TupleRet.failed("台桌不存在");
         }
-        if (existByTableCode(tableEditParam.getTableCode())) {
-            return TupleRet.failed("编码不得重复");
-        }
 
         try {
             BeanUtils.copyProperties(tableEditParam,modelDb);
-
             baseMapper.updateById(modelDb);
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return TupleRet.failed(ex.getMessage());
         }
         return TupleRet.success();
-    }
-
-    private boolean existByTableCode(String tableCode) {
-        var count = baseMapper.selectCount(new LambdaQueryWrapper<Table>()
-                .eq(Table::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .eq(Table::getTableCode, tableCode)
-                .ne(Table::getStatus,-1));
-        if (count > 0) {
-            return true;
-        }
-        return false;
     }
 }
