@@ -46,7 +46,7 @@ public class DutyController {
         var models = dutyService.list(new LambdaQueryWrapper<Duty>()
                 .eq(Duty::getShopId, ApiContextHolder.getAuthDto().getShopId())
                 .eq(Duty::getStatus, 1));
-        var dtoList = models.stream().map(model -> {
+        List<DutyDto> dtoList = models.stream().map(model -> {
             var dto = new DutyDto();
             BeanUtil.copyProperties(model, dto);
             return dto;

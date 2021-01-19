@@ -34,7 +34,7 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
                 .eq(OrderItem::getOrderId, orderId)
                 .ne(OrderItem::getStatus, -1)); // 不包含已经删除的
         // dto
-        var dtoList = models.stream().map(model -> {
+        List<OrderItemDto> dtoList = models.stream().map(model -> {
             var dto = new OrderItemDto();
             BeanUtils.copyProperties(model, dto);
             dto.setProdImg(ImgUrlUtil.getFullPathImgUrl(dto.getProdImg()));

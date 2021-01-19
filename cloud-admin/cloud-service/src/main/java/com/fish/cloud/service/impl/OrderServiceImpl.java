@@ -60,6 +60,24 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     }
 
     @Override
+    public List<OrderWithItemsDto> listByStatus(Integer status) {
+        List<Order> models = baseMapper.selectList(new LambdaQueryWrapper<Order>()
+                .eq(Order::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(Order::getStatus, status));
+        // dto
+        List<OrderWithItemsDto> dtoList = models.stream().map(model -> {
+            var dto = new OrderWithItemsDto();
+            BeanUtils.copyProperties(model, dto);
+            // 订单项
+            var orderItemDtoList = orderItemService.listByOrderId(dto.getOrderId());
+            dto.setOrderItems(orderItemDtoList);
+            return dto;
+        }).collect(Collectors.toList());
+
+        return dtoList;
+    }
+
+    @Override
     public TupleRet complete(OrderCompleteParam orderCompleteParam) {
         var model = baseMapper.selectById(orderCompleteParam.getOrderId());
         if (ObjectUtils.isEmpty(model)) {

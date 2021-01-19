@@ -52,7 +52,7 @@ public class OrderItemController {
     @ApiImplicitParam(name = "orderItemUpParam", value = "明细", required = true)
     @PostMapping(value = "/del")
     public ApiResult del(@RequestBody OrderItemUpParam orderItemUpParam) {
-        var ret = orderItemService.status(orderItemUpParam.getOrderItemId(),-1); // -1 表示删除
+        var ret = orderItemService.status(orderItemUpParam.getOrderItemId(),-1); // -1表示删除
         return ApiResult.fromTupleRet(ret);
     }
 }

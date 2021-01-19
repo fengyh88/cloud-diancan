@@ -14,6 +14,7 @@ import com.fish.cloud.bean.param.OrderCloseParam;
 import com.fish.cloud.bean.param.OrderCompleteParam;
 import com.fish.cloud.common.context.ApiContextHolder;
 import com.fish.cloud.common.ret.ApiResult;
+import com.fish.cloud.service.IOrderItemService;
 import com.fish.cloud.service.IOrderService;
 import com.fish.cloud.service.ITableService;
 import com.fish.cloud.service.IUserService;
@@ -48,11 +49,13 @@ public class OrderController {
     @Autowired
     private IOrderService orderService;
     @Autowired
+    private IOrderItemService orderItemService;
+    @Autowired
     private ITableService tableService;
     @Autowired
     private IUserService userService;
 
-    @ApiOperation(value = "分页", notes = "分页")
+    @ApiOperation(value = "分页，用于已结算订单查询等", notes = "分页，用于已结算订单查询等")
     @GetMapping("/pageByStatus")
     @ResponseBody
     public ApiResult<IPage<OrderDto>> pageByStatus(@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
@@ -84,6 +87,40 @@ public class OrderController {
         return ApiResult.success(dtoPage);
     }
 
+    @ApiOperation("待结算列表，用于出餐")
+    @ApiImplicitParam(name = "upStatus", value = "出餐状态 0全部 1正常 2出餐", required = true)
+    @GetMapping(value = "/listForUp")
+    public ApiResult<List<OrderWithItemsDto>> listForUp(@RequestParam Integer upStatus) {
+        // 获取待结算的订单列表
+        List<Order> models = orderService.list(new LambdaQueryWrapper<Order>()
+                .eq(Order::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(Order::getStatus, 1));
+        // 获取列表备用
+        var tableList = tableService.all();
+        // dto
+        List<OrderWithItemsDto> dtoList = models.stream().map(model -> {
+            var dto = new OrderWithItemsDto();
+            BeanUtils.copyProperties(model, dto);
+            // 订单项
+            var orderItemDtoList = orderItemService.listByOrderId(dto.getOrderId());
+            if (0 != upStatus) {
+                orderItemDtoList = orderItemDtoList.stream().filter(orderItemDto -> orderItemDto.getStatus() == upStatus).collect(Collectors.toList());
+            }
+            dto.setOrderItems(orderItemDtoList);
+            // 处理总金额
+            BigDecimal totalAmount = orderItemDtoList.stream().map(orderItemDto -> orderItemDto.getTotalAmount()).reduce(BigDecimal.ZERO, BigDecimal::add);
+            dto.setTotalAmount(totalAmount);
+            // 字典赋值-台桌
+            Optional<TableDto> tableDtoOptional = tableList.stream().filter(tableDto -> tableDto.getTableId() == dto.getTableId()).findFirst();
+            if (tableDtoOptional.isPresent()) {
+                dto.setTableName(tableDtoOptional.get().getTableName());
+            }
+            return dto;
+        }).collect(Collectors.toList());
+
+        return ApiResult.success(dtoList);
+    }
+
     @ApiOperation("结算")
     @ApiImplicitParam(name = "orderCompleteParam", value = "结算信息", required = true)
     @PostMapping(value = "/complete")
@@ -100,7 +137,7 @@ public class OrderController {
         return ApiResult.fromTupleRet(ret);
     }
 
-    @ApiOperation("根据台桌Id查询待结算列表，然后进行结算")
+    @ApiOperation("待结算列表，用于结算")
     @ApiImplicitParam(name = "tableId", value = "台桌Id", required = true)
     @PostMapping(value = "/listByTableId")
     public ApiResult<List<OrderWithItemsDto>> listByTableId(@RequestParam Long tableId) {

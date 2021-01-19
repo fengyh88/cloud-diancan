@@ -1,7 +1,7 @@
 package com.fish.cloud.bean.dto;
 
-import com.fish.cloud.bean.annotation.Dic;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -14,6 +14,7 @@ import java.util.Date;
  * @since 2020-10-30
  */
 @Data
+@NoArgsConstructor
 public class TableDto implements IDtoDic{
 
     /**
@@ -43,7 +44,6 @@ public class TableDto implements IDtoDic{
     /**
      * 1表示正常（空桌） 0为禁用 -1删除  11就餐
      */
-    @Dic(dicCode = "tableStatus")
 	private Integer status;
     /**
      * 顺序

@@ -46,7 +46,7 @@ public class DeptController {
         var models = deptService.list(new LambdaQueryWrapper<Dept>()
                 .eq(Dept::getShopId, ApiContextHolder.getAuthDto().getShopId())
                 .eq(Dept::getStatus, 1));
-        var dtoList = models.stream().map(model -> {
+        List<DeptDto> dtoList = models.stream().map(model -> {
             var dto = new DeptDto();
             BeanUtil.copyProperties(model, dto);
             return dto;

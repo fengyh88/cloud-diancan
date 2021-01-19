@@ -69,7 +69,7 @@ public class ProdImgServiceImpl extends ServiceImpl<ProdImgMapper, ProdImg> impl
         var models = baseMapper.selectList(new LambdaQueryWrapper<ProdImg>()
                 .eq(ProdImg::getLinkType, 2)
                 .eq(ProdImg::getLinkId, skuId));
-        var dtoList = models.stream().map(model -> {
+        List<ProdImgDto> dtoList = models.stream().map(model -> {
             var dto = new ProdImgDto();
             BeanUtil.copyProperties(model, dto);
             dto.setImgUrl(ImgUrlUtil.getFullPathImgUrl(dto.getImgUrl()));

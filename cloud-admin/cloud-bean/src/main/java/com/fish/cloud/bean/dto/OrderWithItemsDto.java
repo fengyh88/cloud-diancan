@@ -19,6 +19,9 @@ public class OrderWithItemsDto {
     @ApiModelProperty(value = "台桌Id")
     private Long tableId;
 
+    @ApiModelProperty(value = "台桌名称")
+    private String tableName;
+
     @ApiModelProperty(value = "订购用户Id")
     private String userId;
 

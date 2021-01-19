@@ -49,7 +49,7 @@ public class RoleController {
     @GetMapping(value = "/list")
     public ApiResult<List<RoleDto>> list() {
         var models = roleService.all();
-        var dtoList = models.stream().map(model -> {
+        List<RoleDto> dtoList = models.stream().map(model -> {
             var dto = new RoleDto();
             BeanUtil.copyProperties(model, dto);
             return dto;

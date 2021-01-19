@@ -33,6 +33,13 @@ public interface IOrderService extends IService<Order> {
     List<OrderWithItemsDto> listByTableId(Long tableId, Integer status);
 
     /**
+     * 根据状态查询单据列表
+     * @param status 1已提交 9已结算 13关闭，失败
+     * @return
+     */
+    List<OrderWithItemsDto> listByStatus(Integer status);
+
+    /**
      * 结算
      * @param orderCompleteParam
      * @return
