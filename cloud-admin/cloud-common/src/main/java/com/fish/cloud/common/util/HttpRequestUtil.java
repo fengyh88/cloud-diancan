@@ -1,11 +1,14 @@
 package com.fish.cloud.common.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
@@ -116,5 +119,25 @@ public class HttpRequestUtil {
             }
         }
         return result;
+    }
+
+    public static InputStream sendPostWithBody(String url, String params) throws Exception {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost(url);
+        httpPost.addHeader(HTTP.CONTENT_TYPE, "application/json");
+        StringEntity se = new StringEntity(params);
+        se.setContentType("application/json");
+        se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "UTF-8"));
+        httpPost.setEntity(se);
+        org.apache.http.HttpResponse response = httpClient.execute(httpPost);
+        if (response != null) {
+            org.apache.http.HttpEntity resEntity = response.getEntity();
+            if (resEntity != null) {
+                InputStream inputStream = resEntity.getContent();
+                return inputStream;
+            }
+        }
+        httpPost.abort();
+        return null;
     }
 }

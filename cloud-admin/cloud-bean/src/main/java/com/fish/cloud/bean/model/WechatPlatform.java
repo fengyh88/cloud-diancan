@@ -12,71 +12,69 @@ import java.util.Date;
 
 /**
  * <p>
- * 台桌
+ * 微信开发平台
  * </p>
  *
  * @author fengyh
- * @since 2020-10-30
+ * @since 2020-11-02
  */
 @Data
-@TableName("cloud_table")
-public class Table extends Model<Table> {
+@TableName("cloud_wechat_platform")
+public class WechatPlatform extends Model<WechatPlatform> {
 
     private static final long serialVersionUID = 1L;
 
     /**
      * Id
      */
-	@TableId(value="table_id", type= IdType.AUTO)
-	private Long tableId;
+	@TableId(value="id", type= IdType.AUTO)
+	private Long id;
+
 	/**
 	 * 店铺Id
 	 */
-	@TableField("shop_id")
 	private Long shopId;
     /**
-     * 台桌编码
+     * 类型
      */
-	@TableField("table_code")
-	private String tableCode;
+	private Integer type;
     /**
-     * 台桌名称
+     * 描述
      */
-	@TableField("table_name")
-	private String tableName;
+	private String des;
     /**
-     * 台桌位置
+     * 微信公众号Id
      */
-	private String location;
+	@TableField("wechat_platform_id")
+	private String wechatPlatformId;
     /**
-     * 人数
+     * 微信小程序Id
      */
-	private Integer people;
+	@TableField("wechat_app_id")
+	private String wechatAppId;
     /**
-     * 备注
+     * 微信小程序secretkey
      */
-	private String remark;
-	/**
-	 * 生成的二维码图片路径
-	 */
-	private String barcode;
+	@TableField("wechat_secret_key")
+	private String wechatSecretKey;
     /**
-     * 默认是1，表示正常状态,0为禁用 -1删除 1空桌 11未支付 12已支付
+     * 状态 -1:删除 0: 禁用 1:启用
      */
 	private Integer status;
     /**
-     * 顺序
-     */
-	private Integer seq;
-    /**
      * 创建时间
      */
-	@TableField("created_time")
-	private Date createdTime;
+	@TableField("create_time")
+	private Date createTime;
+    /**
+     * 更新时间
+     */
+	@TableField("update_time")
+	private Date updateTime;
 
 	@Override
 	protected Serializable pkVal() {
-		return this.tableId;
+		return this.id;
 	}
 
 }

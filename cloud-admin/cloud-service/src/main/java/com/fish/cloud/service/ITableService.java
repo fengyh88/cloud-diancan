@@ -23,10 +23,10 @@ public interface ITableService extends IService<Table> {
     List<TableDto> all();
 
     /**
-     * 获取就餐中的台桌列表
+     * 更新barcode
      * @return
      */
-    List<TableDto> listEating();
+    TupleRet updateBarcode(Long tableId, String barcode);
 
     /**
      * 更新状态

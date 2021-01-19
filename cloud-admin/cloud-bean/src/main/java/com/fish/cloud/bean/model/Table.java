@@ -51,6 +51,10 @@ public class Table extends Model<Table> {
      * 备注
      */
 	private String remark;
+	/**
+	 * 生成的二维码图片路径
+	 */
+	private String barcode;
     /**
      * 1表示正常（空桌） 0为禁用 -1删除  11就餐
      */

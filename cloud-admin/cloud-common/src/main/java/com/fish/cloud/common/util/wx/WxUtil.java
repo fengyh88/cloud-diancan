@@ -5,11 +5,15 @@ import com.alibaba.fastjson.JSONObject;
 import com.fish.cloud.common.util.AesCbcUtil;
 import com.fish.cloud.common.util.HttpRequestUtil;
 import com.fish.cloud.common.ret.TupleRet;
+import com.fish.cloud.common.util.ImgStorageUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 public class WxUtil {
 
     /**
@@ -78,5 +82,29 @@ public class WxUtil {
             e.printStackTrace();
             return TupleRet.failed("解密失败");
         }
+    }
+
+    // 生成小程序码接口url
+    private final static String genetate_barcode_url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=";
+
+    public static InputStream getBarCodeWithInterB(String accessToken, String params) {
+        InputStream inputStream;
+        try {
+            inputStream = HttpRequestUtil.sendPostWithBody(genetate_barcode_url + accessToken, params);
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            return null;
+        }
+        return inputStream;
+    }
+
+    /**
+     * 获取AccessToken
+     * @param wechatAppId
+     * @param wechatSecretKey
+     * @return
+     */
+    public static String getAccessToken(String wechatAppId, String wechatSecretKey) {
+        return "";
     }
 }

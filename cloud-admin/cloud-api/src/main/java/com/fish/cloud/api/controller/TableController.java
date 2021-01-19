@@ -3,6 +3,7 @@ package com.fish.cloud.api.controller;
 import com.fish.cloud.bean.dto.TableDto;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.ITableService;
+import com.fish.cloud.service.IWechatPlatformService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.var;
@@ -24,6 +25,10 @@ import java.util.List;
 @Controller
 @RequestMapping("/table")
 public class TableController {
+
+    @Autowired
+    private IWechatPlatformService wechatPlatformService;
+
     @Autowired
     private ITableService tableService;
 
@@ -34,4 +39,11 @@ public class TableController {
         return ApiResult.success(dtoList);
     }
 
+
+    @ApiOperation("生成微信小程序菊花码")
+    @RequestMapping(value = "/generateMiniProgramBarCode",method = RequestMethod.GET)
+    public ApiResult generateMiniProgramBarCode(@RequestParam Long tableId) {
+        var ret = wechatPlatformService.generateMiniProgramBarCode(tableId);
+        return ApiResult.fromTupleRet(ret);
+    }
 }

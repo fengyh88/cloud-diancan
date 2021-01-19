@@ -22,10 +22,10 @@ import org.springframework.stereotype.Service;
 public class TableServiceImpl extends ServiceImpl<TableMapper, Table> implements ITableService {
 
     @Override
-    public Table getByTableCode(String tableCode) {
+    public Table getByTableId(Long tableId) {
         var model = baseMapper.selectOne(new LambdaQueryWrapper<Table>()
                 .eq(Table::getShopId, ApiContextHolder.getShopId())
-                .eq(Table::getTableCode, tableCode)
+                .eq(Table::getTableId, tableId)
                 .notIn(Table::getStatus, new Integer[]{-1, 0}));
         return model;
     }

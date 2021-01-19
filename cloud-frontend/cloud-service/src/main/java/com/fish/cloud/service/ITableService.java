@@ -14,11 +14,11 @@ import com.fish.cloud.common.ret.TupleRet;
  */
 public interface ITableService extends IService<Table> {
     /**
-     * 根据编码获取信息
-     * @param tableCode
+     * 根据Id获取信息
+     * @param tableId
      * @return
      */
-    Table getByTableCode(String tableCode);
+    Table getByTableId(Long tableId);
 
     /**
      * 更新状态，1正常（空桌） 11 就餐

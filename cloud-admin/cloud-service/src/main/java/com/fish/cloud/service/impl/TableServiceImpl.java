@@ -1,12 +1,14 @@
 package com.fish.cloud.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fish.cloud.bean.dto.TableDto;
 import com.fish.cloud.bean.model.Table;
 import com.fish.cloud.common.context.ApiContextHolder;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.common.ret.TupleRet;
+import com.fish.cloud.common.util.ImgUrlUtil;
 import com.fish.cloud.repo.TableMapper;
 import com.fish.cloud.service.ITableService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -38,22 +40,21 @@ public class TableServiceImpl extends ServiceImpl<TableMapper, Table> implements
         List<TableDto> dtoList = models.stream().map(model -> {
             TableDto dto = new TableDto();
             BeanUtil.copyProperties(model, dto);
+            dto.setBarcode(ImgUrlUtil.getFullPathImgUrl(dto.getBarcode()));
             return dto;
         }).collect(Collectors.toList());
         return dtoList;
     }
 
     @Override
-    public List<TableDto> listEating() {
-        var models = baseMapper.selectList(new LambdaQueryWrapper<Table>()
-                .eq(Table::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .eq(Table::getStatus, 11)); // 11表示就餐中的
-        List<TableDto> dtoList = models.stream().map(model -> {
-            TableDto dto = new TableDto();
-            BeanUtil.copyProperties(model, dto);
-            return dto;
-        }).collect(Collectors.toList());
-        return dtoList;
+    public TupleRet updateBarcode(Long tableId, String barcode) {
+        var model = baseMapper.selectById(tableId);
+        if (ObjectUtil.isNull(model)){
+            return TupleRet.failed("台桌不存在");
+        }
+        model.setBarcode(barcode);
+        baseMapper.updateById(model);
+        return TupleRet.success();
     }
 
     @Override
