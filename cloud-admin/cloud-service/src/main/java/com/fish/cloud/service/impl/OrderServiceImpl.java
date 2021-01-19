@@ -1,11 +1,8 @@
 package com.fish.cloud.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.fish.cloud.bean.dto.OrderCountStatusDto;
-import com.fish.cloud.bean.dto.OrderDetailDto;
-import com.fish.cloud.bean.dto.OrderDto;
+import com.fish.cloud.bean.dto.OrderWithItemsDto;
 import com.fish.cloud.bean.model.Order;
-import com.fish.cloud.bean.model.Table;
 import com.fish.cloud.bean.param.OrderCloseParam;
 import com.fish.cloud.bean.param.OrderCompleteParam;
 import com.fish.cloud.common.context.ApiContextHolder;
@@ -16,7 +13,6 @@ import com.fish.cloud.service.IOrderItemService;
 import com.fish.cloud.service.IOrderService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fish.cloud.service.ITableService;
-import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
 import org.springframework.beans.BeanUtils;
@@ -45,14 +41,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     private ITableService tableService;
 
     @Override
-    public List<OrderDto> listByTableId(Long tableId, Integer status) {
+    public List<OrderWithItemsDto> listByTableId(Long tableId, Integer status) {
         List<Order> models = baseMapper.selectList(new LambdaQueryWrapper<Order>()
                 .eq(Order::getShopId, ApiContextHolder.getAuthDto().getShopId())
                 .eq(Order::getTableId, tableId)
                 .eq(Order::getStatus, status));
         // dto
-        List<OrderDto> dtoList = models.stream().map(model -> {
-            var dto = new OrderDto();
+        List<OrderWithItemsDto> dtoList = models.stream().map(model -> {
+            var dto = new OrderWithItemsDto();
             BeanUtils.copyProperties(model, dto);
             //订单项
             var orderItems = orderItemService.listByOrderId(dto.getOrderId());
@@ -61,27 +57,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         }).collect(Collectors.toList());
 
         return dtoList;
-    }
-
-    @ApiOperation("详情")
-    @Override
-    public OrderDetailDto detail(Long id) {
-        var model = baseMapper.selectById(id);
-        // dto
-        OrderDetailDto dto = new OrderDetailDto();
-        BeanUtils.copyProperties(model, dto);
-
-        //订单项
-        var orderItems = orderItemService.listByOrderId(id);
-        dto.setOrderItems(orderItems);
-
-        return dto;
-    }
-
-    @ApiOperation("统计店铺订单数量")
-    @Override
-    public OrderCountStatusDto countOrderStatus() {
-        return baseMapper.countOrderStatus(ApiContextHolder.getAuthDto().getShopId());
     }
 
     @Override
@@ -145,5 +120,4 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
         return TupleRet.success();
     }
-
 }

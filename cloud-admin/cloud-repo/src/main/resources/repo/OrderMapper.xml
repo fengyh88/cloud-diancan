@@ -25,16 +25,4 @@
 		<result column="pay_time" property="payTime" />
 		<result column="complete_time" property="completeTime" />
 	</resultMap>
-
-	<!--订单各个状态数量	-->
-	<select id="countOrderStatus" resultType="com.fish.cloud.bean.dto.OrderCountStatusDto">
-        SELECT
-        COUNT(o.order_id) `all`,
-        COUNT( CASE WHEN o.status = 1 THEN o.order_id ELSE NULL END ) AS submitted,
-        COUNT( CASE WHEN o.status = 9 THEN o.order_id ELSE NULL END ) AS payed,
-        COUNT( CASE WHEN o.status = 13 THEN o.order_id ELSE NULL END ) AS closed,
-        COUNT( CASE WHEN o.status = 17 THEN o.order_id ELSE NULL END ) AS completed
-        FROM cloud_order o
-        WHERE o.shop_id = #{shopId}
-    </select>
 </mapper>

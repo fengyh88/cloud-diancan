@@ -3,6 +3,7 @@ package com.fish.cloud.service;
 import com.fish.cloud.bean.dto.OrderCountStatusDto;
 import com.fish.cloud.bean.dto.OrderDetailDto;
 import com.fish.cloud.bean.dto.OrderDto;
+import com.fish.cloud.bean.dto.OrderWithItemsDto;
 import com.fish.cloud.bean.model.Order;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fish.cloud.bean.param.OrderBySatusParam;
@@ -29,20 +30,7 @@ public interface IOrderService extends IService<Order> {
      * @param status 1已提交 9已结算 13关闭，失败
      * @return
      */
-    List<OrderDto> listByTableId(Long tableId, Integer status);
-
-    /**
-     * 详情
-     * @param id
-     * @return
-     */
-    OrderDetailDto detail(Long id);
-
-    /**
-     * 统计订单数量
-     * @return
-     */
-    OrderCountStatusDto countOrderStatus();
+    List<OrderWithItemsDto> listByTableId(Long tableId, Integer status);
 
     /**
      * 结算

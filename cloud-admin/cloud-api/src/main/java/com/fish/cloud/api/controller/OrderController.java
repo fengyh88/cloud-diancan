@@ -4,13 +4,11 @@ import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fish.cloud.bean.dto.OrderCountStatusDto;
-import com.fish.cloud.bean.dto.OrderDetailDto;
-import com.fish.cloud.bean.dto.OrderDto;
-import com.fish.cloud.bean.dto.OrderItemDto;
+import com.fish.cloud.bean.dto.*;
 import com.fish.cloud.bean.model.Dept;
 import com.fish.cloud.bean.model.Order;
 import com.fish.cloud.bean.model.Table;
+import com.fish.cloud.bean.model.User;
 import com.fish.cloud.bean.param.OrderBySatusParam;
 import com.fish.cloud.bean.param.OrderCloseParam;
 import com.fish.cloud.bean.param.OrderCompleteParam;
@@ -18,6 +16,7 @@ import com.fish.cloud.common.context.ApiContextHolder;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.IOrderService;
 import com.fish.cloud.service.ITableService;
+import com.fish.cloud.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -31,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -49,60 +49,39 @@ public class OrderController {
     private IOrderService orderService;
     @Autowired
     private ITableService tableService;
+    @Autowired
+    private IUserService userService;
 
     @ApiOperation(value = "分页", notes = "分页")
     @GetMapping("/pageByStatus")
     @ResponseBody
     public ApiResult<IPage<OrderDto>> pageByStatus(@RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
-                                       @RequestParam(name = "pageSize", defaultValue = "15") Integer pageSize,
-                                           OrderBySatusParam orderBySatusParam) {
-        if (!ArrayUtils.contains(new int[]{0, 1, 9, 13, 17}, orderBySatusParam.getStatus())) {
+                                                   @RequestParam(name = "pageSize", defaultValue = "15") Integer pageSize,
+                                                   OrderBySatusParam orderBySatusParam) {
+        if (!ArrayUtils.contains(new int[]{0, 1, 9, 13}, orderBySatusParam.getStatus())) {
             return ApiResult.failed("订单状态错误");
         }
-        // 分页
-        IPage<Order> models = orderService.page(new Page<Order>(pageNo, pageSize), new LambdaQueryWrapper<Order>()
+        IPage<Order> modelPage = orderService.page(new Page<Order>(pageNo, pageSize), new LambdaQueryWrapper<Order>()
                 .eq(Order::getShopId, ApiContextHolder.getAuthDto().getShopId())
                 .eq(0 != orderBySatusParam.getStatus(), Order::getStatus, orderBySatusParam.getStatus()));
         // dto
-        IPage<OrderDto> dtoList = models.convert(model -> Convert.convert(OrderDto.class, model));
-
-        return ApiResult.success(dtoList);
-    }
-
-    @ApiOperation("根据状态查询列表")
-    @ApiImplicitParam(name = "orderBySatusParam", value = "根据状态查询参数", required = true)
-    @PostMapping(value = "/listByStatus")
-    public ApiResult<List<OrderDto>> listByStatus(@RequestBody OrderBySatusParam orderBySatusParam) {
-        if (!ArrayUtils.contains(new int[]{0, 1, 9, 13, 17}, orderBySatusParam.getStatus())) {
-            return ApiResult.failed("订单状态错误");
-        }
-        // 分页
-        List<Order> models = orderService.list(new LambdaQueryWrapper<Order>()
-                .eq(Order::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .eq(0 != orderBySatusParam.getStatus(), Order::getStatus, orderBySatusParam.getStatus()));
-        // dto
-        List<OrderDto> dtoList = models.stream().map(model -> {
-            var dto = new OrderDto();
-            BeanUtils.copyProperties(model, dto);
-            return dto;
-        }).collect(Collectors.toList());
-
-        return ApiResult.success(dtoList);
-    }
-
-    @ApiOperation("详情")
-    @ApiImplicitParam(name = "id", value = "id", required = true)
-    @GetMapping(value = "/detail")
-    public ApiResult<OrderDetailDto> detail(@RequestParam(value = "id") long id) {
-        var dto = orderService.detail(id);
-        return ApiResult.success(dto);
-    }
-
-    @ApiOperation("统计订单各个状态数量")
-    @GetMapping(value = "/countOrderStatus")
-    public ApiResult<OrderCountStatusDto> countOrderStatus() {
-        var dto = orderService.countOrderStatus();
-        return ApiResult.success(dto);
+        IPage<OrderDto> dtoPage = modelPage.convert(model -> Convert.convert(OrderDto.class, model));
+        // 获取列表备用
+        var tableList = tableService.all();
+        var userList = userService.list();
+        // 转换
+        dtoPage.getRecords().stream().forEach(orderDto -> {
+            Optional<TableDto> tableDtoOptional = tableList.stream().filter(tableDto -> tableDto.getTableId() == orderDto.getTableId()).findFirst();
+            if (tableDtoOptional.isPresent()) {
+                orderDto.setTableName(tableDtoOptional.get().getTableName());
+            }
+            Optional<User> userOptional = userList.stream().filter(user -> user.getUserId() == user.getUserId()).findFirst();
+            if (userOptional.isPresent()) {
+                orderDto.setUserNickName(userOptional.get().getNickName());
+                orderDto.setUserImg(userOptional.get().getImg());
+            }
+        });
+        return ApiResult.success(dtoPage);
     }
 
     @ApiOperation("结算")
@@ -124,7 +103,7 @@ public class OrderController {
     @ApiOperation("根据台桌Id查询待结算列表，然后进行结算")
     @ApiImplicitParam(name = "tableId", value = "台桌Id", required = true)
     @PostMapping(value = "/listByTableId")
-    public ApiResult<List<OrderDto>> listByTableId(@RequestParam Long tableId) {
+    public ApiResult<List<OrderWithItemsDto>> listByTableId(@RequestParam Long tableId) {
         Table table = tableService.getById(tableId);
         if (11 != table.getStatus()) {
             return ApiResult.failed("该台桌未就餐");
@@ -134,13 +113,13 @@ public class OrderController {
             return ApiResult.failed("该台桌没有待结算的单据");
         }
         // 处理总金额，只计算已出餐的总金额
-        dtoList.stream().forEach(orderDto -> {
+        dtoList.stream().forEach(orderWithItemsDto -> {
             // 过滤出已出餐的明细
-            List<OrderItemDto> orderItemDtoList = orderDto.getOrderItems().stream().filter(orderItemDto -> 2 == orderItemDto.getStatus()).collect(Collectors.toList());
+            List<OrderItemDto> orderItemDtoList = orderWithItemsDto.getOrderItems().stream().filter(orderItemDto -> 2 == orderItemDto.getStatus()).collect(Collectors.toList());
             BigDecimal totalAmount = orderItemDtoList.stream().map(orderItemDto -> orderItemDto.getTotalAmount()).reduce(BigDecimal.ZERO, BigDecimal::add);
-            orderDto.setTotalAmount(totalAmount);
+            orderWithItemsDto.setTotalAmount(totalAmount);
             // 同时更新数据库
-            Order order = orderService.getById(orderDto.getOrderId());
+            Order order = orderService.getById(orderWithItemsDto.getOrderId());
             order.setTotalAmount(totalAmount);
             orderService.updateById(order);
         });

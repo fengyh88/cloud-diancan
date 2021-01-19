@@ -20,8 +20,17 @@ public class OrderDto {
     @ApiModelProperty(value = "台桌Id")
     private Long tableId;
 
-    @ApiModelProperty(value = "订购用户Id")
+    @ApiModelProperty(value = "台桌名称")
+    private String tableName;
+
+    @ApiModelProperty(value = "用户Id")
     private String userId;
+
+    @ApiModelProperty(value = "用户名称")
+    private String userNickName;
+
+    @ApiModelProperty(value = "用户头像")
+    private String userImg;
 
     @ApiModelProperty(value = "订单流水号")
     private String orderNumber;
@@ -56,7 +65,4 @@ public class OrderDto {
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date completeTime;
-
-    @ApiModelProperty(value = "订单明细")
-    private List<OrderItemDto> orderItems;
 }
