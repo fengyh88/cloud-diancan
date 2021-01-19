@@ -49,7 +49,7 @@ public class LoginServiceImpl implements ILoginService {
         }
 
         // 缓存CONTEXT
-        AuthDto authDto = new AuthDto(userNumber);
+        AuthDto authDto = new AuthDto(userNumber, 0L);
         ApiContextHolder.setAuthDto(authDto);
 
         // 生成token
