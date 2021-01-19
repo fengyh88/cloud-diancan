@@ -12,6 +12,9 @@ public class OrderCompleteParam {
     @ApiModelProperty(value = "订单Id")
     private Long orderId;
 
+    @ApiModelProperty(value = "订单总额")
+    private BigDecimal totalAmount;
+
     @ApiModelProperty(value = "优惠总额")
     private BigDecimal reduceAmount;
 

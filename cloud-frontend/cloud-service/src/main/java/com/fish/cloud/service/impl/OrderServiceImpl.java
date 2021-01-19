@@ -62,6 +62,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         List<OrderDto> dtoList = models.stream().map(model -> {
             var dto = new OrderDto();
             BeanUtils.copyProperties(model, dto);
+            // 订单项
+            var orderItemDtoList = orderItemService.listByOrderId(dto.getOrderId());
+            // 设置总金额
+            BigDecimal totalAmount = orderItemDtoList.stream().map(orderItemDto -> orderItemDto.getTotalAmount()).reduce(BigDecimal.ZERO, BigDecimal::add);
+            dto.setTotalAmount(totalAmount);
             return dto;
         }).collect(Collectors.toList());
         return dtoList;
@@ -74,9 +79,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         // dto
         OrderDetailDto dto = new OrderDetailDto();
         BeanUtils.copyProperties(model, dto);
-        //订单项
-        var orderItems = orderItemService.listByOrderId(id);
-        dto.setOrderItems(orderItems);
+        // 订单项
+        var orderItemDtoList = orderItemService.listByOrderId(id);
+        dto.setOrderItems(orderItemDtoList);
+        // 设置总金额
+        BigDecimal totalAmount = orderItemDtoList.stream().map(orderItemDto -> orderItemDto.getTotalAmount()).reduce(BigDecimal.ZERO, BigDecimal::add);
+        dto.setTotalAmount(totalAmount);
 
         return dto;
     }
@@ -97,10 +105,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         order.setPeople(ApiContextHolder.getAuthTableDto().getPeople());
         order.setUserId(ApiContextHolder.getAuthDto().getUserId());
         order.setOrderNumber(IdUtil.getOrderNumberByTime(ApiContextHolder.getShopId()));
-        // 金额
-        order.setTotalAmount(orderAddParam.getTotalAmount());
-        order.setReduceAmount(orderAddParam.getReduceAmount());
-        order.setActualAmount(orderAddParam.getActualAmount());
         order.setRemark(orderAddParam.getRemark());
         order.setStatus(1); // 已提交状态
         // 商品总数
@@ -153,22 +157,5 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         // 台桌更新状态为就餐状态
         tableService.updateStatus(order.getTableId(),11);
         return TupleRet.success(order.getOrderId());
-    }
-
-    @Override
-    public TupleRet calOrder(Order order) {
-        // 商品总数
-        List<OrderItemDto> orderItemList = orderItemService.listByOrderId(order.getOrderId());
-        Integer prodNum = orderItemList.stream().mapToInt(OrderItemDto::getNum).sum();
-        Double totalAmountDouble = orderItemList.stream().mapToDouble(orderItemDto -> orderItemDto.getTotalAmount().doubleValue()).sum();
-        // 金额
-        BigDecimal totalAmount = new BigDecimal(totalAmountDouble).setScale(2, BigDecimal.ROUND_HALF_UP);
-        BigDecimal actualAmount = totalAmount.subtract(order.getReduceAmount()).setScale(2, BigDecimal.ROUND_HALF_UP);
-        // 更新值
-        order.setProdNum(prodNum);
-        order.setTotalAmount(totalAmount);
-        order.setActualAmount(actualAmount);
-        baseMapper.updateById(order);
-        return TupleRet.success();
     }
 }

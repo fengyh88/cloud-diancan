@@ -59,8 +59,6 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
         // 执行明细移除操作
         orderItem.setStatus(0);
         baseMapper.updateById(orderItem);
-        // 重新计算订单信息
-        orderService.calOrder(order);
         return TupleRet.success();
     }
 }

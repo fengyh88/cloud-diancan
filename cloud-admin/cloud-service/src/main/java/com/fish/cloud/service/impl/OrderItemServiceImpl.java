@@ -3,13 +3,16 @@ package com.fish.cloud.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fish.cloud.bean.dto.OrderItemDto;
 import com.fish.cloud.bean.model.OrderItem;
+import com.fish.cloud.common.ret.TupleRet;
 import com.fish.cloud.common.util.ImgUrlUtil;
 import com.fish.cloud.repo.OrderItemMapper;
 import com.fish.cloud.service.IOrderItemService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import lombok.var;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +25,7 @@ import java.util.stream.Collectors;
  * @author fengyh
  * @since 2020-10-30
  */
+@Slf4j
 @Service
 public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem> implements IOrderItemService {
     @Override
@@ -38,5 +42,23 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
             return dto;
         }).collect(Collectors.toList());
         return dtoList;
+    }
+
+    @Override
+    public TupleRet status(Long id, Integer status) {
+        var model = baseMapper.selectById(id);
+        if (ObjectUtils.isEmpty(model)) {
+            return TupleRet.failed("订单项不存在");
+        }
+
+        try {
+            model.setStatus(status);
+            baseMapper.updateById(model);
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            return TupleRet.failed(ex.getMessage());
+        }
+
+        return TupleRet.success();
     }
 }

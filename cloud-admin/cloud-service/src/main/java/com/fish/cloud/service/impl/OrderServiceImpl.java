@@ -74,6 +74,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
             return TupleRet.failed("订单已关闭");
         }
 
+        model.setTotalAmount(orderCompleteParam.getTotalAmount());
         model.setReduceAmount(orderCompleteParam.getReduceAmount());
         model.setActualAmount(orderCompleteParam.getActualAmount());
         model.setPayType(orderCompleteParam.getPayType());
