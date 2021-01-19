@@ -31,7 +31,7 @@ public interface IShopImgService extends IService<ShopImg> {
      * @param shopImgAddParam
      * @return
      */
-    TupleRet addOrEdit(ShopImgAddParam shopImgAddParam);
+    TupleRet add(ShopImgAddParam shopImgAddParam);
 
     /**
      * 删除

@@ -14,8 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.var;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 /**
  * <p>
  * 系统字典
@@ -27,14 +25,6 @@ import java.util.List;
 @Slf4j
 @Service
 public class SysDicServiceImpl extends ServiceImpl<SysDicMapper, SysDic> implements ISysDicService {
-
-    @Override
-    public List<SysDic> all() {
-        var models = baseMapper.selectList(new LambdaQueryWrapper<SysDic>()
-                .eq(SysDic::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .eq(SysDic::getStatus, 1));
-        return models;
-    }
 
     /**
      * 更新状态，正常禁用删除
@@ -55,7 +45,11 @@ public class SysDicServiceImpl extends ServiceImpl<SysDicMapper, SysDic> impleme
 
     @Override
     public TupleRet add(SysDicAddParam sysDicAddParam) {
-        if (existByDicCode(sysDicAddParam.getDicCode())) {
+        var count = baseMapper.selectCount(new LambdaQueryWrapper<SysDic>()
+                .eq(SysDic::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(SysDic::getDicCode, sysDicAddParam.getDicCode())
+                .ne(SysDic::getStatus, -1));
+        if (count > 0) {
             return TupleRet.failed("编码不得重复");
         }
 
@@ -82,7 +76,12 @@ public class SysDicServiceImpl extends ServiceImpl<SysDicMapper, SysDic> impleme
         if (ObjectUtils.isEmpty(model)) {
             return TupleRet.failed("系统字典不存在");
         }
-        if (existByDicCode(sysDicAddParam.getDicCode())) {
+        var count = baseMapper.selectCount(new LambdaQueryWrapper<SysDic>()
+                .eq(SysDic::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(SysDic::getDicCode, sysDicAddParam.getDicCode())
+                .ne(SysDic::getId, sysDicAddParam.getId())
+                .ne(SysDic::getStatus, -1));
+        if (count > 0) {
             return TupleRet.failed("编码不得重复");
         }
 
@@ -100,14 +99,4 @@ public class SysDicServiceImpl extends ServiceImpl<SysDicMapper, SysDic> impleme
         return TupleRet.success();
     }
 
-    private boolean existByDicCode(String dicCode) {
-        var count = baseMapper.selectCount(new LambdaQueryWrapper<SysDic>()
-                .eq(SysDic::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .eq(SysDic::getDicCode, dicCode)
-                .ne(SysDic::getStatus,-1));
-        if (count > 0) {
-            return true;
-        }
-        return false;
-    }
 }

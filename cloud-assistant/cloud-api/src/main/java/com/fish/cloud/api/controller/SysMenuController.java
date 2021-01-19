@@ -4,12 +4,14 @@ import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fish.cloud.bean.dto.SysMenuCheckDto;
 import com.fish.cloud.bean.dto.SysMenuDto;
 import com.fish.cloud.bean.model.RoleMenu;
 import com.fish.cloud.bean.model.SysMenu;
 import com.fish.cloud.bean.param.SysMenuAddParam;
 import com.fish.cloud.bean.param.SysMenuParam;
 import com.fish.cloud.bean.param.SysMenuEditParam;
+import com.fish.cloud.common.context.ApiContextHolder;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.IRoleMenuService;
 import com.fish.cloud.service.ISysMenuService;
@@ -45,28 +47,21 @@ public class SysMenuController {
     private IRoleMenuService roleMenuService;
 
     @ApiOperation(value = "根据角色获取列表", notes = "根据角色获取列表")
-    @PostMapping("/listByRoleId")
+    @GetMapping("/listByRoleId")
     @ResponseBody
-    public ApiResult<List<SysMenuDto>> listByRoleId(@RequestBody SysMenuParam sysMenuParam) {
-        if (0 == sysMenuParam.getRoleId()) {
-            return ApiResult.failed("请传入角色Id");
-        }
-
-        List<SysMenu> modelList = sysMenuService.list(new LambdaQueryWrapper<SysMenu>()
-                .eq(sysMenuParam.getMenuLevel() != 0, SysMenu::getMenuLevel, sysMenuParam.getMenuLevel())
+    public ApiResult<List<SysMenuCheckDto>> listByRoleId(@RequestParam Long roleId, @RequestParam Integer menuLevel) {
+        List<SysMenu> sysMenuList = sysMenuService.list(new LambdaQueryWrapper<SysMenu>()
+                .eq(SysMenu::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(menuLevel != 0, SysMenu::getMenuLevel, menuLevel)
                 .eq(SysMenu::getStatus, 1));
 
-        List<SysMenuDto> dtoList = modelList.stream().map(model -> {
-            var dto = new SysMenuDto();
-            BeanUtils.copyProperties(model, dto);
+        List<SysMenuCheckDto> dtoList = sysMenuList.stream().map(sysMenu -> {
+            var dto = new SysMenuCheckDto();
+            BeanUtils.copyProperties(sysMenu, dto);
             int num = roleMenuService.count(new LambdaQueryWrapper<RoleMenu>()
-                    .eq(RoleMenu::getRoleId, sysMenuParam.getRoleId())
-                    .eq(RoleMenu::getMenuId, model.getMenuId()));
-            if (num <= 0) {
-                dto.setIsCheck(0);
-            } else {
-                dto.setIsCheck(1);
-            }
+                    .eq(RoleMenu::getRoleId, roleId)
+                    .eq(RoleMenu::getMenuId, sysMenu.getMenuId()));
+            dto.setIsCheck(num <= 0 ? 0 : 1);
             return dto;
         }).collect(Collectors.toList());
 
@@ -76,12 +71,13 @@ public class SysMenuController {
     @ApiOperation(value = "获取N级别列表", notes = "获取N级别列表")
     @GetMapping("/listByNLevel")
     @ResponseBody
-    public ApiResult<List<SysMenuDto>> listByNLevel(@RequestParam Long menuLevel) {
-        List<SysMenu> modelList = sysMenuService.list(new LambdaQueryWrapper<SysMenu>()
+    public ApiResult<List<SysMenuDto>> listByNLevel(@RequestParam Integer menuLevel) {
+        List<SysMenu> sysMenuList = sysMenuService.list(new LambdaQueryWrapper<SysMenu>()
+                .eq(SysMenu::getShopId, ApiContextHolder.getAuthDto().getShopId())
                 .eq(menuLevel != 0, SysMenu::getMenuLevel, menuLevel)
                 .eq(SysMenu::getStatus, 1));
 
-        List<SysMenuDto> dtoList = modelList.stream().map(model -> {
+        List<SysMenuDto> dtoList = sysMenuList.stream().map(model -> {
             var dto = new SysMenuDto();
             BeanUtils.copyProperties(model, dto);
             return dto;
@@ -95,13 +91,14 @@ public class SysMenuController {
     @GetMapping("/listByPId")
     @ResponseBody
     public ApiResult<List<SysMenuDto>> listByPId(@RequestParam Long menuId) {
-        List<SysMenu> modelList = sysMenuService.list(new LambdaQueryWrapper<SysMenu>()
+        List<SysMenu> sysMenuList = sysMenuService.list(new LambdaQueryWrapper<SysMenu>()
+                .eq(SysMenu::getShopId, ApiContextHolder.getAuthDto().getShopId())
                 .eq(SysMenu::getPId, menuId)
                 .eq(SysMenu::getStatus, 1));
 
-        List<SysMenuDto> dtoList = modelList.stream().map(model -> {
+        List<SysMenuDto> dtoList = sysMenuList.stream().map(sysMenu -> {
             var dto = new SysMenuDto();
-            BeanUtils.copyProperties(model, dto);
+            BeanUtils.copyProperties(sysMenu, dto);
             return dto;
         }).collect(Collectors.toList());
 
@@ -115,6 +112,7 @@ public class SysMenuController {
                                              @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
                                              SysMenuParam sysMenuParam) {
         IPage<SysMenu> modelPage = sysMenuService.page(new Page<>(pageNo, pageSize), new LambdaQueryWrapper<SysMenu>()
+                .eq(SysMenu::getShopId, ApiContextHolder.getAuthDto().getShopId())
                 .eq(sysMenuParam.getMenuLevel() != 0, SysMenu::getMenuLevel, sysMenuParam.getMenuLevel())
                 .ne(SysMenu::getStatus, -1));
         IPage<SysMenuDto> dtoPage = modelPage.convert(model -> Convert.convert(SysMenuDto.class, model));

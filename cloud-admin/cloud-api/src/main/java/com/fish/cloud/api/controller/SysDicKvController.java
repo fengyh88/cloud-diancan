@@ -85,7 +85,7 @@ public class SysDicKvController {
             @ApiImplicitParam(name = "id", value = "系统字典kvId", required = true),
             @ApiImplicitParam(name = "status", value = "状态 -1删除 0禁用 1启用", required = true)
     })
-    @GetMapping(value = "/tatus")
+    @GetMapping(value = "/status")
     public ApiResult status(@RequestParam("id") long id, @RequestParam("status") Integer status) {
         if (!ArrayUtils.contains(new int[]{-1, 0, 1}, status)) {
             return ApiResult.failed("需传入-1删除 0禁用 1启用");

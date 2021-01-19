@@ -12,10 +12,10 @@ public class SysMenuEditParam {
     @NotNull(message = "Id不能为空")
     private Long menuId;
 
-    @ApiModelProperty(value = "父ID")
+    @ApiModelProperty(value = "父Id")
     private Long pId;
 
-    @ApiModelProperty(value = "菜单类别 0 平台 1控制台", required = true)
+    @ApiModelProperty(value = "菜单类别 1 主系统 2控制台", required = true)
     @NotNull(message = "菜单类别不能为空")
     private Integer menuCate;
 

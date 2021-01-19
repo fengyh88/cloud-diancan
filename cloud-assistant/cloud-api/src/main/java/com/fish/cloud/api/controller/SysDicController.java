@@ -60,18 +60,6 @@ public class SysDicController {
         return ApiResult.success(dtoPage);
     }
 
-    @ApiOperation("列表")
-    @GetMapping(value = "/all")
-    public ApiResult<List<SysDicDto>> all() {
-        var models = sysDicService.all();
-        List<SysDicDto> dtoList = models.stream().map(model -> {
-            SysDicDto dto = new SysDicDto();
-            BeanUtil.copyProperties(model, dto);
-            return dto;
-        }).collect(Collectors.toList());
-        return ApiResult.success(dtoList);
-    }
-
     @ApiOperation("更改状态，正常禁用删除")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "系统字典Id", required = true),

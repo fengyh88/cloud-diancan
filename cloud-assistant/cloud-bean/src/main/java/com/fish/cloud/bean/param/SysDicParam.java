@@ -12,6 +12,7 @@ import lombok.Data;
  */
 @Data
 public class SysDicParam {
+
     /**
      * 关键字
      */

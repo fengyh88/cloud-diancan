@@ -31,8 +31,6 @@ public class ImgStorageServiceImpl implements IImgStorageService {
         String originalFileName = file.getOriginalFilename();
         // 获取文件类型，以最后一个`.`为标识
         String type = originalFileName.substring(originalFileName.lastIndexOf(".") + 1);
-        //获 取文件名称（不包含格式）
-        // String name = originalFileName.substring(0, originalFileName.lastIndexOf("."));
         // 转新文件名
         String fileName = DateTimeUtil.getCurrentDateTimeFormat() + IdUtil.getRandomString(4) + "." + type;
         // 转全路径文件名

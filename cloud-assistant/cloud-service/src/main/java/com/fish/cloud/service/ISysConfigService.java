@@ -26,10 +26,12 @@ public interface ISysConfigService extends IService<SysConfig> {
     SysConfig getByKey(String key);
 
     /**
+     * 新增
      *
+     * @param sysConfigAddParam
      * @return
      */
-    List<SysConfig> all();
+    TupleRet add(SysConfigAddParam sysConfigAddParam);
 
     /**
      * 编辑
@@ -38,13 +40,5 @@ public interface ISysConfigService extends IService<SysConfig> {
      * @return
      */
     TupleRet edit(SysConfigEditParam sysConfigEditParam);
-
-    /**
-     * 新增
-     *
-     * @param sysConfigAddParam
-     * @return
-     */
-    TupleRet add(SysConfigAddParam sysConfigAddParam);
 
 }

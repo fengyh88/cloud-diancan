@@ -54,7 +54,7 @@ public class ShopImgServiceImpl extends ServiceImpl<ShopImgMapper, ShopImg> impl
     }
 
     @Override
-    public TupleRet addOrEdit(ShopImgAddParam shopImgAddParam) {
+    public TupleRet add(ShopImgAddParam shopImgAddParam) {
         var modelDb = baseMapper.selectById(shopImgAddParam.getImgId());
         if (ObjectUtils.isEmpty(modelDb)) {
             //新增

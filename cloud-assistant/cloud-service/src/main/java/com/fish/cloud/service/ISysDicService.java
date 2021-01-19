@@ -18,13 +18,6 @@ import java.util.List;
 public interface ISysDicService extends IService<SysDic> {
 
     /**
-     * 所有列表
-     *
-     * @return
-     */
-    List<SysDic> all();
-
-    /**
      * 更新状态，正常禁用删除
      *
      * @param id

@@ -68,8 +68,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         try {
             var model = new SysMenu();
             BeanUtils.copyProperties(sysMenuAddParam, model);
+            model.setShopId(ApiContextHolder.getAuthDto().getShopId());
             model.setStatus(1);
-            model.setCreatedBy(ApiContextHolder.getAuthDto().getUserNumber());
             model.setCreatedTime(DateTimeUtil.getCurrentDateTime());
             baseMapper.insert(model);
         } catch (Exception e) {

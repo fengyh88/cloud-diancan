@@ -1,7 +1,6 @@
 package com.fish.cloud.api.controller;
 
 import com.fish.cloud.bean.dto.ShopImgDto;
-import com.fish.cloud.bean.model.ShopImg;
 import com.fish.cloud.bean.param.ShopImgAddParam;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.IShopImgService;
@@ -52,11 +51,11 @@ public class ShopImgController {
         return ApiResult.fromTupleRet(ret);
     }
 
-    @ApiOperation("新增或编辑")
+    @ApiOperation("新增编辑")
     @ApiImplicitParam(name = "shopImgAddParam", value = "店铺图信息", required = true)
-    @RequestMapping(value = "/addOrEdit", method = RequestMethod.POST)
-    public ApiResult addOrEdit(@RequestBody ShopImgAddParam shopImgAddParam) {
-        var ret = shopImgService.addOrEdit(shopImgAddParam);
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public ApiResult add(@RequestBody ShopImgAddParam shopImgAddParam) {
+        var ret = shopImgService.add(shopImgAddParam);
         return ApiResult.fromTupleRet(ret);
     }
 }

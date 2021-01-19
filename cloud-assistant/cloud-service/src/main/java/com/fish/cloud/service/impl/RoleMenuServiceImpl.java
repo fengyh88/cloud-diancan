@@ -10,9 +10,6 @@ import lombok.var;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 /**
  * <p>
  * 角色与菜单对应关系
@@ -23,14 +20,6 @@ import java.util.stream.Collectors;
  */
 @Service
 public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> implements IRoleMenuService {
-
-    @Override
-    public List<Long> listMenuIdByRoleId(Long roleId) {
-        var models = baseMapper.selectList(new LambdaQueryWrapper<RoleMenu>()
-        .eq(RoleMenu::getRoleId, roleId));
-        var menuIdList = models.stream().map(model -> model.getMenuId()).collect(Collectors.toList());
-        return menuIdList;
-    }
 
     @Override
     @Transactional(rollbackFor = Exception.class)

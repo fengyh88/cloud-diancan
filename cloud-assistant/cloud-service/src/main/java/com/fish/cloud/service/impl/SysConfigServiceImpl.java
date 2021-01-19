@@ -35,36 +35,8 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
         var model = baseMapper.selectOne(new LambdaQueryWrapper<SysConfig>()
                 .eq(SysConfig::getShopId, ApiContextHolder.getAuthDto().getShopId())
                 .eq(SysConfig::getParamKey, key)
-                .ne(SysConfig::getStatus, -1));
-        return model;
-    }
-
-    @Override
-    public List<SysConfig> all() {
-        var models = baseMapper.selectList(new LambdaQueryWrapper<SysConfig>()
-                .eq(SysConfig::getShopId, ApiContextHolder.getAuthDto().getShopId())
                 .eq(SysConfig::getStatus, 1));
-        return models;
-    }
-
-    @Override
-    public TupleRet edit(SysConfigEditParam sysConfigEditParam) {
-        var model = baseMapper.selectById(sysConfigEditParam.getId());
-        if (ObjectUtils.isEmpty(model)) {
-            return TupleRet.failed("配置信息不存在");
-        }
-
-        try {
-            model.setParamValue(sysConfigEditParam.getParamValue());
-            model.setRemark(sysConfigEditParam.getRemark());
-            model.setUpdateTime(DateTimeUtil.getCurrentDateTime());
-
-            baseMapper.updateById(model);
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
-            return TupleRet.failed(ex.getMessage());
-        }
-        return TupleRet.success();
+        return model;
     }
 
     @Override
@@ -81,12 +53,32 @@ public class SysConfigServiceImpl extends ServiceImpl<SysConfigMapper, SysConfig
             var model = new SysConfig();
             model.setParamKey(sysConfigAddParam.getParamKey());
             model.setParamValue(sysConfigAddParam.getParamValue());
-            model.setShopId(ApiContextHolder.getAuthDto().getShopId());
             model.setRemark(sysConfigAddParam.getRemark());
+            model.setShopId(ApiContextHolder.getAuthDto().getShopId());
             model.setStatus(1);
             model.setCreateTime(DateTimeUtil.getCurrentDateTime());
 
             baseMapper.insert(model);
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            return TupleRet.failed(ex.getMessage());
+        }
+        return TupleRet.success();
+    }
+
+    @Override
+    public TupleRet edit(SysConfigEditParam sysConfigEditParam) {
+        var model = baseMapper.selectById(sysConfigEditParam.getId());
+        if (ObjectUtils.isEmpty(model)) {
+            return TupleRet.failed("配置信息不存在");
+        }
+
+        try {
+            model.setParamValue(sysConfigEditParam.getParamValue());
+            model.setRemark(sysConfigEditParam.getRemark());
+            model.setUpdateTime(DateTimeUtil.getCurrentDateTime());
+
+            baseMapper.updateById(model);
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return TupleRet.failed(ex.getMessage());

@@ -1,5 +1,6 @@
 package com.fish.cloud.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.fish.cloud.bean.model.SysDicKv;
@@ -57,16 +58,18 @@ public class SysDicKvServiceImpl extends ServiceImpl<SysDicKvMapper, SysDicKv> i
 
     @Override
     public TupleRet add(SysDicKvAddParam sysDicKvAddParam) {
-        if (existByDicCodeAndKey(sysDicKvAddParam.getDicCode(),sysDicKvAddParam.getKey())) {
+        var count = baseMapper.selectCount(new LambdaQueryWrapper<SysDicKv>()
+                .eq(SysDicKv::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(SysDicKv::getDicCode, sysDicKvAddParam.getDicCode())
+                .eq(SysDicKv::getKey, sysDicKvAddParam.getKey())
+                .ne(SysDicKv::getStatus, -1));
+        if (count > 0){
             return TupleRet.failed("key不得重复");
         }
 
         try {
             var model = new SysDicKv();
-            model.setDicCode(sysDicKvAddParam.getDicCode());
-            model.setKey(sysDicKvAddParam.getKey());
-            model.setValue(sysDicKvAddParam.getValue());
-            model.setRemark(sysDicKvAddParam.getRemark());
+            BeanUtil.copyProperties(sysDicKvAddParam,model);
             model.setShopId(ApiContextHolder.getAuthDto().getShopId());
             model.setStatus(1);
             model.setCreateTime(DateTimeUtil.getCurrentDateTime());
@@ -85,16 +88,19 @@ public class SysDicKvServiceImpl extends ServiceImpl<SysDicKvMapper, SysDicKv> i
         if (ObjectUtils.isEmpty(model)) {
             return TupleRet.failed("key不存在");
         }
-        if (existByDicCodeAndKey(sysDicKvAddParam.getDicCode(),sysDicKvAddParam.getKey())) {
+        var count = baseMapper.selectCount(new LambdaQueryWrapper<SysDicKv>()
+                .eq(SysDicKv::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(SysDicKv::getDicCode, sysDicKvAddParam.getDicCode())
+                .eq(SysDicKv::getKey, sysDicKvAddParam.getKey())
+                .ne(SysDicKv::getId, sysDicKvAddParam.getId())
+                .ne(SysDicKv::getStatus, -1));
+        if (count > 0){
             return TupleRet.failed("key不得重复");
         }
 
         try {
-            model.setKey(sysDicKvAddParam.getKey());
-            model.setValue(sysDicKvAddParam.getValue());
-            model.setRemark(sysDicKvAddParam.getRemark());
+            BeanUtil.copyProperties(sysDicKvAddParam, model);
             model.setUpdateTime(DateTimeUtil.getCurrentDateTime());
-
             baseMapper.updateById(model);
         } catch (Exception ex) {
             log.error(ex.getMessage());
@@ -103,25 +109,4 @@ public class SysDicKvServiceImpl extends ServiceImpl<SysDicKvMapper, SysDicKv> i
         return TupleRet.success();
     }
 
-    private boolean existByDicCodeAndKey(String dicCode, String key) {
-        var count = baseMapper.selectCount(new LambdaQueryWrapper<SysDicKv>()
-                .eq(SysDicKv::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .eq(SysDicKv::getDicCode, dicCode)
-                .eq(SysDicKv::getKey, key)
-                .ne(SysDicKv::getStatus, -1));
-        if (count > 0) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public String getTextTextByDicCodeAndKey(String table, String text, String code, String key) {
-        return baseMapper.getTextByTableAndCodeAndKey(table,text,code,key);
-    }
-
-    @Override
-    public String getTextByTableAndCodeAndKey(String code, String key) {
-        return baseMapper.getTextTextByDicCodeAndKey(code, key);
-    }
 }

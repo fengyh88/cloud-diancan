@@ -8,9 +8,6 @@ import lombok.Data;
 @Data
 public class SysConfigAddParam {
 
-    @ApiModelProperty(value = "Id")
-    private Long id;
-
     @ApiModelProperty(value = "key")
     private String paramKey;
 

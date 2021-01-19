@@ -12,6 +12,7 @@ import lombok.Data;
  */
 @Data
 public class SysConfigParam {
+
     /**
      * 关键字
      */

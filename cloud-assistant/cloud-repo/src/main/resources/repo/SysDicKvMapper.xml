@@ -15,15 +15,4 @@
 		<result column="update_time" property="updateTime" />
 	</resultMap>
 
-	<!-- 通过字典code获取字典数据 -->
-	<select id="getTextTextByDicCodeAndKey" parameterType="String"  resultType="String">
-		select top 1 `value` from cloud_sys_dic_kv
-		where dic_code = #{dicCode} and key = #{key}
-	</select>
-
-	<!--通过查询指定table的 text code key 获取字典值-->
-	<select id="getTextByTableAndCodeAndKey" parameterType="String"  resultType="String">
-		select top 1 ${text} as 'text' from ${table} where ${code}= #{key}
-	</select>
-
 </mapper>

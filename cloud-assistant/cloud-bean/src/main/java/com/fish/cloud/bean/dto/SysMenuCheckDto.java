@@ -8,7 +8,7 @@ import java.util.List;
 
 @ApiModel(value = "菜单Dto", description = "菜单Dto")
 @Data
-public class SysMenuDto {
+public class SysMenuCheckDto {
 
     private Long menuId;
 
@@ -48,10 +48,16 @@ public class SysMenuDto {
      * 排序
      */
     private Integer seq;
+
     /**
      * 子菜单
      */
     @ApiModelProperty(value = "子菜单")
-    private List<SysMenuDto> children;
+    private List<SysMenuCheckDto> children;
 
+    /**
+     * 是否选中 1选中 0未选中
+     */
+    @ApiModelProperty(value = "是否选中 1选中 0未选中")
+    private Integer isCheck;
 }

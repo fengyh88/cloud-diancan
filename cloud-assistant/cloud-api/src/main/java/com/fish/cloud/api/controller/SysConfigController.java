@@ -37,6 +37,7 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/sys/config")
 public class SysConfigController {
+
     @Autowired
     private ISysConfigService sysConfigService;
 
@@ -56,18 +57,6 @@ public class SysConfigController {
         return ApiResult.success(dtoPage);
     }
 
-    @ApiOperation("全部")
-    @GetMapping(value = "/all")
-    public ApiResult<List<SysConfigDto>> all() {
-        var models = sysConfigService.all();
-        List<SysConfigDto> dtoList = models.stream().map(model -> {
-            SysConfigDto dto = new SysConfigDto();
-            BeanUtil.copyProperties(model, dto);
-            return dto;
-        }).collect(Collectors.toList());
-        return ApiResult.success(dtoList);
-    }
-
     @ApiOperation("根据key获取值")
     @ApiImplicitParam(name = "key", value = "key", required = true)
     @GetMapping(value = "/getByKey")
@@ -78,6 +67,14 @@ public class SysConfigController {
         return ApiResult.success(dto);
     }
 
+    @ApiOperation("添加")
+    @ApiImplicitParam(name = "sysConfigEditParam", value = "系统配置信息", required = true)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public ApiResult add(@RequestBody SysConfigAddParam sysConfigAddParam) {
+        var ret = sysConfigService.add(sysConfigAddParam);
+        return ApiResult.fromTupleRet(ret);
+    }
+
     @ApiOperation("编辑")
     @ApiImplicitParam(name = "sysConfigEditParam", value = "系统配置信息", required = true)
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
@@ -86,11 +83,4 @@ public class SysConfigController {
         return ApiResult.fromTupleRet(ret);
     }
 
-    @ApiOperation("添加")
-    @ApiImplicitParam(name = "sysConfigEditParam", value = "系统配置信息", required = true)
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public ApiResult add(@RequestBody SysConfigAddParam sysConfigAddParam) {
-        var ret = sysConfigService.add(sysConfigAddParam);
-        return ApiResult.fromTupleRet(ret);
-    }
 }
