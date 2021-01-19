@@ -5,7 +5,7 @@ import com.fish.cloud.bean.model.ShopImg;
 
 /**
  * <p>
-  * 店铺图 Mapper 接口
+  * 店铺图
  * </p>
  *
  * @author fengyh

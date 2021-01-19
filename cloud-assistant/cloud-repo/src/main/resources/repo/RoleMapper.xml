@@ -5,13 +5,12 @@
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="com.fish.cloud.bean.model.Role">
 		<id column="role_id" property="roleId" />
-		<result column="role_code" property="roleCode" />
 		<result column="role_name" property="roleName" />
 		<result column="shop_id" property="shopId" />
 		<result column="remark" property="remark" />
 		<result column="status" property="status" />
-		<result column="create_by" property="createBy" />
-		<result column="create_time" property="createTime" />
+		<result column="created_by" property="createdBy" />
+		<result column="created_time" property="createdTime" />
 	</resultMap>
 
 </mapper>

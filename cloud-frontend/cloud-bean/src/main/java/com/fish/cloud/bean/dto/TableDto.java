@@ -45,10 +45,6 @@ public class TableDto {
      * 备注
      */
 	private String remark;
-	/**
-	 * 生成的二维码图片路径
-	 */
-	private String barcode;
     /**
      * 默认是1，1为正常（空桌）11为就餐 0为禁用状态 -1删除状态
      */

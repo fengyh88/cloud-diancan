@@ -1,5 +1,6 @@
 package com.fish.cloud.api.controller;
 
+import com.fish.cloud.bean.dto.LoginDto;
 import com.fish.cloud.bean.param.LoginParam;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.ILoginService;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Api(tags = "登录")
-@RequestMapping(value = "/api/login")
+@RequestMapping(value = "/login")
 @RestController
 public class LoginController {
     @Autowired
@@ -23,7 +24,7 @@ public class LoginController {
     @ApiOperation("token")
     @ApiImplicitParam(name = "loginParam", value = "登录信息", required = true)
     @PostMapping("/token")
-    public ApiResult token(@RequestBody LoginParam loginParam) {
+    public ApiResult<LoginDto> token(@RequestBody LoginParam loginParam) {
         var ret = loginService.token(loginParam);
         return ApiResult.fromTupleRet(ret);
     }

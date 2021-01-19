@@ -13,4 +13,9 @@ public class DateTimeUtil {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         return sdf.format(d);
     }
+    public static String getCurrentDateTimeFormat(String pattern){
+        Date d = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+        return sdf.format(d);
+    }
 }

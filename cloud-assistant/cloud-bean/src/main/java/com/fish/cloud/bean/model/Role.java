@@ -28,11 +28,6 @@ public class Role extends Model<Role> {
 
 	@TableId(value="role_id", type= IdType.AUTO)
 	private Long roleId;
-	/**
-	 * 编码
-	 */
-	@TableField("role_code")
-	private String roleCode;
     /**
      * 角色名称
      */
@@ -54,13 +49,13 @@ public class Role extends Model<Role> {
     /**
      * 创建者Id
      */
-	@TableField("create_by")
-	private Long createBy;
+	@TableField("created_by")
+	private Long createdBy;
     /**
      * 创建时间
      */
-	@TableField("create_time")
-	private Date createTime;
+	@TableField("created_time")
+	private Date createdTime;
 
 	@Override
 	protected Serializable pkVal() {

@@ -93,7 +93,7 @@ public class Shop extends Model<Shop> {
 	@TableField("close_time")
 	private String closeTime;
     /**
-     * 店铺状态(-1:未开通 0: 停业中 1:营业中)，可修改
+     * 店铺状态(-1删除 0停业中 1营业中)，可修改
      */
 	private Integer status;
     /**

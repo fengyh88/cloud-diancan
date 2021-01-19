@@ -1,6 +1,7 @@
 package com.fish.cloud.api.config;
 
 import com.fish.cloud.api.interceptor.AuthInterceptor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -9,6 +10,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 @Configuration
 public class InterceptorConfig extends WebMvcConfigurationSupport {
+
+    @Value("${img.upload-folder}")
+    private String UPLOAD_FOLDER;
 
     @Bean
     public AuthInterceptor getAuthInterceptor() {
@@ -19,7 +23,9 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(getAuthInterceptor()).addPathPatterns("/**")
                 // 登录获取token时不验证
-                .excludePathPatterns("/api/login/token")
+                .excludePathPatterns("/api/login/**")
+                // 不验证上传图片
+                .excludePathPatterns("/img/**")
                 // 不验证swagger路径
                 .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**")
                 .excludePathPatterns("/error");
@@ -38,5 +44,7 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
                 .addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
+        // 上传图片路径
+        registry.addResourceHandler("/img/**").addResourceLocations("file:" + UPLOAD_FOLDER);
     }
 }

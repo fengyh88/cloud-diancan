@@ -33,7 +33,7 @@ public class SysDicKvServiceImpl extends ServiceImpl<SysDicKvMapper, SysDicKv> i
         var models = baseMapper.selectList(new LambdaQueryWrapper<SysDicKv>()
                 .eq(SysDicKv::getShopId, ApiContextHolder.getAuthDto().getShopId())
                 .eq(SysDicKv::getDicCode, dicCode)
-                .ne(SysDicKv::getStatus, -1));
+                .eq(SysDicKv::getStatus, 1));
         return models;
     }
 
@@ -45,7 +45,7 @@ public class SysDicKvServiceImpl extends ServiceImpl<SysDicKvMapper, SysDicKv> i
      * @return
      */
     @Override
-    public TupleRet updateStatus(Long id, Integer status) {
+    public TupleRet status(Long id, Integer status) {
         var model = baseMapper.selectById(id);
         if (ObjectUtils.isEmpty(model)) {
             return TupleRet.failed("key不存在");
@@ -115,4 +115,13 @@ public class SysDicKvServiceImpl extends ServiceImpl<SysDicKvMapper, SysDicKv> i
         return false;
     }
 
+    @Override
+    public String getTextTextByDicCodeAndKey(String table, String text, String code, String key) {
+        return baseMapper.getTextByTableAndCodeAndKey(table,text,code,key);
+    }
+
+    @Override
+    public String getTextByTableAndCodeAndKey(String code, String key) {
+        return baseMapper.getTextTextByDicCodeAndKey(code, key);
+    }
 }

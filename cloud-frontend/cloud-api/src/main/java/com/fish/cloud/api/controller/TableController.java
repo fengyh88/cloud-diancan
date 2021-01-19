@@ -36,15 +36,13 @@ public class TableController {
         var model = tableService.getByTableId(tableId);
         TableDto dto = new TableDto();
         BeanUtil.copyProperties(model, dto);
-        // 更新二维码图片地址
-        dto.setBarcode(ImgUrlUtil.getFullPathImgUrl(dto.getBarcode()));
         return ApiResult.success(dto);
     }
 
     @ApiOperation("存储选择的台桌")
     @ApiImplicitParam(name = "tableStorageParam", value = "选择的台桌信息", required = true)
     @RequestMapping(value = "/storage", method = RequestMethod.POST)
-    public ApiResult add(@RequestBody TableStorageParam tableStorageParam) {
+    public ApiResult storage(@RequestBody TableStorageParam tableStorageParam) {
         AuthTableDto authTableDto = new AuthTableDto();
         authTableDto.setTableId(tableStorageParam.getTableId());
         authTableDto.setPeople(tableStorageParam.getPeople());

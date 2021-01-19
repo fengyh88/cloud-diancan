@@ -7,9 +7,7 @@ import lombok.Data;
 @ApiModel
 @Data
 public class LoginParam {
-    @ApiModelProperty(value = "店铺Id")
-    private String shopId;
-    @ApiModelProperty(name = "工号或手机号")
+    @ApiModelProperty(name = "工号")
     private String userNumber;
     @ApiModelProperty(name = "密码")
     private String password;

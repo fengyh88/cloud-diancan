@@ -10,6 +10,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AuthDto implements Serializable {
-    private Long empId;
+    private String userNumber;
     private Long shopId;
 }

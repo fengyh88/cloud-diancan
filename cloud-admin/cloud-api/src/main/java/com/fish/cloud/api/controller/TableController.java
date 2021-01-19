@@ -39,7 +39,6 @@ public class TableController {
         return ApiResult.success(dtoList);
     }
 
-
     @ApiOperation("生成微信小程序菊花码")
     @RequestMapping(value = "/generateMiniProgramBarCode",method = RequestMethod.GET)
     public ApiResult generateMiniProgramBarCode(@RequestParam Long tableId) {

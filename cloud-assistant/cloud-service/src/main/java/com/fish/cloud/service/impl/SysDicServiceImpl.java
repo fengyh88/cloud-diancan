@@ -32,7 +32,7 @@ public class SysDicServiceImpl extends ServiceImpl<SysDicMapper, SysDic> impleme
     public List<SysDic> all() {
         var models = baseMapper.selectList(new LambdaQueryWrapper<SysDic>()
                 .eq(SysDic::getShopId, ApiContextHolder.getAuthDto().getShopId())
-                .ne(SysDic::getStatus, -1));
+                .eq(SysDic::getStatus, 1));
         return models;
     }
 
@@ -43,7 +43,7 @@ public class SysDicServiceImpl extends ServiceImpl<SysDicMapper, SysDic> impleme
      * @return
      */
     @Override
-    public TupleRet updateStatus(Long id, Integer status) {
+    public TupleRet status(Long id, Integer status) {
         var model = baseMapper.selectById(id);
         if (ObjectUtils.isEmpty(model)){
             return TupleRet.failed("字典不存在");

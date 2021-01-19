@@ -16,21 +16,13 @@ import java.util.List;
  * @since 2020-10-30
  */
 public interface IRoleService extends IService<Role> {
-
-    /**
-     * 所有列表
-     *
-     * @return
-     */
-    List<Role> all();
-
     /**
      * 更新状态，正常禁用删除
      *
      * @param id
      * @return
      */
-    TupleRet updateStatus(Long id, Integer status);
+    TupleRet status(Long id, Integer status);
 
     /**
      * 添加

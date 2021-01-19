@@ -26,7 +26,7 @@ import java.io.IOException;
  */
 @Api(tags = "图片存储")
 @RestController
-@RequestMapping("/api/imgStorage")
+@RequestMapping("/img/storage")
 public class ImgStorageController {
     @Autowired
     private IImgStorageService imgStorageService;

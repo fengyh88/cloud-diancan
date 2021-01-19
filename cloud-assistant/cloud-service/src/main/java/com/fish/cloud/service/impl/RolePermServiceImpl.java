@@ -1,7 +1,5 @@
 package com.fish.cloud.service.impl;
 
-import com.fish.cloud.bean.model.RolePerm;
-import com.fish.cloud.repo.RolePermMapper;
 import com.fish.cloud.service.IRolePermService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -16,5 +14,5 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class RolePermServiceImpl extends ServiceImpl<RolePermMapper, RolePerm> implements IRolePermService {
-	
+
 }
