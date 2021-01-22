@@ -24,6 +24,9 @@ public class LoginDto implements Serializable {
     @ApiModelProperty(value = "角色Id")
     private Long roleId;
 
+    @ApiModelProperty(value = "店铺Id")
+    private Long shopId;
+
     @ApiModelProperty(value = "菜单列表-主系统")
     private List<SysMenuDto> menuList;
 

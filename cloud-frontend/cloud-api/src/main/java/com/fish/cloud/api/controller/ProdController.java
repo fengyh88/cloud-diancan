@@ -41,6 +41,14 @@ public class ProdController {
         return ApiResult.success(dtoList);
     }
 
+    @ApiOperation("全部列表")
+    @GetMapping(value = "/all")
+    public ApiResult<List<ProdDto>> all() {
+        var dtoList = prodService.listByCate(new ProdByCateParam());
+        dtoList.stream().forEach(dto -> dto.setImg(ImgUrlUtil.getFullPathImgUrl(dto.getImg())));
+        return ApiResult.success(dtoList);
+    }
+
     @ApiOperation("详情")
     @ApiImplicitParam(name = "id", value = "id", required = true)
     @GetMapping(value = "/detail/{id}")

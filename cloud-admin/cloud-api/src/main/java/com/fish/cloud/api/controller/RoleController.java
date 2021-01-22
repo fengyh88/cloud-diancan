@@ -57,13 +57,6 @@ public class RoleController {
         return ApiResult.success(dtoList);
     }
 
-    /**
-     * 分页
-     *
-     * @param pageNo
-     * @param pageSize
-     * @return
-     */
     @ApiOperation(value = "分页", notes = "分页")
     @GetMapping("/page")
     @ResponseBody

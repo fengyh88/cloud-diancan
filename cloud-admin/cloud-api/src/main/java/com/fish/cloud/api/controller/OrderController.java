@@ -137,7 +137,7 @@ public class OrderController {
 
     @ApiOperation("待结算列表，用于结算")
     @ApiImplicitParam(name = "tableId", value = "台桌Id", required = true)
-    @PostMapping(value = "/listByTableId")
+    @GetMapping(value = "/listByTableId")
     public ApiResult<List<OrderWithItemsDto>> listByTableId(@RequestParam Long tableId) {
         Table table = tableService.getById(tableId);
         if (11 != table.getStatus()) {

@@ -16,7 +16,7 @@ public class SysMenuDto {
     private Long menuId;
 
     /**
-     * 菜单类别 0 平台 1控制台
+     * 菜单类别 0平台 1控制台
      */
     private Integer menuCate;
     /**

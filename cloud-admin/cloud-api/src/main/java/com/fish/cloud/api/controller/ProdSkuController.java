@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
  */
 @Api(tags = "商品Sku")
 @Controller
-@RequestMapping("/prodSku")
+@RequestMapping("/prod/sku")
 public class ProdSkuController {
     @Autowired
     private IProdSkuService prodSkuService;

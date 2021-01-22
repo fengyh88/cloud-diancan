@@ -8,6 +8,6 @@ import lombok.Data;
 @Data
 public class OrderBySatusParam {
 
-    @ApiModelProperty(value = "0全部  1：已提交 9:已结算 13:关闭，失败")
+    @ApiModelProperty(value = "0全部  1已提交 9已结算 13关闭，失败")
     private Integer status;
 }
