@@ -15,6 +15,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class SysDicDto {
 
+	private Long id;
+
     /**
      * 编码
      */

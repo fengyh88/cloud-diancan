@@ -1,5 +1,6 @@
 package com.fish.cloud.service;
 
+import com.fish.cloud.bean.dto.RoleDto;
 import com.fish.cloud.bean.model.Role;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fish.cloud.bean.param.RoleAddParam;
@@ -17,7 +18,18 @@ import java.util.List;
  */
 public interface IRoleService extends IService<Role> {
 
+    /**
+     * 根据Id获取信息
+     * @param roleId
+     * @return
+     */
+    RoleDto getByRoleId(Long roleId);
+    /**
+     * 全部
+     * @return
+     */
     List<Role> all();
+
     /**
      * 更新状态，正常禁用删除
      *

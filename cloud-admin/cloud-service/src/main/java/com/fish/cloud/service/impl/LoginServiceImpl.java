@@ -2,6 +2,7 @@ package com.fish.cloud.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fish.cloud.bean.dto.LoginDto;
+import com.fish.cloud.bean.dto.ShopDto;
 import com.fish.cloud.bean.model.Emp;
 import com.fish.cloud.bean.param.LoginParam;
 import com.fish.cloud.common.context.ApiContextHolder;
@@ -10,6 +11,7 @@ import com.fish.cloud.common.token.AuthDto;
 import com.fish.cloud.common.token.JwtUtil;
 import com.fish.cloud.common.util.MD5Util;
 import com.fish.cloud.service.*;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,8 @@ public class LoginServiceImpl implements ILoginService {
     private IShopService shopService;
     @Autowired
     private IEmpService empService;
+    @Autowired
+    private IRoleService roleService;
     @Autowired
     private IRoleMenuService roleMenuService;
     @Autowired
@@ -75,6 +79,11 @@ public class LoginServiceImpl implements ILoginService {
         // 缓存CONTEXT
         ApiContextHolder.setAuthDto(authDto);
 
+        // 获取店铺信息
+        var retShop = shopService.detail();
+        ShopDto shopDto = retShop.getData();
+        // 获取角色信息
+        var role = roleService.getByRoleId(emp.getRoleId());
         // 获取菜单列表
         var menuIdList = roleMenuService.listMenuIdByRoleId(emp.getRoleId());
         var sysMenuDtoList = sysMenuService.listByMenuIdListAndMenuCate(menuIdList, 1);
@@ -82,8 +91,9 @@ public class LoginServiceImpl implements ILoginService {
         // 组装返回
         LoginDto loginDto = new LoginDto();
         loginDto.setToken(token);
-        loginDto.setRoleId(emp.getRoleId());
+        loginDto.setRole(role);
         loginDto.setEmpName(emp.getEmpName());
+        loginDto.setShop(shopDto);
         loginDto.setMenuList(sysMenuDtoList);
 
         return TupleRet.success(loginDto);

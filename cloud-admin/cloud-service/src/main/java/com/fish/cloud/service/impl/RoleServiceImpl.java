@@ -1,7 +1,9 @@
 package com.fish.cloud.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
+import com.fish.cloud.bean.dto.RoleDto;
 import com.fish.cloud.bean.model.Role;
 import com.fish.cloud.bean.param.RoleAddParam;
 import com.fish.cloud.common.context.ApiContextHolder;
@@ -28,6 +30,16 @@ import java.util.List;
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRoleService {
 
+
+    @Override
+    public RoleDto getByRoleId(Long roleId) {
+        var model = baseMapper.selectOne(new LambdaQueryWrapper<Role>()
+                .eq(Role::getShopId, ApiContextHolder.getAuthDto().getShopId())
+                .eq(Role::getStatus, 1));
+        var dto = new RoleDto();
+        BeanUtil.copyProperties(model, dto);
+        return dto;
+    }
 
     @Override
     public List<Role> all() {

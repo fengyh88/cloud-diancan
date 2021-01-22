@@ -15,6 +15,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class SysDicKvDto {
 
+	private Long id;
+
     /**
      * 字典编码
      */
