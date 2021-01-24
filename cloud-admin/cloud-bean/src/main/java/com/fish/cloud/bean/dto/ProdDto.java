@@ -1,9 +1,5 @@
 package com.fish.cloud.bean.dto;
 
-import com.fish.cloud.bean.annotation.Dic;
-import com.fish.cloud.bean.model.ProdImg;
-import com.fish.cloud.bean.model.ProdProp;
-import com.fish.cloud.bean.model.ProdSku;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
