@@ -31,11 +31,6 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (configBeanValue.isDev) {
-            // 存入CONTEXT信息入缓存
-            ApiContextHolder.setAuthDto(new AuthDto(123L, 1L));
-            return true;
-        }
         String token = request.getHeader("token");// 从 http 请求头中取出 token
         // 如果为空，则返回未登录
         if (StrUtil.isEmpty(token)) {
@@ -79,6 +74,9 @@ public class AuthInterceptor implements HandlerInterceptor {
             ApiResponseUtil.sendJsonMessage(response, ApiResult.unauthorized("验证失败"));
             return false;
         }
+
+        // 缓存CONTEXT
+        ApiContextHolder.setAuthDto(authDto);
 
         return true;
     }

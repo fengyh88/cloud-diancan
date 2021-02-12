@@ -14,7 +14,7 @@ import java.util.List;
 public class ShopDto {
 
     @ApiModelProperty(value = "店铺Id")
-    private String shopId;
+    private Long shopId;
 
     @ApiModelProperty(value = "店铺名称(数字、中文，英文(可混合，不可有特殊字符)，可修改)、不唯一")
     private String shopName;

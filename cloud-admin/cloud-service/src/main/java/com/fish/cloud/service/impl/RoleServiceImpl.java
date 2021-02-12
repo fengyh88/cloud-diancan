@@ -8,6 +8,7 @@ import com.fish.cloud.bean.model.Role;
 import com.fish.cloud.bean.param.RoleAddParam;
 import com.fish.cloud.common.context.ApiContextHolder;
 import com.fish.cloud.common.ret.TupleRet;
+import com.fish.cloud.common.token.AuthDto;
 import com.fish.cloud.common.util.DateTimeUtil;
 import com.fish.cloud.repo.RoleMapper;
 import com.fish.cloud.service.IRoleService;
@@ -43,6 +44,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
 
     @Override
     public List<Role> all() {
+        AuthDto a = ApiContextHolder.getAuthDto();
         return baseMapper.selectList(new LambdaQueryWrapper<Role>()
                 .eq(Role::getShopId, ApiContextHolder.getAuthDto().getShopId())
                 .eq(Role::getStatus, 1));

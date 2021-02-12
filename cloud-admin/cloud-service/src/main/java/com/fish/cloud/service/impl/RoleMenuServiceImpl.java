@@ -26,8 +26,7 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> i
 
     @Override
     public List<Long> listMenuIdByRoleId(Long roleId) {
-        var models = baseMapper.selectList(new LambdaQueryWrapper<RoleMenu>()
-        .eq(RoleMenu::getRoleId, roleId));
+        var models = baseMapper.selectList(new LambdaQueryWrapper<RoleMenu>().eq(RoleMenu::getRoleId, roleId));
         var menuIdList = models.stream().map(model -> model.getMenuId()).collect(Collectors.toList());
         return menuIdList;
     }

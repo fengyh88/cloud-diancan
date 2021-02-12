@@ -23,7 +23,7 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(getAuthInterceptor()).addPathPatterns("/**")
                 // 登录获取token时不验证
-                .excludePathPatterns("/api/login/**")
+                .excludePathPatterns("/login/**")
                 // 不验证上传图片
                 .excludePathPatterns("/img/**")
                 // 不验证swagger路径
