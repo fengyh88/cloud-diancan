@@ -1,7 +1,5 @@
 package com.fish.cloud.api.controller;
 
-import com.fish.cloud.bean.dto.ProdImgDto;
-import com.fish.cloud.bean.model.ProdImg;
 import com.fish.cloud.bean.param.ProdImgAddParam;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.IProdImgService;
@@ -10,10 +8,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * <p>
@@ -24,7 +19,7 @@ import java.util.List;
  * @since 2020-10-30
  */
 @Api(tags = "商品图")
-@Controller
+@RestController
 @RequestMapping("/prodImg")
 public class ProdImgController {
     @Autowired

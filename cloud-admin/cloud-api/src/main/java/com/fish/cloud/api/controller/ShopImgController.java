@@ -1,7 +1,6 @@
 package com.fish.cloud.api.controller;
 
 import com.fish.cloud.bean.dto.ShopImgDto;
-import com.fish.cloud.bean.model.ShopImg;
 import com.fish.cloud.bean.param.ShopImgAddParam;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.IShopImgService;
@@ -10,7 +9,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +22,7 @@ import java.util.List;
  * @since 2020-10-31
  */
 @Api(tags = "店铺图")
-@Controller
+@RestController
 @RequestMapping("/shop/img")
 public class ShopImgController {
 

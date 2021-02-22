@@ -17,7 +17,6 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,7 +31,7 @@ import java.util.stream.Collectors;
  * @since 2020-10-30
  */
 @Api(tags = "商品类目")
-@Controller
+@RestController
 @RequestMapping("/prod/cate")
 public class ProdCateController {
     @Autowired

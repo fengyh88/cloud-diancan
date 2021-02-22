@@ -1,7 +1,6 @@
 package com.fish.cloud.api.controller;
 
 import com.fish.cloud.bean.dto.OrderItemDto;
-import com.fish.cloud.bean.param.OrderCompleteParam;
 import com.fish.cloud.bean.param.OrderItemUpParam;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.IOrderItemService;
@@ -9,11 +8,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,7 +20,7 @@ import java.util.List;
  * @author fengyh
  * @since 2020-10-30
  */
-@Controller
+@RestController
 @RequestMapping("/order/item")
 public class OrderItemController {
 

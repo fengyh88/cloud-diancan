@@ -6,12 +6,8 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fish.cloud.bean.dto.ProdDto;
 import com.fish.cloud.bean.dto.SysConfigDto;
-import com.fish.cloud.bean.dto.SysDicDto;
-import com.fish.cloud.bean.model.Order;
 import com.fish.cloud.bean.model.SysConfig;
-import com.fish.cloud.bean.param.ProdByCateParam;
 import com.fish.cloud.bean.param.SysConfigAddParam;
 import com.fish.cloud.bean.param.SysConfigEditParam;
 import com.fish.cloud.bean.param.SysConfigParam;
@@ -23,7 +19,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,7 +33,7 @@ import java.util.stream.Collectors;
  * @since 2020-10-30
  */
 @Api(tags = "系统配置信息")
-@Controller
+@RestController
 @RequestMapping("/sys/config")
 public class SysConfigController {
     @Autowired

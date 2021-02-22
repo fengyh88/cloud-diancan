@@ -2,27 +2,18 @@ package com.fish.cloud.api.controller;
 
 import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fish.cloud.bean.dto.CallDto;
 import com.fish.cloud.bean.dto.CouponDto;
-import com.fish.cloud.bean.model.Call;
 import com.fish.cloud.bean.model.Coupon;
 import com.fish.cloud.bean.param.CouponParam;
-import com.fish.cloud.common.context.ApiContextHolder;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.common.util.DateTimeUtil;
 import com.fish.cloud.service.ICouponService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 /**
  * <p>
@@ -32,7 +23,7 @@ import java.util.List;
  * @author fengyh
  * @since 2020-10-30
  */
-@Controller
+@RestController
 @RequestMapping("/coupon")
 public class CouponController {
     @Autowired

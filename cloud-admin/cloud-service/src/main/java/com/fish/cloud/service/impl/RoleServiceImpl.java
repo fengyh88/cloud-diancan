@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.var;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -30,7 +31,6 @@ import java.util.List;
 @Slf4j
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRoleService {
-
 
     @Override
     public RoleDto getByRoleId(Long roleId) {
@@ -59,7 +59,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
     @Override
     public TupleRet status(Long id, Integer status) {
         var model = baseMapper.selectById(id);
-        if (ObjectUtils.isEmpty(model)){
+        if (ObjectUtils.isEmpty(model)) {
             return TupleRet.failed("角色不存在");
         }
         model.setStatus(status);
@@ -82,7 +82,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
             log.error(ex.getMessage());
             return TupleRet.failed(ex.getMessage());
         }
-        return TupleRet.success();
+        return TupleRet.successMsg("添加成功");
     }
 
     @Override
@@ -101,6 +101,6 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
             log.error(ex.getMessage());
             return TupleRet.failed(ex.getMessage());
         }
-        return TupleRet.success();
+        return TupleRet.successMsg("编辑成功");
     }
 }

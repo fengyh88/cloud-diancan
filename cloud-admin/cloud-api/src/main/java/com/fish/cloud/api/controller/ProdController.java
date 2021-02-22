@@ -14,7 +14,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.var;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -26,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2020-10-30
  */
 @Api(tags = "商品")
-@Controller
+@RestController
 @RequestMapping("/prod")
 public class ProdController {
     @Autowired

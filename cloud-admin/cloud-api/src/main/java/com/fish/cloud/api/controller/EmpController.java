@@ -5,13 +5,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fish.cloud.bean.dto.EmpDto;
-import com.fish.cloud.bean.dto.RoleDto;
 import com.fish.cloud.bean.model.Emp;
 import com.fish.cloud.bean.model.Role;
 import com.fish.cloud.bean.param.EmpAddParam;
 import com.fish.cloud.common.context.ApiContextHolder;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.service.IEmpService;
+import com.fish.cloud.service.IRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -19,8 +19,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.var;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * <p>
@@ -31,11 +33,13 @@ import org.springframework.web.bind.annotation.*;
  * @since 2020-10-30
  */
 @Api(tags = "员工")
-@Controller
+@RestController
 @RequestMapping("/emp")
 public class EmpController {
     @Autowired
     private IEmpService empService;
+    @Autowired
+    private IRoleService roleService;
 
     @ApiOperation(value = "分页", notes = "分页")
     @GetMapping("/page")
@@ -45,7 +49,15 @@ public class EmpController {
         IPage<Emp> modelPage = empService.page(new Page<Emp>(pageNo, pageSize), new LambdaQueryWrapper<Emp>()
                 .eq(Emp::getShopId, ApiContextHolder.getAuthDto().getShopId())
                 .ne(Emp::getStatus, -1));
-        IPage<EmpDto> dtoPage = modelPage.convert(model -> Convert.convert(EmpDto.class, model));
+        List<Role> roleList = roleService.all();
+        IPage<EmpDto> dtoPage = modelPage.convert(model -> {
+            EmpDto dto = Convert.convert(EmpDto.class, model);
+            Optional<Role> optionalRole = roleList.stream().filter(role -> null != model.getRoleId() && model.getRoleId().equals(role.getRoleId())).findFirst();
+            if (optionalRole.isPresent()){
+                dto.setRoleText(optionalRole.get().getRoleName());
+            }
+            return dto;
+        });
         return ApiResult.success(dtoPage);
     }
 

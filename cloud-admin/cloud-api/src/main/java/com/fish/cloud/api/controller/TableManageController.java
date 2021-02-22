@@ -5,7 +5,6 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fish.cloud.bean.dto.SysConfigDto;
 import com.fish.cloud.bean.dto.TableDto;
 import com.fish.cloud.bean.model.Table;
 import com.fish.cloud.bean.param.TableAddParam;
@@ -21,7 +20,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.var;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -33,7 +31,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2020-10-30
  */
 @Api(tags = "台桌管理")
-@Controller
+@RestController
 @RequestMapping("/table/manage")
 public class TableManageController {
 

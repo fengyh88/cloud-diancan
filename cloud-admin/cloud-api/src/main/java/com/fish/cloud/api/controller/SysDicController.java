@@ -20,7 +20,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.var;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,7 +34,7 @@ import java.util.stream.Collectors;
  * @since 2020-10-30
  */
 @Api(tags = "系统字典")
-@Controller
+@RestController
 @RequestMapping("/sys/dic")
 public class SysDicController {
 

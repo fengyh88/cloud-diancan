@@ -8,7 +8,6 @@ import com.fish.cloud.bean.dto.CallDto;
 import com.fish.cloud.bean.dto.TableDto;
 import com.fish.cloud.bean.model.Call;
 import com.fish.cloud.bean.model.Emp;
-import com.fish.cloud.bean.model.Table;
 import com.fish.cloud.common.context.ApiContextHolder;
 import com.fish.cloud.common.ret.ApiResult;
 import com.fish.cloud.common.util.DateTimeUtil;
@@ -20,11 +19,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.var;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +34,7 @@ import java.util.stream.Collectors;
  * @since 2020-10-30
  */
 @Api(tags = "呼叫")
-@Controller
+@RestController
 @RequestMapping("/call")
 public class CallController {
     @Autowired
