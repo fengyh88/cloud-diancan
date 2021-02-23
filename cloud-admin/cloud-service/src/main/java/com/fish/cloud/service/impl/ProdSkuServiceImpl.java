@@ -85,7 +85,7 @@ public class ProdSkuServiceImpl extends ServiceImpl<ProdSkuMapper, ProdSku> impl
             return TupleRet.failed(ex.getMessage());
         }
 
-        return TupleRet.success();
+        return TupleRet.successMsg("添加成功");
     }
 
     @Override
@@ -104,6 +104,6 @@ public class ProdSkuServiceImpl extends ServiceImpl<ProdSkuMapper, ProdSku> impl
             return TupleRet.failed(ex.getMessage());
         }
 
-        return TupleRet.success();
+        return TupleRet.successMsg("编辑成功");
     }
 }

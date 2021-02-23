@@ -68,7 +68,7 @@ public class ProdCateServiceImpl extends ServiceImpl<ProdCateMapper, ProdCate> i
             log.error(ex.getMessage());
             return TupleRet.failed(ex.getMessage());
         }
-        return TupleRet.success();
+        return TupleRet.successMsg("添加成功");
     }
 
     @Override
@@ -86,6 +86,6 @@ public class ProdCateServiceImpl extends ServiceImpl<ProdCateMapper, ProdCate> i
             log.error(ex.getMessage());
             return TupleRet.failed(ex.getMessage());
         }
-        return TupleRet.success();
+        return TupleRet.successMsg("编辑成功");
     }
 }

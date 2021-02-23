@@ -81,7 +81,7 @@ public class ShopServiceImpl extends ServiceImpl<ShopMapper, Shop> implements IS
             return TupleRet.failed(ex.getMessage());
         }
 
-        return TupleRet.success();
+        return TupleRet.successMsg("编辑成功");
     }
 
 }

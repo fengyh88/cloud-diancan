@@ -83,7 +83,7 @@ public class ProdPropServiceImpl extends ServiceImpl<ProdPropMapper, ProdProp> i
             return TupleRet.failed(ex.getMessage());
         }
 
-        return TupleRet.success();
+        return TupleRet.successMsg("添加成功");
     }
 
     @Override
@@ -102,6 +102,6 @@ public class ProdPropServiceImpl extends ServiceImpl<ProdPropMapper, ProdProp> i
             return TupleRet.failed(ex.getMessage());
         }
 
-        return TupleRet.success();
+        return TupleRet.successMsg("编辑成功");
     }
 }

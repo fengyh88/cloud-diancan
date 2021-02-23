@@ -59,7 +59,7 @@ public class TableManageServiceImpl extends ServiceImpl<TableMapper, Table> impl
             log.error(ex.getMessage());
             return TupleRet.failed(ex.getMessage());
         }
-        return TupleRet.success();
+        return TupleRet.successMsg("添加成功");
     }
 
     @Override
@@ -76,6 +76,6 @@ public class TableManageServiceImpl extends ServiceImpl<TableMapper, Table> impl
             log.error(ex.getMessage());
             return TupleRet.failed(ex.getMessage());
         }
-        return TupleRet.success();
+        return TupleRet.successMsg("编辑成功");
     }
 }

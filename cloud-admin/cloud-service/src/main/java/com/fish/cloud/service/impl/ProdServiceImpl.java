@@ -152,7 +152,7 @@ public class ProdServiceImpl extends ServiceImpl<ProdMapper, Prod> implements IP
             return TupleRet.failed(ex.getMessage());
         }
 
-        return TupleRet.success();
+        return TupleRet.successMsg("添加成功");
     }
 
     @Override
@@ -181,6 +181,6 @@ public class ProdServiceImpl extends ServiceImpl<ProdMapper, Prod> implements IP
             return TupleRet.failed(ex.getMessage());
         }
 
-        return TupleRet.success();
+        return TupleRet.successMsg("编辑成功");
     }
 }
